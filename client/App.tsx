@@ -2,7 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
+import Contact from "./pages/Contact";
+import Tracking from "./pages/Tracking";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
@@ -12,10 +16,14 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/tracking" element={<Tracking />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
+        <Toaster />
       </div>
     </BrowserRouter>
   );
