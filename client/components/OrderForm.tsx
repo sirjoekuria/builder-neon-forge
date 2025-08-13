@@ -125,28 +125,52 @@ export default function OrderForm() {
     setOrderCreated(null);
   };
 
-  if (orderCreated) {
+  if (currentStep === 'completed' && orderCreated) {
     return (
       <div className="bg-white rounded-xl shadow-lg p-8 text-center">
         <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <Package className="w-8 h-8 text-white" />
         </div>
         <h3 className="text-2xl font-bold text-green-600 mb-4">Order Created Successfully!</h3>
-        <p className="text-gray-600 mb-4">
-          Your order has been created with ID: <strong>{orderCreated}</strong>
-        </p>
+
+        <div className="bg-gray-50 rounded-lg p-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            <div>
+              <p className="text-sm text-gray-600">Order ID</p>
+              <p className="font-semibold text-gray-800">{orderCreated}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Payment Method</p>
+              <p className="font-semibold text-gray-800 capitalize">
+                {paymentDetails?.method === 'paypal' ? 'PayPal' : 'Cash on Delivery'}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Total Amount</p>
+              <p className="font-semibold text-gray-800">KES {estimatedPrice?.toLocaleString()}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Payment Status</p>
+              <p className={`font-semibold ${paymentDetails?.status === 'completed' ? 'text-green-600' : 'text-orange-600'}`}>
+                {paymentDetails?.status === 'completed' ? 'Paid' : 'Pending (Pay on Delivery)'}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <p className="text-gray-600 mb-6">
-          You can track your order using this ID on our tracking page.
+          You can track your order using the order ID on our tracking page.
         </p>
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button 
+          <Button
             onClick={() => window.location.href = `/tracking?id=${orderCreated}`}
             className="bg-rocs-green hover:bg-rocs-green-dark"
           >
             Track Order
           </Button>
-          <Button 
-            onClick={() => setOrderCreated(null)}
+          <Button
+            onClick={resetForm}
             variant="outline"
             className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white"
           >
