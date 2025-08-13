@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Clock, Shield, Zap, MapPin, Phone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Zap, Phone } from 'lucide-react';
 
 const heroSlides = [
   {
