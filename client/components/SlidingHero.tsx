@@ -204,25 +204,6 @@ export default function SlidingHero() {
         ))}
       </div>
 
-      {/* Feature Cards Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 md:p-8">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {features.map((feature, index) => (
-              <div 
-                key={index} 
-                className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-white hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <div className={`w-10 h-10 ${feature.color} rounded-lg flex items-center justify-center mb-3`}>
-                  <feature.icon className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-sm md:text-base font-semibold mb-1">{feature.title}</h3>
-                <p className="text-xs md:text-sm opacity-80">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Progress Bar */}
       <div className="absolute top-0 left-0 w-full h-1 bg-white/20">
