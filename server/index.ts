@@ -6,12 +6,21 @@ import {
   getMessages, 
   updateMessageStatus 
 } from "./routes/messages";
-import { 
-  createOrder, 
-  trackOrder, 
-  getOrders, 
-  updateOrderStatus 
+import {
+  createOrder,
+  trackOrder,
+  getOrders,
+  updateOrderStatus
 } from "./routes/orders";
+import {
+  createPayPalOrder,
+  capturePayPalOrder,
+  verifyPayPalPayment,
+  processCashOnDelivery,
+  getPayment,
+  getAllPayments,
+  updatePaymentStatus
+} from "./routes/payments";
 
 export function createServer() {
   const app = express();
