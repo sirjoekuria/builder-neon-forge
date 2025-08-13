@@ -18,16 +18,16 @@ export default function Footer() {
               Nairobi's premier motorcycle delivery service. Fast, reliable, and affordable parcel delivery across the city.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
@@ -48,8 +48,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
-                  Pricing
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Our Services
                 </Link>
               </li>
               <li>
@@ -68,13 +68,37 @@ export default function Footer() {
           {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Our Services</h3>
-            <ul className="space-y-3 text-rocs-green-light">
-              <li>• Same-day Delivery</li>
-              <li>• Express Delivery</li>
-              <li>• Document Delivery</li>
-              <li>• Package Delivery</li>
-              <li>• Food Delivery</li>
-              <li>• Real-time Tracking</li>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Same-day Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Express Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Document Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Package Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Food Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/tracking" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Real-time Tracking
+                </Link>
+              </li>
             </ul>
           </div>
 
