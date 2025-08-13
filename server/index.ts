@@ -21,6 +21,14 @@ import {
   getAllPayments,
   updatePaymentStatus
 } from "./routes/payments";
+import {
+  riderSignup,
+  getRiders,
+  updateRiderStatus,
+  toggleRiderActive,
+  getAvailableRiders,
+  deleteRider
+} from "./routes/riders";
 
 export function createServer() {
   const app = express();
