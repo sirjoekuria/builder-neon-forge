@@ -23,7 +23,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
-        <Toaster />
+        {/* <Toaster /> */}
       </div>
     </BrowserRouter>
   );
