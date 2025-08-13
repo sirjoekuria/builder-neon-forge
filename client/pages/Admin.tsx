@@ -273,6 +273,16 @@ export default function Admin() {
     }
   }, [isAuthenticated]);
 
+  // Auto-refresh every 30 seconds when on orders tab
+  useEffect(() => {
+    if (isAuthenticated && activeTab === 'orders') {
+      const interval = setInterval(() => {
+        fetchOrders();
+      }, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated, activeTab]);
+
   // Order management functions
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
