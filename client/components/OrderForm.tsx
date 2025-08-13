@@ -106,10 +106,13 @@ export default function OrderForm() {
 
       if (response.ok) {
         const result = await response.json();
+        console.log('Order created successfully:', result.order);
         setOrderCreated(result.order.id);
         setCurrentStep('completed');
       } else {
-        throw new Error('Failed to create order');
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Order creation failed:', errorData);
+        throw new Error(errorData.error || 'Failed to create order');
       }
     } catch (error) {
       alert('Error creating order. Please try again.');
