@@ -26,11 +26,11 @@ export default function Header() {
             <Link to="/tracking" className="text-gray-700 hover:text-rocs-green transition-colors">
               Track Order
             </Link>
-            <Link to="/pricing" className="text-gray-700 hover:text-rocs-green transition-colors">
-              Pricing
-            </Link>
             <Link to="/contact" className="text-gray-700 hover:text-rocs-green transition-colors">
               Contact
+            </Link>
+            <Link to="/admin" className="text-gray-700 hover:text-rocs-green transition-colors">
+              Admin
             </Link>
           </nav>
 
