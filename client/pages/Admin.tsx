@@ -302,6 +302,68 @@ export default function Admin() {
     }
   }, [isAuthenticated, activeTab]);
 
+  // Rider management functions
+  const updateRiderStatus = async (riderId: string, status: 'approved' | 'rejected') => {
+    try {
+      const response = await fetch(`/api/admin/riders/${riderId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        await fetchRiders();
+      } else {
+        alert('Failed to update rider status');
+      }
+    } catch (error) {
+      console.error('Error updating rider status:', error);
+      alert('Error updating rider status');
+    }
+  };
+
+  const toggleRiderActive = async (riderId: string, isActive: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/riders/${riderId}/active`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isActive }),
+      });
+
+      if (response.ok) {
+        await fetchRiders();
+      } else {
+        alert('Failed to update rider status');
+      }
+    } catch (error) {
+      console.error('Error updating rider status:', error);
+      alert('Error updating rider status');
+    }
+  };
+
+  const deleteRider = async (riderId: string) => {
+    if (!confirm('Are you sure you want to delete this rider?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/riders/${riderId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await fetchRiders();
+      } else {
+        alert('Failed to delete rider');
+      }
+    } catch (error) {
+      console.error('Error deleting rider:', error);
+      alert('Error deleting rider');
+    }
+  };
+
   // Order management functions
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
