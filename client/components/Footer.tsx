@@ -148,13 +148,13 @@ export default function Footer() {
               © 2024 Rocs Crew. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
-              <Link to="/privacy" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
                 Terms of Service
               </Link>
-              <Link to="/support" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
                 Support
               </Link>
             </div>
