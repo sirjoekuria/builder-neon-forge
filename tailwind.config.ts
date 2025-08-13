@@ -27,6 +27,16 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        "rocs-green": {
+          DEFAULT: "hsl(var(--rocs-green))",
+          light: "hsl(var(--rocs-green-light))",
+          dark: "hsl(var(--rocs-green-dark))",
+        },
+        "rocs-yellow": {
+          DEFAULT: "hsl(var(--rocs-yellow))",
+          light: "hsl(var(--rocs-yellow-light))",
+          dark: "hsl(var(--rocs-yellow-dark))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
