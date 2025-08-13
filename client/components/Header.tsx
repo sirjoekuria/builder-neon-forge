@@ -40,9 +40,11 @@ export default function Header() {
               <Phone className="w-4 h-4" />
               <span>+254 700 898 950</span>
             </div>
-            <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800">
-              Book Now
-            </Button>
+            <Link to="/book-delivery">
+              <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800">
+                Book Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
