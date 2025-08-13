@@ -104,9 +104,9 @@ export const createOrder: RequestHandler = (req, res) => {
       notes
     } = req.body;
     
-    if (!customerName || !customerPhone || !pickup || !delivery || !distance || !cost) {
-      return res.status(400).json({ 
-        error: 'Missing required fields' 
+    if (!customerName || !customerEmail || !customerPhone || !pickup || !delivery || !distance || !cost || !packageDetails) {
+      return res.status(400).json({
+        error: 'Missing required fields: customerName, customerEmail, customerPhone, pickup, delivery, distance, cost, and packageDetails are required'
       });
     }
 
