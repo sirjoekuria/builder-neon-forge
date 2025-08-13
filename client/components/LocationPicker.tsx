@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { MapPin, Navigation, Search, X } from 'lucide-react';
 
 interface Location {
@@ -38,36 +38,7 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
     { name: 'Junction Mall', address: 'Ngong Road, Nairobi', lat: -1.3019, lng: 36.7819 }
   ];
 
-  // Search for locations using a geocoding service (simplified version)
-  const searchLocations = async (query: string) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      return;
-    }
-
-    setIsSearching(true);
-    
-    try {
-      // Filter common locations first
-      const filteredCommon = commonLocations.filter(location =>
-        location.name.toLowerCase().includes(query.toLowerCase()) ||
-        location.address.toLowerCase().includes(query.toLowerCase())
-      );
-
-      // Simulate API search with additional results
-      const additionalResults: Location[] = [
-        { name: `${query} - Area A`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
-        { name: `${query} - Area B`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
-      ];
-
-      setSearchResults([...filteredCommon, ...additionalResults]);
-    } catch (error) {
-      console.error('Location search error:', error);
-      setSearchResults(commonLocations.slice(0, 5));
-    } finally {
-      setIsSearching(false);
-    }
-  };
+  // This function is now moved to useCallback below to prevent infinite loops
 
   // Calculate distance between two points using Haversine formula
   const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
@@ -130,28 +101,62 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
         dropoffLocation.lat,
         dropoffLocation.lng
       );
-      
+
       // Estimate duration (assuming average speed of 25 km/h in Nairobi traffic)
       const estimatedDuration = (calculatedDistance / 25) * 60; // in minutes
-      
+
       setDistance(calculatedDistance);
       setDuration(estimatedDuration);
-      
+
       onLocationSelect(pickupLocation, dropoffLocation);
       if (onDistanceCalculated) {
         onDistanceCalculated(calculatedDistance, estimatedDuration);
       }
     }
-  }, [pickupLocation, dropoffLocation, onLocationSelect, onDistanceCalculated]);
+  }, [pickupLocation, dropoffLocation]); // Remove function dependencies
+
+  // Memoize search function to prevent infinite loops
+  const debouncedSearch = useCallback(
+    async (query: string) => {
+      if (!query.trim()) {
+        setSearchResults([]);
+        return;
+      }
+
+      setIsSearching(true);
+
+      try {
+        // Filter common locations first
+        const filteredCommon = commonLocations.filter(location =>
+          location.name.toLowerCase().includes(query.toLowerCase()) ||
+          location.address.toLowerCase().includes(query.toLowerCase())
+        );
+
+        // Simulate API search with additional results
+        const additionalResults: Location[] = [
+          { name: `${query} - Area A`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
+          { name: `${query} - Area B`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
+        ];
+
+        setSearchResults([...filteredCommon, ...additionalResults]);
+      } catch (error) {
+        console.error('Location search error:', error);
+        setSearchResults(commonLocations.slice(0, 5));
+      } finally {
+        setIsSearching(false);
+      }
+    },
+    [commonLocations]
+  );
 
   // Debounced search
   useEffect(() => {
     const timer = setTimeout(() => {
-      searchLocations(searchQuery);
+      debouncedSearch(searchQuery);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery]);
+  }, [searchQuery, debouncedSearch]);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
