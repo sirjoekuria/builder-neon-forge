@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { MapPin, Calculator, Package, User, Phone, Mail, CreditCard } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -54,7 +54,7 @@ export default function OrderForm() {
     }));
   };
 
-  const handleLocationSelect = (pickup: Location, dropoff: Location) => {
+  const handleLocationSelect = useCallback((pickup: Location, dropoff: Location) => {
     setPickupLocation(pickup);
     setDropoffLocation(dropoff);
     setFormData(prev => ({
@@ -62,13 +62,13 @@ export default function OrderForm() {
       pickup: pickup.address,
       delivery: dropoff.address
     }));
-  };
+  }, []);
 
-  const handleDistanceCalculated = (calculatedDistance: number, calculatedDuration: number) => {
+  const handleDistanceCalculated = useCallback((calculatedDistance: number, calculatedDuration: number) => {
     setDistance(calculatedDistance);
     setDuration(calculatedDuration);
     setEstimatedPrice(Math.round(calculatedDistance * PRICE_PER_KM));
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
