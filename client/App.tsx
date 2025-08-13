@@ -6,7 +6,7 @@ import Contact from "./pages/Contact";
 import Tracking from "./pages/Tracking";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import { Toaster } from "./components/ui/toaster";
+// import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
