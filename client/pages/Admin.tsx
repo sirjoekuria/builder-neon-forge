@@ -265,6 +265,20 @@ export default function Admin() {
     }
   };
 
+  const fetchRiders = async () => {
+    try {
+      const response = await fetch('/api/admin/riders');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setRiders(data.riders);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching riders:', error);
+    }
+  };
+
   const loadData = async () => {
     setIsLoading(true);
     await Promise.all([fetchOrders(), fetchMessages()]);
