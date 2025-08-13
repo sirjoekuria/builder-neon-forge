@@ -92,13 +92,16 @@ orderIdCounter = 3;
 // POST /api/orders - Create a new order
 export const createOrder: RequestHandler = (req, res) => {
   try {
-    const { 
-      customerName, 
-      customerPhone, 
-      pickup, 
-      delivery, 
-      distance, 
-      cost 
+    const {
+      customerName,
+      customerEmail,
+      customerPhone,
+      pickup,
+      delivery,
+      distance,
+      cost,
+      packageDetails,
+      notes
     } = req.body;
     
     if (!customerName || !customerPhone || !pickup || !delivery || !distance || !cost) {
