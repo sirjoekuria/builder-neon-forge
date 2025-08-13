@@ -5,8 +5,16 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import PaymentSelection from './PaymentSelection';
+import LocationPicker from './LocationPicker';
 
 const PRICE_PER_KM = 30;
+
+interface Location {
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+}
 
 interface OrderFormData {
   customerName: string;
@@ -28,8 +36,11 @@ export default function OrderForm() {
     packageDetails: '',
     notes: ''
   });
+  const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
+  const [dropoffLocation, setDropoffLocation] = useState<Location | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [duration, setDuration] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState<'details' | 'payment' | 'completed'>('details');
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,15 +54,20 @@ export default function OrderForm() {
     }));
   };
 
-  const calculatePrice = () => {
-    if (formData.pickup && formData.delivery) {
-      // Simulate distance calculation (in real app, use Google Maps API)
-      const estimatedDistance = Math.floor(Math.random() * 20) + 5; // Random 5-25 km
-      const price = estimatedDistance * PRICE_PER_KM;
-      
-      setDistance(estimatedDistance);
-      setEstimatedPrice(price);
-    }
+  const handleLocationSelect = (pickup: Location, dropoff: Location) => {
+    setPickupLocation(pickup);
+    setDropoffLocation(dropoff);
+    setFormData(prev => ({
+      ...prev,
+      pickup: pickup.address,
+      delivery: dropoff.address
+    }));
+  };
+
+  const handleDistanceCalculated = (calculatedDistance: number, calculatedDuration: number) => {
+    setDistance(calculatedDistance);
+    setDuration(calculatedDuration);
+    setEstimatedPrice(Math.round(calculatedDistance * PRICE_PER_KM));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,8 +134,11 @@ export default function OrderForm() {
       packageDetails: '',
       notes: ''
     });
+    setPickupLocation(null);
+    setDropoffLocation(null);
     setDistance(null);
     setEstimatedPrice(null);
+    setDuration(null);
     setCurrentStep('details');
     setPaymentDetails(null);
     setOrderCreated(null);
@@ -319,40 +338,12 @@ export default function OrderForm() {
           </div>
         </div>
 
-        {/* Delivery Details */}
+        {/* Location Selection */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <MapPin className="w-5 h-5 mr-2" />
-            Delivery Details
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="pickup" className="text-gray-700">Pickup Location *</Label>
-              <Input
-                id="pickup"
-                name="pickup"
-                type="text"
-                required
-                value={formData.pickup}
-                onChange={handleInputChange}
-                className="mt-1"
-                placeholder="Enter pickup address in Nairobi"
-              />
-            </div>
-            <div>
-              <Label htmlFor="delivery" className="text-gray-700">Delivery Location *</Label>
-              <Input
-                id="delivery"
-                name="delivery"
-                type="text"
-                required
-                value={formData.delivery}
-                onChange={handleInputChange}
-                className="mt-1"
-                placeholder="Enter delivery address in Nairobi"
-              />
-            </div>
-          </div>
+          <LocationPicker
+            onLocationSelect={handleLocationSelect}
+            onDistanceCalculated={handleDistanceCalculated}
+          />
         </div>
 
         {/* Package Information */}
@@ -391,29 +382,21 @@ export default function OrderForm() {
         </div>
 
         {/* Price Calculation */}
-        <div className="bg-gray-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <Calculator className="w-5 h-5 mr-2" />
-            Price Calculation
-          </h3>
-          
-          {!estimatedPrice ? (
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">Calculate delivery cost before placing order</p>
-              <Button
-                type="button"
-                onClick={calculatePrice}
-                disabled={!formData.pickup || !formData.delivery}
-                className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800"
-              >
-                Calculate Price
-              </Button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        {estimatedPrice && (
+          <div className="bg-gray-50 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <Calculator className="w-5 h-5 mr-2" />
+              Delivery Summary
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
               <div>
-                <div className="text-2xl font-bold text-rocs-green">{distance} km</div>
+                <div className="text-2xl font-bold text-rocs-green">{distance?.toFixed(1)} km</div>
                 <div className="text-sm text-gray-600">Distance</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-rocs-green">{duration ? Math.round(duration) : '--'} min</div>
+                <div className="text-sm text-gray-600">Est. Time</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-rocs-green">KES 30</div>
@@ -424,14 +407,14 @@ export default function OrderForm() {
                 <div className="text-sm text-gray-600">Total Cost</div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="text-center pt-6">
           <Button
             type="submit"
-            disabled={isSubmitting || !estimatedPrice}
+            disabled={isSubmitting || !estimatedPrice || !pickupLocation || !dropoffLocation}
             className="bg-rocs-green hover:bg-rocs-green-dark text-white px-8 py-3 text-lg"
           >
             {isSubmitting ? (
