@@ -181,6 +181,66 @@ export default function OrderForm() {
     );
   }
 
+  // Payment step
+  if (currentStep === 'payment') {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-rocs-green mb-4">Complete Your Payment</h2>
+          <p className="text-gray-600">
+            Choose your preferred payment method to confirm your delivery order
+          </p>
+        </div>
+
+        {/* Order Summary */}
+        <div className="bg-gray-50 rounded-lg p-6 mb-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Order Summary</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-gray-600">Customer:</p>
+              <p className="font-semibold">{formData.customerName}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Phone:</p>
+              <p className="font-semibold">{formData.customerPhone}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">From:</p>
+              <p className="font-semibold">{formData.pickup}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">To:</p>
+              <p className="font-semibold">{formData.delivery}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Distance:</p>
+              <p className="font-semibold">{distance} km</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Total Cost:</p>
+              <p className="font-semibold text-rocs-green text-lg">KES {estimatedPrice?.toLocaleString()}</p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setCurrentStep('details')}
+            className="mt-4 text-rocs-green hover:text-rocs-green-dark underline text-sm"
+          >
+            ← Edit Order Details
+          </button>
+        </div>
+
+        <PaymentSelection
+          amount={estimatedPrice || 0}
+          currency="KES"
+          onPaymentSuccess={handlePaymentSuccess}
+          onPaymentError={handlePaymentError}
+          disabled={isSubmitting}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-8">
       <div className="text-center mb-8">
@@ -188,6 +248,25 @@ export default function OrderForm() {
         <p className="text-gray-600">
           Fill in the details below to create your delivery order
         </p>
+
+        {/* Progress indicator */}
+        <div className="flex items-center justify-center mt-6 space-x-4">
+          <div className="flex items-center space-x-2">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep === 'details' ? 'bg-rocs-green text-white' : 'bg-rocs-green text-white'}`}>
+              <User className="w-4 h-4" />
+            </div>
+            <span className="text-sm font-medium text-rocs-green">Order Details</span>
+          </div>
+
+          <div className="w-8 h-0.5 bg-gray-300"></div>
+
+          <div className="flex items-center space-x-2">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep === 'payment' ? 'bg-rocs-green text-white' : 'bg-gray-300 text-gray-500'}`}>
+              <CreditCard className="w-4 h-4" />
+            </div>
+            <span className={`text-sm font-medium ${currentStep === 'payment' ? 'text-rocs-green' : 'text-gray-500'}`}>Payment</span>
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
