@@ -40,32 +40,6 @@ const heroSlides = [
   }
 ];
 
-const features = [
-  {
-    icon: Clock,
-    title: "Quick Delivery",
-    description: "Same-day delivery across Nairobi",
-    color: "bg-blue-500"
-  },
-  {
-    icon: Shield,
-    title: "Secure & Safe",
-    description: "Your parcels are insured and protected",
-    color: "bg-green-500"
-  },
-  {
-    icon: Zap,
-    title: "Real-time Tracking",
-    description: "Track your delivery live on our platform",
-    color: "bg-purple-500"
-  },
-  {
-    icon: MapPin,
-    title: "Wide Coverage",
-    description: "Delivery across Nairobi and suburbs",
-    color: "bg-orange-500"
-  }
-];
 
 export default function SlidingHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
