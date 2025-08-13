@@ -24,7 +24,7 @@ export function createServer() {
   app.get("/api/ping", (req, res) => {
     res.json({ message: "Server is running!" });
   });
-  app.get("/api/demo", handleDemoRoute);
+  app.get("/api/demo", handleDemo);
 
   // Message routes
   app.post("/api/messages", createMessage);
