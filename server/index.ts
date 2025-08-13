@@ -63,5 +63,13 @@ export function createServer() {
   app.get("/api/admin/payments", getAllPayments);
   app.patch("/api/payments/:id/status", updatePaymentStatus);
 
+  // Rider routes
+  app.post("/api/riders/signup", riderSignup);
+  app.get("/api/admin/riders", getRiders);
+  app.patch("/api/admin/riders/:id/status", updateRiderStatus);
+  app.patch("/api/admin/riders/:id/active", toggleRiderActive);
+  app.get("/api/riders/available", getAvailableRiders);
+  app.delete("/api/admin/riders/:id", deleteRider);
+
   return app;
 }
