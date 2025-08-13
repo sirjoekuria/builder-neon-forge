@@ -101,7 +101,10 @@ export const createOrder: RequestHandler = (req, res) => {
       distance,
       cost,
       packageDetails,
-      notes
+      notes,
+      paymentMethod,
+      paymentStatus,
+      transactionId
     } = req.body;
     
     if (!customerName || !customerEmail || !customerPhone || !pickup || !delivery || !distance || !cost || !packageDetails) {
