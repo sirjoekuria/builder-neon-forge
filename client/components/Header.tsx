@@ -73,11 +73,11 @@ export default function Header() {
                 Track Order
               </Link>
               <Link
-                to="/pricing"
+                to="/admin"
                 className="text-gray-700 hover:text-rocs-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Pricing
+                Admin
               </Link>
               <Link
                 to="/contact"
