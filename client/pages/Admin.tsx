@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
-import { 
-  Users, 
-  Package, 
-  MessageSquare, 
-  TrendingUp, 
-  LogOut, 
-  Eye, 
-  Edit, 
-  Trash2, 
-  Phone, 
-  Mail, 
+import {
+  Users,
+  Package,
+  MessageSquare,
+  TrendingUp,
+  LogOut,
+  Eye,
+  Edit,
+  Trash2,
+  Phone,
+  Mail,
   MapPin,
   Clock,
   CheckCircle,
   AlertCircle,
   Search,
-  Filter
+  Filter,
+  Bike,
+  UserCheck,
+  UserX,
+  Star
 } from 'lucide-react';
 
 const ADMIN_PASSWORD = 'Admin432';
@@ -183,12 +187,13 @@ export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users' | 'riders'>('overview');
   
   // Data states
   const [messages, setMessages] = useState<Message[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>(sampleUsers);
+  const [riders, setRiders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   // UI states
@@ -502,7 +507,8 @@ export default function Admin() {
                 { key: 'overview', label: 'Overview', icon: TrendingUp },
                 { key: 'orders', label: 'Orders', icon: Package },
                 { key: 'messages', label: 'Messages', icon: MessageSquare },
-                { key: 'users', label: 'Users', icon: Users }
+                { key: 'users', label: 'Users', icon: Users },
+                { key: 'riders', label: 'Riders', icon: Bike }
               ].map((tab) => (
                 <button
                   key={tab.key}
