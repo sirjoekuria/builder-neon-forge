@@ -22,6 +22,7 @@ function App() {
             <Route path="/tracking" element={<Tracking />} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
+            <Route path="/book-delivery" element={<BookDelivery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
