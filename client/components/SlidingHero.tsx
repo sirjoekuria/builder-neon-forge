@@ -131,9 +131,11 @@ export default function SlidingHero() {
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                      <button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
-                        {slide.cta}
-                      </button>
+                      <a href="/book-delivery">
+                        <button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
+                          {slide.cta}
+                        </button>
+                      </a>
                       <button className="border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 backdrop-blur-sm">
                         <div className="flex items-center space-x-2">
                           <Phone className="w-5 h-5" />
