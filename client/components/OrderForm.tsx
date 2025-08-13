@@ -61,6 +61,12 @@ export default function OrderForm() {
       return;
     }
 
+    // Move to payment step
+    setCurrentStep('payment');
+  };
+
+  const handlePaymentSuccess = async (payment: any) => {
+    setPaymentDetails(payment);
     setIsSubmitting(true);
 
     try {
@@ -68,6 +74,9 @@ export default function OrderForm() {
         ...formData,
         distance,
         cost: estimatedPrice,
+        paymentMethod: payment.method,
+        paymentStatus: payment.status,
+        transactionId: payment.transactionId,
         timestamp: new Date().toISOString()
       };
 
@@ -82,25 +91,38 @@ export default function OrderForm() {
       if (response.ok) {
         const result = await response.json();
         setOrderCreated(result.order.id);
-        setFormData({
-          customerName: '',
-          customerEmail: '',
-          customerPhone: '',
-          pickup: '',
-          delivery: '',
-          packageDetails: '',
-          notes: ''
-        });
-        setDistance(null);
-        setEstimatedPrice(null);
+        setCurrentStep('completed');
       } else {
         throw new Error('Failed to create order');
       }
     } catch (error) {
       alert('Error creating order. Please try again.');
+      setCurrentStep('details');
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handlePaymentError = (error: any) => {
+    console.error('Payment error:', error);
+    alert(error.message || 'Payment failed. Please try again.');
+  };
+
+  const resetForm = () => {
+    setFormData({
+      customerName: '',
+      customerEmail: '',
+      customerPhone: '',
+      pickup: '',
+      delivery: '',
+      packageDetails: '',
+      notes: ''
+    });
+    setDistance(null);
+    setEstimatedPrice(null);
+    setCurrentStep('details');
+    setPaymentDetails(null);
+    setOrderCreated(null);
   };
 
   if (orderCreated) {
