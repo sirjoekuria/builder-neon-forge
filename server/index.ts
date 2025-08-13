@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { handleDemoRoute } from "./routes/demo";
+import { handleDemo } from "./routes/demo";
 import { 
   createMessage, 
   getMessages, 
