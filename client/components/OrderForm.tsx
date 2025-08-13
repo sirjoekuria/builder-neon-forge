@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { MapPin, Calculator, Package, User, Phone, Mail } from 'lucide-react';
+import { MapPin, Calculator, Package, User, Phone, Mail, CreditCard } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
+import PaymentSelection from './PaymentSelection';
 
 const PRICE_PER_KM = 30;
 
