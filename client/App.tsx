@@ -4,6 +4,8 @@ import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import Contact from "./pages/Contact";
 import Tracking from "./pages/Tracking";
+import Services from "./pages/Services";
+import About from "./pages/About";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 // import { Toaster } from "./components/ui/toaster";
@@ -17,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/tracking" element={<Tracking />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
