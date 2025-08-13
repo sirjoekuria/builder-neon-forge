@@ -186,9 +186,10 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users'>('overview');
   
   // Data states
-  const [messages, setMessages] = useState<Message[]>(sampleMessages);
-  const [orders, setOrders] = useState<Order[]>(sampleOrders);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>(sampleUsers);
+  const [isLoading, setIsLoading] = useState(true);
   
   // UI states
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -213,13 +214,92 @@ export default function Admin() {
     setPassword('');
   };
 
+  // Fetch data from API
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch('/api/admin/orders');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          const formattedOrders = data.orders.map((order: any) => ({
+            id: order.id,
+            customerName: order.customerName,
+            customerEmail: order.customerEmail,
+            customerPhone: order.customerPhone,
+            pickup: order.pickup,
+            delivery: order.delivery,
+            distance: order.distance,
+            cost: order.cost,
+            status: order.currentStatus,
+            timestamp: order.createdAt,
+            riderName: order.riderName,
+            riderPhone: order.riderPhone,
+            notes: order.notes
+          }));
+          setOrders(formattedOrders);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch('/api/admin/messages');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setMessages(data.messages);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      // Fallback to sample data
+      setMessages(sampleMessages);
+    }
+  };
+
+  const loadData = async () => {
+    setIsLoading(true);
+    await Promise.all([fetchOrders(), fetchMessages()]);
+    setIsLoading(false);
+  };
+
+  // Load data when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadData();
+    }
+  }, [isAuthenticated]);
+
   // Order management functions
-  const updateOrderStatus = (orderId: string, newStatus: Order['status']) => {
-    setOrders(orders.map(order => 
-      order.id === orderId 
-        ? { ...order, status: newStatus }
-        : order
-    ));
+  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+    try {
+      const response = await fetch(`/api/admin/orders/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        // Update local state
+        setOrders(orders.map(order =>
+          order.id === orderId
+            ? { ...order, status: newStatus }
+            : order
+        ));
+        // Refresh orders to get latest data
+        await fetchOrders();
+      } else {
+        alert('Failed to update order status');
+      }
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      alert('Error updating order status');
+    }
   };
 
   const assignRider = (orderId: string, riderName: string, riderPhone: string) => {
@@ -622,7 +702,7 @@ export default function Admin() {
                   {order.riderName && (
                     <div className="mb-4 p-3 bg-gray-50 rounded">
                       <p className="text-sm font-medium text-gray-600">Assigned Rider</p>
-                      <p className="text-sm text-gray-900">{order.riderName} �� {order.riderPhone}</p>
+                      <p className="text-sm text-gray-900">{order.riderName} ���� {order.riderPhone}</p>
                     </div>
                   )}
 
