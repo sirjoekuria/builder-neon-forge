@@ -30,6 +30,8 @@ export default function OrderForm() {
   });
   const [distance, setDistance] = useState<number | null>(null);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState<'details' | 'payment' | 'completed'>('details');
+  const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderCreated, setOrderCreated] = useState<string | null>(null);
 
