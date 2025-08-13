@@ -281,7 +281,7 @@ export default function Admin() {
 
   const loadData = async () => {
     setIsLoading(true);
-    await Promise.all([fetchOrders(), fetchMessages()]);
+    await Promise.all([fetchOrders(), fetchMessages(), fetchRiders()]);
     setIsLoading(false);
   };
 
