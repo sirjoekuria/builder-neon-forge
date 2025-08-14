@@ -256,16 +256,16 @@ export default function SlidingTestimonials() {
           <button
             onClick={prevSlide}
             disabled={currentSlide === 0}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+            className="absolute left-1 md:left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-2 md:p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
           >
-            <ChevronLeft className="w-6 h-6 text-rocs-green" />
+            <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-rocs-green" />
           </button>
           <button
             onClick={nextSlide}
             disabled={currentSlide >= testimonials.length - visibleTestimonials}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+            className="absolute right-1 md:right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-2 md:p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
           >
-            <ChevronRight className="w-6 h-6 text-rocs-green" />
+            <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-rocs-green" />
           </button>
         </div>
 
