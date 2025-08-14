@@ -29,6 +29,15 @@ import {
   getAvailableRiders,
   deleteRider
 } from "./routes/riders";
+import {
+  userSignup,
+  login,
+  getProfile,
+  updateProfile,
+  getAllUsers,
+  toggleUserStatus,
+  deleteUser
+} from "./routes/auth";
 
 export function createServer() {
   const app = express();
