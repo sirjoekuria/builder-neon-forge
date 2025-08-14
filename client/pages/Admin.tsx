@@ -19,7 +19,9 @@ import {
   Bike,
   UserCheck,
   UserX,
-  Star
+  Star,
+  Handshake,
+  Building2
 } from 'lucide-react';
 
 const ADMIN_PASSWORD = 'Admin432';
@@ -187,7 +189,7 @@ export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users' | 'riders'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users' | 'riders' | 'partnerships'>('overview');
   
   // Data states
   const [messages, setMessages] = useState<Message[]>([]);
@@ -195,6 +197,7 @@ export default function Admin() {
   const [users, setUsers] = useState<User[]>(sampleUsers);
   const [riders, setRiders] = useState<any[]>([]);
   const [availableRiders, setAvailableRiders] = useState<any[]>([]);
+  const [partnershipRequests, setPartnershipRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [assigningRider, setAssigningRider] = useState<string | null>(null);
   
@@ -632,7 +635,8 @@ export default function Admin() {
                 { key: 'orders', label: 'Orders', icon: Package },
                 { key: 'messages', label: 'Messages', icon: MessageSquare },
                 { key: 'users', label: 'Users', icon: Users },
-                { key: 'riders', label: 'Riders', icon: Bike }
+                { key: 'riders', label: 'Riders', icon: Bike },
+                { key: 'partnerships', label: 'Partnerships', icon: Handshake }
               ].map((tab) => (
                 <button
                   key={tab.key}
