@@ -144,14 +144,14 @@ export default function SlidingTestimonials() {
   const maxSlides = testimonials.length - visibleTestimonials + 1;
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+    <section className="py-10 md:py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 bg-rocs-green rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-48 h-48 bg-rocs-yellow rounded-full blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-2 md:px-4 relative">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center space-x-2 bg-rocs-yellow/20 border border-rocs-yellow/30 rounded-full px-4 py-2 mb-4">
