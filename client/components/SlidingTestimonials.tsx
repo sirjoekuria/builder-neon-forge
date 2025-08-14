@@ -170,7 +170,7 @@ export default function SlidingTestimonials() {
 
         {/* Testimonials Slider */}
         <div
-          className="relative"
+          className="relative min-h-[400px] md:min-h-[500px]"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
