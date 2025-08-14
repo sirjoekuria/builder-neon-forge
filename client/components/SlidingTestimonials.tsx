@@ -176,6 +176,8 @@ export default function SlidingTestimonials() {
           className="relative min-h-[400px] md:min-h-[500px]"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
+          onTouchStart={() => setIsAutoPlaying(false)}
+          onTouchEnd={() => setIsAutoPlaying(true)}
         >
           <div className="overflow-hidden">
             <div
