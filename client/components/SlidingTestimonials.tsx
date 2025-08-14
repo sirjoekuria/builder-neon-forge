@@ -176,17 +176,17 @@ export default function SlidingTestimonials() {
         >
           <div className="overflow-hidden">
             <div
-              className={`flex ${isTransitioning ? 'transition-transform duration-700 ease-out' : ''}`}
+              className="flex transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${currentSlide * (100 / visibleTestimonials)}%)`,
-                width: `${(extendedTestimonials.length / visibleTestimonials) * 100}%`
+                width: `${(testimonials.length / visibleTestimonials) * 100}%`
               }}
             >
-              {extendedTestimonials.map((testimonial, index) => (
+              {testimonials.map((testimonial) => (
                 <div
-                  key={`${testimonial.id}-${index}`}
+                  key={testimonial.id}
                   className="px-3"
-                  style={{ width: `${100 / extendedTestimonials.length}%` }}
+                  style={{ width: `${100 / testimonials.length}%` }}
                 >
                   <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full border border-gray-100">
                     {/* Quote Icon */}
@@ -250,13 +250,15 @@ export default function SlidingTestimonials() {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 z-10"
+            disabled={currentSlide === 0}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
           >
             <ChevronLeft className="w-6 h-6 text-rocs-green" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 z-10"
+            disabled={currentSlide >= testimonials.length - visibleTestimonials}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
           >
             <ChevronRight className="w-6 h-6 text-rocs-green" />
           </button>
@@ -264,12 +266,12 @@ export default function SlidingTestimonials() {
 
         {/* Slide Indicators */}
         <div className="flex justify-center mt-8 space-x-2">
-          {testimonials.map((_, index) => (
+          {Array.from({ length: maxSlides }).map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === getActualSlideIndex()
+                index === currentSlide
                   ? 'bg-rocs-green scale-125'
                   : 'bg-gray-300 hover:bg-gray-400'
               }`}
