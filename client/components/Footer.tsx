@@ -62,6 +62,11 @@ export default function Footer() {
                   About Us
                 </Link>
               </li>
+              <li>
+                <Link to="/signup" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                  Join as Rider
+                </Link>
+              </li>
             </ul>
           </div>
 
