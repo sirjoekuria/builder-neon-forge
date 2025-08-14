@@ -185,10 +185,10 @@ export default function SlidingTestimonials() {
               {testimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
-                  className="px-3"
+                  className="px-2 md:px-3"
                   style={{ width: `${100 / testimonials.length}%` }}
                 >
-                  <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full border border-gray-100">
+                  <div className="bg-white rounded-2xl p-4 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full border border-gray-100">
                     {/* Quote Icon */}
                     <div className="flex items-start justify-between mb-6">
                       <Quote className="w-10 h-10 text-rocs-yellow flex-shrink-0" />
