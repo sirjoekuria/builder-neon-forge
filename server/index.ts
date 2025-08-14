@@ -10,7 +10,8 @@ import {
   createOrder,
   trackOrder,
   getOrders,
-  updateOrderStatus
+  updateOrderStatus,
+  assignRiderToOrder
 } from "./routes/orders";
 import {
   createPayPalOrder,
