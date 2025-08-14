@@ -203,8 +203,8 @@ export const updateOrderStatus: RequestHandler = (req, res) => {
 
     const validStatuses = ['pending', 'confirmed', 'picked_up', 'in_transit', 'delivered'];
     if (!validStatuses.includes(status)) {
-      return res.status(400).json({ 
-        error: `Invalid status. Must be one of: ${validStatuses.join(', ')}` 
+      return res.status(400).json({
+        error: `Invalid status. Must be one of: ${validStatuses.join(', ')}`
       });
     }
 
@@ -248,13 +248,67 @@ export const updateOrderStatus: RequestHandler = (req, res) => {
       order.riderPhone = randomRider.phone;
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Order status updated successfully',
       order
     });
   } catch (error) {
     console.error('Error updating order status:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// PATCH /api/admin/orders/:id/assign-rider - Assign rider to order
+export const assignRiderToOrder: RequestHandler = (req, res) => {
+  try {
+    const { id } = req.params;
+    const { riderId, riderName, riderPhone } = req.body;
+
+    if (!riderId || !riderName || !riderPhone) {
+      return res.status(400).json({
+        error: 'Missing required fields: riderId, riderName, and riderPhone'
+      });
+    }
+
+    const orderIndex = orders.findIndex(order => order.id === id);
+    if (orderIndex === -1) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const order = orders[orderIndex];
+    const now = new Date().toISOString();
+
+    // Update order with rider info
+    order.riderName = riderName;
+    order.riderPhone = riderPhone;
+    order.riderId = riderId;
+    order.updatedAt = now;
+
+    // Update status to confirmed if it's pending
+    if (order.currentStatus === 'pending') {
+      order.currentStatus = 'confirmed';
+      order.statusHistory.push({
+        status: 'confirmed',
+        timestamp: now,
+        description: `Order confirmed and assigned to ${riderName}`
+      });
+    } else {
+      // Add rider assignment to history
+      order.statusHistory.push({
+        status: order.currentStatus,
+        timestamp: now,
+        description: `Rider assigned: ${riderName}`
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Rider assigned successfully',
+      order
+    });
+  } catch (error) {
+    console.error('Error assigning rider to order:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
