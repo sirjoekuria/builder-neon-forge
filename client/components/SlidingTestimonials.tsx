@@ -92,7 +92,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function SlidingTestimonials() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(3); // Start at first real testimonial
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleTestimonials, setVisibleTestimonials] = useState(3);
   const [isTransitioning, setIsTransitioning] = useState(true);
