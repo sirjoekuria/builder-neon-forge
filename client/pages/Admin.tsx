@@ -1022,7 +1022,10 @@ export default function Admin() {
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-500">{formatDate(message.timestamp)}</span>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {formatDate(message.timestamp)}
+                      </div>
                       <button
                         onClick={() => deleteMessage(message.id)}
                         className="p-1 text-red-400 hover:text-red-600"
@@ -1286,7 +1289,15 @@ export default function Admin() {
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-600">Application Date</p>
-                        <p className="text-sm text-gray-900">{formatDate(rider.joinedAt)}</p>
+                        <p className="text-sm text-gray-900">
+                          <Clock className="w-3 h-3 inline mr-1" />
+                          {formatDate(rider.joinedAt)}
+                        </p>
+                        {rider.updatedAt && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Last updated: {formatDate(rider.updatedAt)}
+                          </p>
+                        )}
                       </div>
                     </div>
 
