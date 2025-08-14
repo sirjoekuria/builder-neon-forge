@@ -380,6 +380,38 @@ export default function Admin() {
     }
   };
 
+  const assignRiderToOrder = async (orderId: string, riderId: string) => {
+    try {
+      const selectedRider = availableRiders.find(r => r.id === riderId);
+      if (!selectedRider) {
+        alert('Selected rider not found');
+        return;
+      }
+
+      const response = await fetch(`/api/admin/orders/${orderId}/assign-rider`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          riderId: selectedRider.id,
+          riderName: selectedRider.fullName,
+          riderPhone: selectedRider.phone
+        }),
+      });
+
+      if (response.ok) {
+        await fetchOrders();
+        setAssigningRider(null);
+      } else {
+        alert('Failed to assign rider');
+      }
+    } catch (error) {
+      console.error('Error assigning rider:', error);
+      alert('Error assigning rider');
+    }
+  };
+
   // Order management functions
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
