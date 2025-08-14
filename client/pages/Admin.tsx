@@ -429,6 +429,47 @@ export default function Admin() {
     }
   };
 
+  // Partnership management functions
+  const updatePartnershipRequestStatus = async (requestId: string, status: 'approved' | 'rejected') => {
+    try {
+      const response = await fetch(`/api/admin/partnership-requests/${requestId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        await fetchPartnershipRequests();
+      } else {
+        alert('Failed to update partnership request status');
+      }
+    } catch (error) {
+      console.error('Error updating partnership request status:', error);
+      alert('Error updating partnership request status');
+    }
+  };
+
+  const deletePartnershipRequest = async (requestId: string) => {
+    if (!confirm('Are you sure you want to delete this partnership request?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/partnership-requests/${requestId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await fetchPartnershipRequests();
+      } else {
+        alert('Failed to delete partnership request');
+      }
+    } catch (error) {
+      console.error('Error deleting partnership request:', error);
+      alert('Error deleting partnership request');
+    }
+  };
+
   // Order management functions
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
