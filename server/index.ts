@@ -80,5 +80,14 @@ export function createServer() {
   app.get("/api/riders/available", getAvailableRiders);
   app.delete("/api/admin/riders/:id", deleteRider);
 
+  // Auth routes
+  app.post("/api/users/signup", userSignup);
+  app.post("/api/auth/login", login);
+  app.get("/api/auth/profile/:userId", getProfile);
+  app.patch("/api/auth/profile/:userId", updateProfile);
+  app.get("/api/admin/users", getAllUsers);
+  app.patch("/api/admin/users/:userId/status", toggleUserStatus);
+  app.delete("/api/admin/users/:userId", deleteUser);
+
   return app;
 }
