@@ -194,7 +194,9 @@ export default function Admin() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>(sampleUsers);
   const [riders, setRiders] = useState<any[]>([]);
+  const [availableRiders, setAvailableRiders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [assigningRider, setAssigningRider] = useState<string | null>(null);
   
   // UI states
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -279,9 +281,23 @@ export default function Admin() {
     }
   };
 
+  const fetchAvailableRiders = async () => {
+    try {
+      const response = await fetch('/api/riders/available');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setAvailableRiders(data.riders);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching available riders:', error);
+    }
+  };
+
   const loadData = async () => {
     setIsLoading(true);
-    await Promise.all([fetchOrders(), fetchMessages(), fetchRiders()]);
+    await Promise.all([fetchOrders(), fetchMessages(), fetchRiders(), fetchAvailableRiders()]);
     setIsLoading(false);
   };
 
