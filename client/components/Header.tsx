@@ -1,10 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Mail } from 'lucide-react';
+import { Menu, X, Phone, Mail, UserPlus, LogIn, LogOut, User } from 'lucide-react';
 import { Button } from './ui/button';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Check for logged in user
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        setUser(JSON.parse(userData));
+      } catch (error) {
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    window.location.href = '/';
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -29,6 +48,9 @@ export default function Header() {
             <Link to="/contact" className="text-gray-700 hover:text-rocs-green transition-colors">
               Contact
             </Link>
+            <Link to="/signup" className="text-gray-700 hover:text-rocs-green transition-colors">
+              Join as Rider
+            </Link>
             <Link to="/admin" className="text-gray-700 hover:text-rocs-green transition-colors">
               Admin
             </Link>
@@ -40,11 +62,44 @@ export default function Header() {
               <Phone className="w-4 h-4" />
               <span>+254 700 898 950</span>
             </div>
-            <Link to="/book-delivery">
-              <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800">
-                Book Now
-              </Button>
-            </Link>
+            
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <User className="w-4 h-4" />
+                  <span>{user.name}</span>
+                </div>
+                <Link to="/book-delivery">
+                  <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800">
+                    Book Now
+                  </Button>
+                </Link>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  size="sm"
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white">
+                    <LogIn className="w-4 h-4 mr-1" />
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-rocs-green hover:bg-rocs-green-dark text-white">
+                    <UserPlus className="w-4 h-4 mr-1" />
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -88,15 +143,57 @@ export default function Header() {
               >
                 Contact
               </Link>
-              <div className="flex items-center space-x-1 text-sm text-gray-600">
-                <Phone className="w-4 h-4" />
-                <span>+254 700 898 950</span>
-              </div>
-              <Link to="/book-delivery">
-                <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 w-fit">
-                  Book Now
-                </Button>
+              <Link
+                to="/signup"
+                className="text-gray-700 hover:text-rocs-green transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Join as Rider
               </Link>
+              
+              {user ? (
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <User className="w-4 h-4" />
+                    <span>{user.name}</span>
+                  </div>
+                  <Link to="/book-delivery">
+                    <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 w-fit">
+                      Book Now
+                    </Button>
+                  </Link>
+                  <Button
+                    onClick={handleLogout}
+                    variant="outline"
+                    size="sm"
+                    className="border-gray-300 text-gray-600 hover:bg-gray-50 w-fit"
+                  >
+                    <LogOut className="w-4 h-4 mr-1" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-1 text-sm text-gray-600">
+                    <Phone className="w-4 h-4" />
+                    <span>+254 700 898 950</span>
+                  </div>
+                  <div className="flex space-x-2">
+                    <Link to="/login">
+                      <Button variant="outline" size="sm" className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white">
+                        <LogIn className="w-4 h-4 mr-1" />
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button size="sm" className="bg-rocs-green hover:bg-rocs-green-dark text-white">
+                        <UserPlus className="w-4 h-4 mr-1" />
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </nav>
           </div>
         )}
