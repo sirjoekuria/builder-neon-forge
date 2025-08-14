@@ -335,7 +335,7 @@ export default function DeliveryPartners() {
           {activeTab === 'join' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {isSubmitted ? (
-                {/* Success Message */}
+                /* Success Message */
                 <div className="lg:col-span-2 bg-white rounded-xl p-8 text-center">
                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="w-10 h-10 text-white" />
