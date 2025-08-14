@@ -98,5 +98,12 @@ export function createServer() {
   app.patch("/api/admin/users/:userId/status", toggleUserStatus);
   app.delete("/api/admin/users/:userId", deleteUser);
 
+  // Partnership routes
+  app.post("/api/partnership-requests", submitPartnershipRequest);
+  app.get("/api/admin/partnership-requests", getPartnershipRequests);
+  app.patch("/api/admin/partnership-requests/:id/status", updatePartnershipRequestStatus);
+  app.delete("/api/admin/partnership-requests/:id", deletePartnershipRequest);
+  app.get("/api/partnership-requests/:id", getPartnershipRequest);
+
   return app;
 }
