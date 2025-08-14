@@ -726,6 +726,10 @@ export default function Admin() {
                         <div>
                           <p className="text-sm font-medium text-gray-900">{order.id}</p>
                           <p className="text-sm text-gray-500">{order.customerName}</p>
+                          <p className="text-xs text-gray-400">
+                            <Clock className="w-3 h-3 inline mr-1" />
+                            {formatDate(order.timestamp)}
+                          </p>
                         </div>
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>
                           {order.status}
@@ -747,6 +751,10 @@ export default function Admin() {
                         <div>
                           <p className="text-sm font-medium text-gray-900">{message.name}</p>
                           <p className="text-sm text-gray-500">{message.subject}</p>
+                          <p className="text-xs text-gray-400">
+                            <Clock className="w-3 h-3 inline mr-1" />
+                            {formatDate(message.timestamp)}
+                          </p>
                         </div>
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(message.status)}`}>
                           {message.status}
