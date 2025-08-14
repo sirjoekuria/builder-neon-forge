@@ -1,5 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, MapPin, Calendar } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Calendar,
+} from "lucide-react";
 
 const testimonials = [
   {
@@ -9,10 +16,12 @@ const testimonials = [
     company: "Grace's Boutique",
     location: "Westlands, Nairobi",
     rating: 5,
-    content: "Rocs Crew has been amazing for my business. Their riders are professional and my packages always arrive on time. The tracking system gives me peace of mind and my customers love the transparency.",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b9090fd8?w=150&h=150&fit=crop&crop=face",
+    content:
+      "Rocs Crew has been amazing for my business. Their riders are professional and my packages always arrive on time. The tracking system gives me peace of mind and my customers love the transparency.",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108755-2616b9090fd8?w=150&h=150&fit=crop&crop=face",
     deliveries: 45,
-    joinDate: "March 2024"
+    joinDate: "March 2024",
   },
   {
     id: 2,
@@ -21,10 +30,12 @@ const testimonials = [
     company: "TechMart Kenya",
     location: "CBD, Nairobi",
     rating: 5,
-    content: "Fast, reliable, and affordable. We've been using Rocs Crew for our daily deliveries for 6 months now. Their rates are unbeatable at KES 30 per km and the service quality is consistently excellent.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    content:
+      "Fast, reliable, and affordable. We've been using Rocs Crew for our daily deliveries for 6 months now. Their rates are unbeatable at KES 30 per km and the service quality is consistently excellent.",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     deliveries: 120,
-    joinDate: "January 2024"
+    joinDate: "January 2024",
   },
   {
     id: 3,
@@ -33,10 +44,12 @@ const testimonials = [
     company: "Sarah's Fashion",
     location: "Kilimani, Nairobi",
     rating: 5,
-    content: "The real-time tracking is fantastic! My customers love being able to see exactly where their orders are. Rocs Crew has helped grow my business significantly with their reliable service.",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    content:
+      "The real-time tracking is fantastic! My customers love being able to see exactly where their orders are. Rocs Crew has helped grow my business significantly with their reliable service.",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
     deliveries: 78,
-    joinDate: "February 2024"
+    joinDate: "February 2024",
   },
   {
     id: 4,
@@ -45,10 +58,12 @@ const testimonials = [
     company: "Mama's Kitchen",
     location: "Karen, Nairobi",
     rating: 5,
-    content: "We use Rocs Crew for all our food deliveries. Their motorcycles are perfect for navigating Nairobi traffic, and they always handle our orders with care. Hot food arrives hot!",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    content:
+      "We use Rocs Crew for all our food deliveries. Their motorcycles are perfect for navigating Nairobi traffic, and they always handle our orders with care. Hot food arrives hot!",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     deliveries: 200,
-    joinDate: "December 2023"
+    joinDate: "December 2023",
   },
   {
     id: 5,
@@ -57,10 +72,12 @@ const testimonials = [
     company: "Creative Studio",
     location: "Kileleshwa, Nairobi",
     rating: 5,
-    content: "Excellent service! I regularly send documents and design materials to clients across Nairobi and Rocs Crew never disappoints. Professional, punctual, and reasonably priced.",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    content:
+      "Excellent service! I regularly send documents and design materials to clients across Nairobi and Rocs Crew never disappoints. Professional, punctual, and reasonably priced.",
+    avatar:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
     deliveries: 89,
-    joinDate: "March 2024"
+    joinDate: "March 2024",
   },
   {
     id: 6,
@@ -69,11 +86,13 @@ const testimonials = [
     company: "Tech Solutions Ltd",
     location: "Upperhill, Nairobi",
     rating: 5,
-    content: "The admin dashboard for tracking orders is intuitive and the customer service is top-notch. Rocs Crew understands the needs of modern businesses and delivers accordingly.",
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
+    content:
+      "The admin dashboard for tracking orders is intuitive and the customer service is top-notch. Rocs Crew understands the needs of modern businesses and delivers accordingly.",
+    avatar:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
     deliveries: 156,
-    joinDate: "November 2023"
-  }
+    joinDate: "November 2023",
+  },
 ];
 
 function StarRating({ rating }: { rating: number }) {
@@ -83,7 +102,7 @@ function StarRating({ rating }: { rating: number }) {
         <Star
           key={i}
           className={`w-4 h-4 ${
-            i < rating ? 'text-rocs-yellow fill-current' : 'text-gray-300'
+            i < rating ? "text-rocs-yellow fill-current" : "text-gray-300"
           }`}
         />
       ))}
@@ -96,7 +115,7 @@ export default function SlidingTestimonials() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleTestimonials, setVisibleTestimonials] = useState(() => {
     // Initialize with correct value based on screen size
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
     }
     return 3;
@@ -105,15 +124,16 @@ export default function SlidingTestimonials() {
   // Responsive testimonials per view
   useEffect(() => {
     const handleResize = () => {
-      const newVisible = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+      const newVisible =
+        window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
       setVisibleTestimonials(newVisible);
       // Reset to first slide when changing responsive view
       setCurrentSlide(0);
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Auto-play functionality
@@ -132,12 +152,12 @@ export default function SlidingTestimonials() {
 
   const nextSlide = () => {
     const maxSlide = testimonials.length - visibleTestimonials;
-    setCurrentSlide((prev) => prev >= maxSlide ? 0 : prev + 1);
+    setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
     const maxSlide = testimonials.length - visibleTestimonials;
-    setCurrentSlide((prev) => prev <= 0 ? maxSlide : prev - 1);
+    setCurrentSlide((prev) => (prev <= 0 ? maxSlide : prev - 1));
   };
 
   const goToSlide = (index: number) => {
@@ -159,15 +179,18 @@ export default function SlidingTestimonials() {
         <div className="text-center mb-8 md:mb-16">
           <div className="inline-flex items-center space-x-2 bg-rocs-yellow/20 border border-rocs-yellow/30 rounded-full px-4 py-2 mb-4">
             <Quote className="w-4 h-4 text-rocs-green" />
-            <span className="text-rocs-green font-medium text-sm md:text-base">Customer Stories</span>
+            <span className="text-rocs-green font-medium text-sm md:text-base">
+              Customer Stories
+            </span>
           </div>
 
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-rocs-green mb-4 md:mb-6">
             What Our Customers Say
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-            Join thousands of satisfied customers who trust Rocs Crew for their delivery needs across Nairobi.
-            Here's what they have to say about our service.
+            Join thousands of satisfied customers who trust Rocs Crew for their
+            delivery needs across Nairobi. Here's what they have to say about
+            our service.
           </p>
         </div>
 
@@ -184,7 +207,7 @@ export default function SlidingTestimonials() {
               className="flex transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${currentSlide * (100 / visibleTestimonials)}%)`,
-                width: `${(testimonials.length / visibleTestimonials) * 100}%`
+                width: `${(testimonials.length / visibleTestimonials) * 100}%`,
               }}
             >
               {testimonials.map((testimonial) => (
@@ -230,7 +253,9 @@ export default function SlidingTestimonials() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
                         <div className="flex items-center space-x-2 text-gray-600">
                           <MapPin className="w-3 h-3 md:w-4 md:h-4 text-rocs-green" />
-                          <span className="truncate">{testimonial.location}</span>
+                          <span className="truncate">
+                            {testimonial.location}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-2 text-gray-600">
                           <Calendar className="w-3 h-3 md:w-4 md:h-4 text-rocs-green" />
@@ -242,7 +267,9 @@ export default function SlidingTestimonials() {
                           <div className="text-xl md:text-2xl font-bold text-rocs-green">
                             {testimonial.deliveries}+
                           </div>
-                          <div className="text-xs text-gray-600">Successful Deliveries</div>
+                          <div className="text-xs text-gray-600">
+                            Successful Deliveries
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -277,8 +304,8 @@ export default function SlidingTestimonials() {
               onClick={() => goToSlide(index)}
               className={`w-4 h-4 md:w-3 md:h-3 rounded-full transition-all duration-300 touch-manipulation ${
                 index === currentSlide
-                  ? 'bg-rocs-green scale-125'
-                  : 'bg-gray-300 hover:bg-gray-400'
+                  ? "bg-rocs-green scale-125"
+                  : "bg-gray-300 hover:bg-gray-400"
               }`}
             />
           ))}
@@ -288,7 +315,9 @@ export default function SlidingTestimonials() {
         <div className="mt-20 bg-white rounded-2xl p-8 shadow-lg">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-rocs-green mb-2">5000+</div>
+              <div className="text-4xl font-bold text-rocs-green mb-2">
+                5000+
+              </div>
               <div className="text-gray-600">Deliveries Completed</div>
             </div>
             <div>
@@ -296,11 +325,15 @@ export default function SlidingTestimonials() {
               <div className="text-gray-600">Customer Satisfaction</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-rocs-green mb-2">24/7</div>
+              <div className="text-4xl font-bold text-rocs-green mb-2">
+                24/7
+              </div>
               <div className="text-gray-600">Customer Support</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-rocs-green mb-2">500+</div>
+              <div className="text-4xl font-bold text-rocs-green mb-2">
+                500+
+              </div>
               <div className="text-gray-600">Happy Businesses</div>
             </div>
           </div>
