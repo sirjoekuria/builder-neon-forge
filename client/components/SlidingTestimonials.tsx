@@ -92,25 +92,20 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function SlidingTestimonials() {
-  const [visibleTestimonials, setVisibleTestimonials] = useState(3);
-  const [currentSlide, setCurrentSlide] = useState(visibleTestimonials); // Start at first real testimonial
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-
-  // Create extended testimonials for infinite loop
-  const extendedTestimonials = [
-    ...testimonials.slice(-visibleTestimonials), // Last items at beginning
-    ...testimonials,
-    ...testimonials.slice(0, visibleTestimonials) // First items at end
-  ];
+  const [visibleTestimonials, setVisibleTestimonials] = useState(3);
 
   // Responsive testimonials per view
   useEffect(() => {
     const handleResize = () => {
-      const newVisibleCount = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
-      setVisibleTestimonials(newVisibleCount);
-      // Reset position when changing responsive view
-      setCurrentSlide(newVisibleCount);
+      if (window.innerWidth < 768) {
+        setVisibleTestimonials(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleTestimonials(2);
+      } else {
+        setVisibleTestimonials(3);
+      }
     };
 
     handleResize();
@@ -118,52 +113,35 @@ export default function SlidingTestimonials() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Auto-play functionality with infinite loop
+  // Auto-play functionality
   useEffect(() => {
     if (!isAutoPlaying) return;
 
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => prev + 1);
-    }, 3000); // Slower, smoother timing
+      setCurrentSlide((prev) => {
+        const maxSlide = testimonials.length - visibleTestimonials;
+        return prev >= maxSlide ? 0 : prev + 1;
+      });
+    }, 3000);
 
     return () => clearInterval(timer);
-  }, [isAutoPlaying]);
-
-  // Handle infinite loop transition
-  useEffect(() => {
-    if (currentSlide >= testimonials.length + visibleTestimonials) {
-      setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentSlide(visibleTestimonials);
-        setTimeout(() => setIsTransitioning(true), 50);
-      }, 500);
-    } else if (currentSlide <= -1) {
-      setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentSlide(testimonials.length - 1 + visibleTestimonials);
-        setTimeout(() => setIsTransitioning(true), 50);
-      }, 500);
-    }
-  }, [currentSlide, visibleTestimonials]);
+  }, [isAutoPlaying, visibleTestimonials]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => prev + 1);
+    const maxSlide = testimonials.length - visibleTestimonials;
+    setCurrentSlide((prev) => prev >= maxSlide ? 0 : prev + 1);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => prev - 1);
+    const maxSlide = testimonials.length - visibleTestimonials;
+    setCurrentSlide((prev) => prev <= 0 ? maxSlide : prev - 1);
   };
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index + visibleTestimonials);
+    setCurrentSlide(index);
   };
 
-  // Calculate actual slide position for indicators
-  const getActualSlideIndex = () => {
-    let actualIndex = (currentSlide - visibleTestimonials) % testimonials.length;
-    if (actualIndex < 0) actualIndex += testimonials.length;
-    return actualIndex;
-  };
+  const maxSlides = testimonials.length - visibleTestimonials + 1;
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
