@@ -196,25 +196,25 @@ export default function SlidingTestimonials() {
                     </div>
 
                     {/* Testimonial Content */}
-                    <blockquote className="text-gray-700 mb-8 leading-relaxed text-lg">
+                    <blockquote className="text-gray-700 mb-6 md:mb-8 leading-relaxed text-sm md:text-lg">
                       "{testimonial.content}"
                     </blockquote>
 
                     {/* Customer Info */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-3 md:space-x-4">
                       <img
                         src={testimonial.avatar}
                         alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover border-4 border-rocs-yellow/20"
+                        className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-4 border-rocs-yellow/20"
                       />
                       <div className="flex-1">
-                        <h4 className="font-bold text-rocs-green text-lg">
+                        <h4 className="font-bold text-rocs-green text-base md:text-lg">
                           {testimonial.name}
                         </h4>
-                        <p className="text-gray-600 font-medium">
+                        <p className="text-gray-600 font-medium text-sm md:text-base">
                           {testimonial.role}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs md:text-sm text-gray-500">
                           {testimonial.company}
                         </p>
                       </div>
