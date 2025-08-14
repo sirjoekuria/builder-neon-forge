@@ -94,18 +94,21 @@ function StarRating({ rating }: { rating: number }) {
 export default function SlidingTestimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [visibleTestimonials, setVisibleTestimonials] = useState(3);
+  const [visibleTestimonials, setVisibleTestimonials] = useState(() => {
+    // Initialize with correct value based on screen size
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+    }
+    return 3;
+  });
 
   // Responsive testimonials per view
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleTestimonials(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleTestimonials(2);
-      } else {
-        setVisibleTestimonials(3);
-      }
+      const newVisible = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+      setVisibleTestimonials(newVisible);
+      // Reset to first slide when changing responsive view
+      setCurrentSlide(0);
     };
 
     handleResize();
