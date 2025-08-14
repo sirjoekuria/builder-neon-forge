@@ -194,24 +194,24 @@ export default function SlidingTestimonials() {
         </div>
 
         {/* Testimonials Slider */}
-        <div 
+        <div
           className="relative"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
           <div className="overflow-hidden">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ 
+            <div
+              className={`flex ${isTransitioning ? 'transition-transform duration-700 ease-out' : ''}`}
+              style={{
                 transform: `translateX(-${currentSlide * (100 / visibleTestimonials)}%)`,
-                width: `${(testimonials.length / visibleTestimonials) * 100}%`
+                width: `${(extendedTestimonials.length / visibleTestimonials) * 100}%`
               }}
             >
-              {testimonials.map((testimonial) => (
+              {extendedTestimonials.map((testimonial, index) => (
                 <div
-                  key={testimonial.id}
+                  key={`${testimonial.id}-${index}`}
                   className="px-3"
-                  style={{ width: `${100 / testimonials.length}%` }}
+                  style={{ width: `${100 / extendedTestimonials.length}%` }}
                 >
                   <div className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full border border-gray-100">
                     {/* Quote Icon */}
@@ -219,12 +219,12 @@ export default function SlidingTestimonials() {
                       <Quote className="w-10 h-10 text-rocs-yellow flex-shrink-0" />
                       <StarRating rating={testimonial.rating} />
                     </div>
-                    
+
                     {/* Testimonial Content */}
                     <blockquote className="text-gray-700 mb-8 leading-relaxed text-lg">
                       "{testimonial.content}"
                     </blockquote>
-                    
+
                     {/* Customer Info */}
                     <div className="flex items-center space-x-4">
                       <img
@@ -275,15 +275,13 @@ export default function SlidingTestimonials() {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            disabled={currentSlide === 0}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 z-10"
           >
             <ChevronLeft className="w-6 h-6 text-rocs-green" />
           </button>
           <button
             onClick={nextSlide}
-            disabled={currentSlide >= testimonials.length - visibleTestimonials}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-50 shadow-lg rounded-full p-3 transition-all duration-300 z-10"
           >
             <ChevronRight className="w-6 h-6 text-rocs-green" />
           </button>
@@ -291,13 +289,13 @@ export default function SlidingTestimonials() {
 
         {/* Slide Indicators */}
         <div className="flex justify-center mt-8 space-x-2">
-          {Array.from({ length: maxSlides }).map((_, index) => (
+          {testimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'bg-rocs-green scale-125' 
+                index === getActualSlideIndex()
+                  ? 'bg-rocs-green scale-125'
                   : 'bg-gray-300 hover:bg-gray-400'
               }`}
             />
