@@ -153,17 +153,17 @@ export default function SlidingTestimonials() {
 
       <div className="container mx-auto px-2 md:px-4 relative">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <div className="inline-flex items-center space-x-2 bg-rocs-yellow/20 border border-rocs-yellow/30 rounded-full px-4 py-2 mb-4">
             <Quote className="w-4 h-4 text-rocs-green" />
-            <span className="text-rocs-green font-medium">Customer Stories</span>
+            <span className="text-rocs-green font-medium text-sm md:text-base">Customer Stories</span>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-bold text-rocs-green mb-6">
+
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-rocs-green mb-4 md:mb-6">
             What Our Customers Say
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of satisfied customers who trust Rocs Crew for their delivery needs across Nairobi. 
+          <p className="text-sm md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
+            Join thousands of satisfied customers who trust Rocs Crew for their delivery needs across Nairobi.
             Here's what they have to say about our service.
           </p>
         </div>
