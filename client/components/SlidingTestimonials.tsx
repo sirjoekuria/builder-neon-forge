@@ -95,6 +95,14 @@ export default function SlidingTestimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleTestimonials, setVisibleTestimonials] = useState(3);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  // Create extended testimonials for infinite loop
+  const extendedTestimonials = [
+    ...testimonials.slice(-visibleTestimonials), // Last items at beginning
+    ...testimonials,
+    ...testimonials.slice(0, visibleTestimonials) // First items at end
+  ];
 
   // Responsive testimonials per view
   useEffect(() => {
@@ -113,35 +121,52 @@ export default function SlidingTestimonials() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Auto-play functionality
+  // Auto-play functionality with infinite loop
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => {
-        const maxSlide = testimonials.length - visibleTestimonials;
-        return prev >= maxSlide ? 0 : prev + 1;
-      });
-    }, 4000);
-    
+      setCurrentSlide((prev) => prev + 1);
+    }, 3000); // Slower, smoother timing
+
     return () => clearInterval(timer);
-  }, [isAutoPlaying, visibleTestimonials]);
+  }, [isAutoPlaying]);
+
+  // Handle infinite loop transition
+  useEffect(() => {
+    if (currentSlide >= testimonials.length + visibleTestimonials) {
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentSlide(visibleTestimonials);
+        setTimeout(() => setIsTransitioning(true), 50);
+      }, 500);
+    } else if (currentSlide <= -1) {
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentSlide(testimonials.length - 1 + visibleTestimonials);
+        setTimeout(() => setIsTransitioning(true), 50);
+      }, 500);
+    }
+  }, [currentSlide, visibleTestimonials]);
 
   const nextSlide = () => {
-    const maxSlide = testimonials.length - visibleTestimonials;
-    setCurrentSlide((prev) => prev >= maxSlide ? 0 : prev + 1);
+    setCurrentSlide((prev) => prev + 1);
   };
 
   const prevSlide = () => {
-    const maxSlide = testimonials.length - visibleTestimonials;
-    setCurrentSlide((prev) => prev <= 0 ? maxSlide : prev - 1);
+    setCurrentSlide((prev) => prev - 1);
   };
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index);
+    setCurrentSlide(index + visibleTestimonials);
   };
 
-  const maxSlides = testimonials.length - visibleTestimonials + 1;
+  // Calculate actual slide position for indicators
+  const getActualSlideIndex = () => {
+    let actualIndex = (currentSlide - visibleTestimonials) % testimonials.length;
+    if (actualIndex < 0) actualIndex += testimonials.length;
+    return actualIndex;
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
