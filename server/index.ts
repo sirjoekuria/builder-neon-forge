@@ -39,6 +39,13 @@ import {
   toggleUserStatus,
   deleteUser
 } from "./routes/auth";
+import {
+  submitPartnershipRequest,
+  getPartnershipRequests,
+  updatePartnershipRequestStatus,
+  deletePartnershipRequest,
+  getPartnershipRequest
+} from "./routes/partnerships";
 
 export function createServer() {
   const app = express();
