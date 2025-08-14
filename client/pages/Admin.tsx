@@ -817,6 +817,10 @@ export default function Admin() {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">{order.id}</h3>
                       <p className="text-gray-600">{order.customerName} • {order.customerPhone}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        <Clock className="w-3 h-3 inline mr-1" />
+                        Created: {formatDate(order.timestamp)}
+                      </p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)}`}>
@@ -837,7 +841,7 @@ export default function Admin() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <div>
                       <p className="text-sm font-medium text-gray-600">Pickup</p>
                       <p className="text-sm text-gray-900">{order.pickup}</p>
@@ -849,6 +853,10 @@ export default function Admin() {
                     <div>
                       <p className="text-sm font-medium text-gray-600">Cost</p>
                       <p className="text-sm text-gray-900">KES {order.cost} ({order.distance}km)</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Status Updated</p>
+                      <p className="text-sm text-gray-900">{order.updatedAt ? formatDate(order.updatedAt) : 'Not updated'}</p>
                     </div>
                   </div>
 
@@ -887,20 +895,53 @@ export default function Admin() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">Assign Rider</label>
-                          <div className="flex space-x-2">
-                            <input
-                              type="text"
-                              placeholder="Rider name"
-                              className="flex-1 border border-gray-300 rounded px-3 py-2"
-                              defaultValue={order.riderName || ''}
-                            />
-                            <input
-                              type="text"
-                              placeholder="Phone"
-                              className="w-32 border border-gray-300 rounded px-3 py-2"
-                              defaultValue={order.riderPhone || ''}
-                            />
-                          </div>
+                          {order.riderName ? (
+                            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                              <p className="text-sm font-medium text-green-800">{order.riderName}</p>
+                              <p className="text-sm text-green-600">{order.riderPhone}</p>
+                              <button
+                                onClick={() => setAssigningRider(order.id)}
+                                className="text-xs text-green-600 hover:text-green-800 mt-1"
+                              >
+                                Change Rider
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setAssigningRider(order.id)}
+                              className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-rocs-green hover:text-rocs-green transition-colors"
+                            >
+                              + Assign Rider
+                            </button>
+                          )}
+
+                          {assigningRider === order.id && (
+                            <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                              <label className="block text-xs font-medium text-gray-600 mb-2">Select Available Rider:</label>
+                              <select
+                                onChange={(e) => {
+                                  if (e.target.value) {
+                                    assignRiderToOrder(order.id, e.target.value);
+                                  }
+                                }}
+                                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                                defaultValue=""
+                              >
+                                <option value="">Choose a rider...</option>
+                                {availableRiders.map((rider) => (
+                                  <option key={rider.id} value={rider.id}>
+                                    {rider.fullName} - {rider.area} (Rating: {rider.rating})
+                                  </option>
+                                ))}
+                              </select>
+                              <button
+                                onClick={() => setAssigningRider(null)}
+                                className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <button
