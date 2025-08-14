@@ -1424,6 +1424,160 @@ export default function Admin() {
             </div>
           </div>
         )}
+
+        {/* Partnership Requests Tab */}
+        {activeTab === 'partnerships' && (
+          <div className="space-y-6">
+            {/* Header with refresh button */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Partnership Requests</h2>
+                <button
+                  onClick={fetchPartnershipRequests}
+                  disabled={isLoading}
+                  className="flex items-center space-x-2 bg-rocs-green hover:bg-rocs-green-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <svg className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>{isLoading ? 'Refreshing...' : 'Refresh Requests'}</span>
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">{partnershipRequests.filter(r => r.status === 'pending').length}</div>
+                  <div className="text-sm text-blue-600">Pending Review</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">{partnershipRequests.filter(r => r.status === 'approved').length}</div>
+                  <div className="text-sm text-green-600">Approved</div>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">{partnershipRequests.filter(r => r.status === 'rejected').length}</div>
+                  <div className="text-sm text-red-600">Rejected</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Partnership Requests List */}
+            <div className="space-y-4">
+              {isLoading ? (
+                <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rocs-green mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading partnership requests...</p>
+                </div>
+              ) : partnershipRequests.length === 0 ? (
+                <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
+                  <Handshake className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No partnership requests found</h3>
+                  <p className="text-gray-600">No partnership requests have been submitted yet.</p>
+                </div>
+              ) : (
+                partnershipRequests.map((request) => (
+                  <div key={request.id} className="bg-white rounded-lg shadow border border-gray-200 p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 bg-rocs-green rounded-full flex items-center justify-center">
+                          <Building2 className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">{request.companyName}</h3>
+                          <p className="text-gray-600">{request.id} • {request.businessCategory}</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            <Clock className="w-3 h-3 inline mr-1" />
+                            Submitted: {formatDate(request.timestamp)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                          request.status === 'approved' ? 'bg-green-100 text-green-800' :
+                          request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {request.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Contact Person</p>
+                        <p className="text-sm text-gray-900">{request.contactPerson}</p>
+                        <p className="text-sm text-gray-900">{request.email}</p>
+                        <p className="text-sm text-gray-900">{request.phone}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Business Details</p>
+                        <p className="text-sm text-gray-900">Category: {request.businessCategory}</p>
+                        <p className="text-sm text-gray-900">Volume: {request.deliveryVolume}</p>
+                        {request.updatedAt && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Last updated: {formatDate(request.updatedAt)}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {request.message && (
+                      <div className="mb-4 p-3 bg-gray-50 rounded">
+                        <p className="text-sm font-medium text-gray-600">Request Message:</p>
+                        <p className="text-sm text-gray-700 mt-1">{request.message}</p>
+                      </div>
+                    )}
+
+                    {request.adminNotes && (
+                      <div className="mb-4 p-3 bg-blue-50 rounded">
+                        <p className="text-sm font-medium text-blue-800">Admin Notes:</p>
+                        <p className="text-sm text-blue-700 mt-1">{request.adminNotes}</p>
+                      </div>
+                    )}
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                      <div className="flex space-x-2">
+                        {request.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => updatePartnershipRequestStatus(request.id, 'approved')}
+                              className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                            >
+                              <CheckCircle className="w-4 h-4" />
+                              <span>Approve</span>
+                            </button>
+                            <button
+                              onClick={() => updatePartnershipRequestStatus(request.id, 'rejected')}
+                              className="flex items-center space-x-1 bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+                            >
+                              <AlertCircle className="w-4 h-4" />
+                              <span>Reject</span>
+                            </button>
+                          </>
+                        )}
+
+                        {request.status !== 'pending' && (
+                          <span className="text-sm text-gray-500">
+                            Request {request.status} on {request.updatedAt ? formatDate(request.updatedAt) : 'Unknown date'}
+                          </span>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={() => deletePartnershipRequest(request.id)}
+                        className="text-red-400 hover:text-red-600 p-2"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
