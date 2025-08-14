@@ -92,9 +92,9 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export default function SlidingTestimonials() {
-  const [currentSlide, setCurrentSlide] = useState(3); // Start at first real testimonial
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [visibleTestimonials, setVisibleTestimonials] = useState(3);
+  const [currentSlide, setCurrentSlide] = useState(visibleTestimonials); // Start at first real testimonial
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(true);
 
   // Create extended testimonials for infinite loop
@@ -110,15 +110,13 @@ export default function SlidingTestimonials() {
       const newVisibleCount = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
       setVisibleTestimonials(newVisibleCount);
       // Reset position when changing responsive view
-      if (newVisibleCount !== visibleTestimonials) {
-        setCurrentSlide(newVisibleCount);
-      }
+      setCurrentSlide(newVisibleCount);
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [visibleTestimonials]);
+  }, []);
 
   // Auto-play functionality with infinite loop
   useEffect(() => {
