@@ -107,19 +107,18 @@ export default function SlidingTestimonials() {
   // Responsive testimonials per view
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleTestimonials(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleTestimonials(2);
-      } else {
-        setVisibleTestimonials(3);
+      const newVisibleCount = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+      setVisibleTestimonials(newVisibleCount);
+      // Reset position when changing responsive view
+      if (newVisibleCount !== visibleTestimonials) {
+        setCurrentSlide(newVisibleCount);
       }
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [visibleTestimonials]);
 
   // Auto-play functionality with infinite loop
   useEffect(() => {
