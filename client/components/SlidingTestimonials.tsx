@@ -270,12 +270,12 @@ export default function SlidingTestimonials() {
         </div>
 
         {/* Slide Indicators */}
-        <div className="flex justify-center mt-8 space-x-2">
+        <div className="flex justify-center mt-6 md:mt-8 space-x-2 md:space-x-3">
           {Array.from({ length: maxSlides }).map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-4 h-4 md:w-3 md:h-3 rounded-full transition-all duration-300 touch-manipulation ${
                 index === currentSlide
                   ? 'bg-rocs-green scale-125'
                   : 'bg-gray-300 hover:bg-gray-400'
