@@ -298,6 +298,20 @@ export default function Admin() {
     }
   };
 
+  const fetchPartnershipRequests = async () => {
+    try {
+      const response = await fetch('/api/admin/partnership-requests');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setPartnershipRequests(data.requests);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching partnership requests:', error);
+    }
+  };
+
   const loadData = async () => {
     setIsLoading(true);
     await Promise.all([fetchOrders(), fetchMessages(), fetchRiders(), fetchAvailableRiders()]);
