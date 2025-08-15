@@ -480,16 +480,23 @@ export default function Admin() {
         },
       });
 
-      const result = await response.json();
+      // Check if response is ok first, then parse JSON
+      if (response.ok) {
+        const result = await response.json();
 
-      if (response.ok && result.success) {
-        const order = orders.find(o => o.id === orderId);
-        alert(`✅ Payment Confirmed Successfully!\n\n📧 Receipt sent to: ${order?.customerEmail}\n💰 Order ID: ${orderId}\n\nCustomer has been notified via email with their receipt.`);
+        if (result.success) {
+          const order = orders.find(o => o.id === orderId);
+          alert(`✅ Payment Confirmed Successfully!\n\n📧 Receipt sent to: ${order?.customerEmail}\n💰 Order ID: ${orderId}\n\nCustomer has been notified via email with their receipt.`);
 
-        // Refresh orders to get latest data
-        await fetchOrders();
+          // Refresh orders to get latest data
+          await fetchOrders();
+        } else {
+          alert(`❌ Payment confirmation failed:\n${result.error || 'Unknown error'}\n\nPlease try again or contact support.`);
+        }
       } else {
-        alert(`❌ Payment confirmation failed:\n${result.error || 'Unknown error'}\n\nPlease try again or contact support.`);
+        // Handle error response
+        const errorResult = await response.json().catch(() => ({ error: 'Unknown server error' }));
+        alert(`❌ Payment confirmation failed:\n${errorResult.error || 'Server error'}\n\nPlease try again or contact support.`);
       }
     } catch (error) {
       console.error('Error confirming payment:', error);
