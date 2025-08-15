@@ -38,9 +38,13 @@ export default function PayPalPayment({
         return;
       }
 
+      // Get PayPal Client ID from environment or use the live one we configured
+      const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID ||
+                            'AbS0oMjeCgXXVlxSbht7O4brye9TacLSKMb3CzD8arBLdizO_QzgI9n6U3mBBxYwWAn4rX4lgAzSMkUu';
+
       // Create script element for PayPal SDK
       const script = document.createElement('script');
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.REACT_APP_PAYPAL_CLIENT_ID || 'test'}&currency=${currency}`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=${currency}`;
       script.async = true;
 
       script.onload = () => {
