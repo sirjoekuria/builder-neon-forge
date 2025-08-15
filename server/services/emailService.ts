@@ -70,8 +70,11 @@ const generateReceiptHTML = (order: any) => {
 
       <div class="receipt-box">
         <div class="receipt-header">
-          <div class="receipt-title">📧 DELIVERY RECEIPT</div>
+          <div class="receipt-title">💳 PAYMENT RECEIPT</div>
           <div class="order-id">Order ID: ${order.id}</div>
+          <div style="margin-top: 10px; color: #059669; font-weight: bold;">
+            ✅ PAYMENT CONFIRMED
+          </div>
         </div>
 
         <div class="details-grid">
