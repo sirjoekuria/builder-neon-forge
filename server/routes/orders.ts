@@ -197,7 +197,7 @@ export const getOrders: RequestHandler = (req, res) => {
 };
 
 // PATCH /api/admin/orders/:id - Update order status
-export const updateOrderStatus: RequestHandler = (req, res) => {
+export const updateOrderStatus: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
