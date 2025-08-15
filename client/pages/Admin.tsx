@@ -1078,39 +1078,66 @@ export default function Admin() {
                       </button>
                     </div>
                   ) : (
-                    <div className="border-t pt-4 flex space-x-2">
-                      {order.status === 'pending' && (
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'confirmed')}
-                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
-                        >
-                          Confirm Order
-                        </button>
-                      )}
-                      {order.status === 'confirmed' && (
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'picked_up')}
-                          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
-                        >
-                          Mark Picked Up
-                        </button>
-                      )}
-                      {order.status === 'picked_up' && (
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'in_transit')}
-                          className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 text-sm"
-                        >
-                          In Transit
-                        </button>
-                      )}
-                      {order.status === 'in_transit' && (
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'delivered')}
-                          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
-                        >
-                          Mark Delivered
-                        </button>
-                      )}
+                    <div className="border-t pt-4">
+                      {/* Payment Confirmation Section */}
+                      <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <h4 className="font-semibold text-yellow-800 mb-2 flex items-center">
+                          💰 Payment Management
+                        </h4>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => confirmPaymentAndSendReceipt(order.id)}
+                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-medium flex items-center space-x-2"
+                          >
+                            <span>✅ Confirm Payment & Send Receipt</span>
+                          </button>
+                          <button
+                            onClick={() => resendReceipt(order.id)}
+                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium flex items-center space-x-2"
+                          >
+                            <span>📧 Resend Receipt</span>
+                          </button>
+                        </div>
+                        <p className="text-yellow-700 text-xs mt-2">
+                          Click "Confirm Payment" to send a receipt email to <strong>{order.customerEmail}</strong>
+                        </p>
+                      </div>
+
+                      {/* Order Status Management */}
+                      <div className="flex space-x-2 flex-wrap">
+                        {order.status === 'pending' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'confirmed')}
+                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
+                          >
+                            Confirm Order
+                          </button>
+                        )}
+                        {order.status === 'confirmed' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'picked_up')}
+                            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm"
+                          >
+                            Mark Picked Up
+                          </button>
+                        )}
+                        {order.status === 'picked_up' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'in_transit')}
+                            className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 text-sm"
+                          >
+                            In Transit
+                          </button>
+                        )}
+                        {order.status === 'in_transit' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'delivered')}
+                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
+                          >
+                            Mark Delivered
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
