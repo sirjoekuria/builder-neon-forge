@@ -73,6 +73,8 @@ export function createServer() {
   app.get("/api/admin/orders", getOrders);
   app.patch("/api/admin/orders/:id", updateOrderStatus);
   app.patch("/api/admin/orders/:id/assign-rider", assignRiderToOrder);
+  app.post("/api/admin/orders/:id/confirm-payment", confirmPaymentAndSendReceipt);
+  app.post("/api/admin/orders/:id/resend-receipt", resendReceipt);
 
   // Payment routes
   app.post("/api/payments/create-paypal-order", createPayPalOrder);
