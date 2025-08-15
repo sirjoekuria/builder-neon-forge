@@ -11,7 +11,9 @@ import {
   trackOrder,
   getOrders,
   updateOrderStatus,
-  assignRiderToOrder
+  assignRiderToOrder,
+  confirmPaymentAndSendReceipt,
+  resendReceipt
 } from "./routes/orders";
 import {
   createPayPalOrder,
