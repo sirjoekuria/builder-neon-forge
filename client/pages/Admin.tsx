@@ -482,12 +482,21 @@ export default function Admin() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+
         // Update local state
         setOrders(orders.map(order =>
           order.id === orderId
             ? { ...order, status: newStatus }
             : order
         ));
+
+        // Show success message with email confirmation
+        if (newStatus === 'confirmed' && result.emailSent) {
+          const order = orders.find(o => o.id === orderId);
+          alert(`✅ Order confirmed successfully!\n📧 Receipt email sent to: ${order?.customerEmail}\n\nCustomer will receive their delivery confirmation and receipt.`);
+        }
+
         // Refresh orders to get latest data
         await fetchOrders();
       } else {
