@@ -331,3 +331,118 @@ export const assignRiderToOrder: RequestHandler = (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// POST /api/admin/orders/:id/confirm-payment - Manually confirm payment and send receipt
+export const confirmPaymentAndSendReceipt: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const orderIndex = orders.findIndex(order => order.id === id);
+    if (orderIndex === -1) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const order = orders[orderIndex];
+    const now = new Date().toISOString();
+
+    // Update payment status and add timestamp
+    order.paymentConfirmed = true;
+    order.paymentConfirmedAt = now;
+    order.updatedAt = now;
+
+    // If order is still pending, update to confirmed
+    if (order.currentStatus === 'pending') {
+      order.currentStatus = 'confirmed';
+      order.statusHistory.push({
+        status: 'confirmed',
+        timestamp: now,
+        description: 'Payment confirmed and order confirmed by admin'
+      });
+    }
+
+    // Add payment confirmation to status history
+    order.statusHistory.push({
+      status: 'payment_confirmed',
+      timestamp: now,
+      description: 'Payment confirmed by admin - Receipt sent to customer'
+    });
+
+    try {
+      // Send receipt email
+      const emailSent = await sendOrderReceipt(order);
+      if (emailSent) {
+        console.log(`Payment confirmation receipt sent to ${order.customerEmail}`);
+        // Notify admin
+        await sendAdminNotification(order);
+
+        res.json({
+          success: true,
+          message: 'Payment confirmed and receipt sent successfully',
+          order,
+          emailSent: true
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Payment confirmed but failed to send receipt email',
+          order,
+          emailSent: false
+        });
+      }
+    } catch (emailError) {
+      console.error('Error sending payment confirmation email:', emailError);
+      res.status(500).json({
+        success: false,
+        error: 'Payment confirmed but email sending failed',
+        order,
+        emailSent: false,
+        emailError: emailError.message
+      });
+    }
+  } catch (error) {
+    console.error('Error confirming payment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// POST /api/admin/orders/:id/resend-receipt - Resend receipt email
+export const resendReceipt: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = orders.find(order => order.id === id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    try {
+      const emailSent = await sendOrderReceipt(order);
+      if (emailSent) {
+        console.log(`Receipt resent to ${order.customerEmail}`);
+
+        res.json({
+          success: true,
+          message: 'Receipt resent successfully',
+          emailSent: true,
+          customerEmail: order.customerEmail
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          error: 'Failed to resend receipt email',
+          emailSent: false
+        });
+      }
+    } catch (emailError) {
+      console.error('Error resending receipt:', emailError);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to resend receipt',
+        emailError: emailError.message
+      });
+    }
+  } catch (error) {
+    console.error('Error resending receipt:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
