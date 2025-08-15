@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
 // Email configuration
 const SMTP_CONFIG = {
@@ -12,7 +12,7 @@ const SMTP_CONFIG = {
 };
 
 // Create transporter
-const transporter = nodemailer.createTransporter(SMTP_CONFIG);
+const transporter = nodemailer.createTransport(SMTP_CONFIG);
 
 // Email receipt template
 const generateReceiptHTML = (order: any) => {
@@ -64,7 +64,7 @@ const generateReceiptHTML = (order: any) => {
     </head>
     <body>
       <div class="header">
-        <div class="logo">🏍��� ROCS CREW</div>
+        <div class="logo">🏍️ ROCS CREW</div>
         <div class="tagline">Fast, Reliable Motorcycle Delivery Service</div>
       </div>
 
