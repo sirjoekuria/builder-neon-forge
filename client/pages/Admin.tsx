@@ -514,12 +514,19 @@ export default function Admin() {
         },
       });
 
-      const result = await response.json();
+      // Check if response is ok first, then parse JSON
+      if (response.ok) {
+        const result = await response.json();
 
-      if (response.ok && result.success) {
-        alert(`✅ Receipt Resent Successfully!\n\n📧 Email sent to: ${result.customerEmail}\n📋 Order ID: ${orderId}\n\nThe customer will receive their receipt shortly.`);
+        if (result.success) {
+          alert(`✅ Receipt Resent Successfully!\n\n📧 Email sent to: ${result.customerEmail}\n📋 Order ID: ${orderId}\n\nThe customer will receive their receipt shortly.`);
+        } else {
+          alert(`❌ Failed to resend receipt:\n${result.error || 'Unknown error'}\n\nPlease try again or check email settings.`);
+        }
       } else {
-        alert(`❌ Failed to resend receipt:\n${result.error || 'Unknown error'}\n\nPlease try again or check email settings.`);
+        // Handle error response
+        const errorResult = await response.json().catch(() => ({ error: 'Unknown server error' }));
+        alert(`❌ Failed to resend receipt:\n${errorResult.error || 'Server error'}\n\nPlease try again or check email settings.`);
       }
     } catch (error) {
       console.error('Error resending receipt:', error);
