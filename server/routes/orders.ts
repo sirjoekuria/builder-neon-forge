@@ -249,10 +249,28 @@ export const updateOrderStatus: RequestHandler = (req, res) => {
       order.riderPhone = randomRider.phone;
     }
 
+    // Send email receipt when order is confirmed
+    if (status === 'confirmed') {
+      try {
+        const emailSent = await sendOrderReceipt(order);
+        if (emailSent) {
+          console.log(`Receipt email sent successfully to ${order.customerEmail}`);
+          // Also notify admin
+          await sendAdminNotification(order);
+        } else {
+          console.log(`Failed to send receipt email to ${order.customerEmail}`);
+        }
+      } catch (emailError) {
+        console.error('Error sending confirmation email:', emailError);
+        // Continue with the response even if email fails
+      }
+    }
+
     res.json({
       success: true,
       message: 'Order status updated successfully',
-      order
+      order,
+      emailSent: status === 'confirmed' ? true : undefined
     });
   } catch (error) {
     console.error('Error updating order status:', error);
