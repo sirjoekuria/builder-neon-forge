@@ -470,6 +470,56 @@ export default function Admin() {
     }
   };
 
+  // Payment confirmation function
+  const confirmPaymentAndSendReceipt = async (orderId: string) => {
+    try {
+      const response = await fetch(`/api/admin/orders/${orderId}/confirm-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        const order = orders.find(o => o.id === orderId);
+        alert(`✅ Payment Confirmed Successfully!\n\n📧 Receipt sent to: ${order?.customerEmail}\n💰 Order ID: ${orderId}\n\nCustomer has been notified via email with their receipt.`);
+
+        // Refresh orders to get latest data
+        await fetchOrders();
+      } else {
+        alert(`❌ Payment confirmation failed:\n${result.error || 'Unknown error'}\n\nPlease try again or contact support.`);
+      }
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      alert('❌ Error confirming payment. Please check your connection and try again.');
+    }
+  };
+
+  // Resend receipt function
+  const resendReceipt = async (orderId: string) => {
+    try {
+      const response = await fetch(`/api/admin/orders/${orderId}/resend-receipt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        alert(`✅ Receipt Resent Successfully!\n\n📧 Email sent to: ${result.customerEmail}\n📋 Order ID: ${orderId}\n\nThe customer will receive their receipt shortly.`);
+      } else {
+        alert(`❌ Failed to resend receipt:\n${result.error || 'Unknown error'}\n\nPlease try again or check email settings.`);
+      }
+    } catch (error) {
+      console.error('Error resending receipt:', error);
+      alert('❌ Error resending receipt. Please check your connection and try again.');
+    }
+  };
+
   // Order management functions
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
