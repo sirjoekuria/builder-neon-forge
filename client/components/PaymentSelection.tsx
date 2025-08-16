@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { CreditCard, Banknote, Shield, ArrowRight } from 'lucide-react';
+import { CreditCard, Banknote, Shield, ArrowRight, Smartphone } from 'lucide-react';
 import PayPalPayment from './PayPalPayment';
 import CashOnDelivery from './CashOnDelivery';
+import MpesaPayment from './MpesaPayment';
+import MpesaManual from './MpesaManual';
 
 interface PaymentSelectionProps {
   amount: number;
