@@ -1,9 +1,15 @@
-import { useState } from 'react';
-import { CreditCard, Banknote, Shield, ArrowRight, Smartphone } from 'lucide-react';
-import PayPalPayment from './PayPalPayment';
-import CashOnDelivery from './CashOnDelivery';
-import MpesaPayment from './MpesaPayment';
-import MpesaManual from './MpesaManual';
+import { useState } from "react";
+import {
+  CreditCard,
+  Banknote,
+  Shield,
+  ArrowRight,
+  Smartphone,
+} from "lucide-react";
+import PayPalPayment from "./PayPalPayment";
+import CashOnDelivery from "./CashOnDelivery";
+import MpesaPayment from "./MpesaPayment";
+import MpesaManual from "./MpesaManual";
 
 interface PaymentSelectionProps {
   amount: number;
@@ -13,14 +19,14 @@ interface PaymentSelectionProps {
   disabled?: boolean;
 }
 
-type PaymentMethod = 'paypal' | 'mpesa' | 'mpesa-manual' | 'cash' | null;
+type PaymentMethod = "paypal" | "mpesa" | "mpesa-manual" | "cash" | null;
 
-export default function PaymentSelection({ 
-  amount, 
-  currency = "KES", 
-  onPaymentSuccess, 
+export default function PaymentSelection({
+  amount,
+  currency = "KES",
+  onPaymentSuccess,
   onPaymentError,
-  disabled = false 
+  disabled = false,
 }: PaymentSelectionProps) {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -28,42 +34,42 @@ export default function PaymentSelection({
   const handlePayPalSuccess = (details: any) => {
     setIsProcessing(false);
     onPaymentSuccess({
-      method: 'paypal',
+      method: "paypal",
       transactionId: details.id,
-      status: 'completed',
+      status: "completed",
       amount: amount,
       currency: currency,
-      details: details
+      details: details,
     });
   };
 
   const handlePayPalError = (error: any) => {
     setIsProcessing(false);
     onPaymentError({
-      method: 'paypal',
+      method: "paypal",
       error: error,
-      message: 'PayPal payment failed. Please try again.'
+      message: "PayPal payment failed. Please try again.",
     });
   };
 
   const handleMpesaSuccess = (details: any) => {
     setIsProcessing(false);
     onPaymentSuccess({
-      method: 'mpesa',
+      method: "mpesa",
       transactionId: details.transactionId,
       status: details.status,
       amount: amount,
       currency: currency,
-      details: details.details
+      details: details.details,
     });
   };
 
   const handleMpesaError = (error: any) => {
     setIsProcessing(false);
     onPaymentError({
-      method: 'mpesa',
+      method: "mpesa",
       error: error,
-      message: 'M-Pesa payment failed. Please try again.'
+      message: "M-Pesa payment failed. Please try again.",
     });
   };
 
@@ -73,16 +79,16 @@ export default function PaymentSelection({
     setTimeout(() => {
       setIsProcessing(false);
       onPaymentSuccess({
-        method: 'mpesa-manual',
+        method: "mpesa-manual",
         transactionId: `MT-${Date.now()}`,
-        status: 'pending_verification',
+        status: "pending_verification",
         amount: amount,
         currency: currency,
         details: {
-          paymentMethod: 'M-Pesa Till Payment',
-          tillNumber: '5056903',
-          note: 'Payment made via M-Pesa Till - Awaiting verification'
-        }
+          paymentMethod: "M-Pesa Till Payment",
+          tillNumber: "5056903",
+          note: "Payment made via M-Pesa Till - Awaiting verification",
+        },
       });
     }, 1000);
   };
@@ -93,29 +99,33 @@ export default function PaymentSelection({
     setTimeout(() => {
       setIsProcessing(false);
       onPaymentSuccess({
-        method: 'cash',
+        method: "cash",
         transactionId: `COD-${Date.now()}`,
-        status: 'pending',
+        status: "pending",
         amount: amount,
         currency: currency,
         details: {
-          paymentMethod: 'Cash on Delivery',
-          note: 'Payment will be collected upon delivery'
-        }
+          paymentMethod: "Cash on Delivery",
+          note: "Payment will be collected upon delivery",
+        },
       });
     }, 1000);
   };
 
   // Convert KES to USD for PayPal (approximate conversion)
-  const paypalAmount = currency === 'KES' ? amount / 130 : amount; // Rough KES to USD conversion
-  const paypalCurrency = currency === 'KES' ? 'USD' : currency;
+  const paypalAmount = currency === "KES" ? amount / 130 : amount; // Rough KES to USD conversion
+  const paypalCurrency = currency === "KES" ? "USD" : currency;
 
   if (disabled) {
     return (
       <div className="bg-gray-100 border border-gray-300 rounded-lg p-8 text-center">
         <Shield className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-        <h3 className="text-lg font-semibold text-gray-500 mb-2">Payment Options</h3>
-        <p className="text-gray-400">Complete your order details to see payment options</p>
+        <h3 className="text-lg font-semibold text-gray-500 mb-2">
+          Payment Options
+        </h3>
+        <p className="text-gray-400">
+          Complete your order details to see payment options
+        </p>
       </div>
     );
   }
@@ -126,8 +136,12 @@ export default function PaymentSelection({
       {!selectedMethod && (
         <div>
           <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold text-rocs-green mb-2">Choose Payment Method</h3>
-            <p className="text-gray-600">Select how you'd like to pay for your delivery</p>
+            <h3 className="text-2xl font-bold text-rocs-green mb-2">
+              Choose Payment Method
+            </h3>
+            <p className="text-gray-600">
+              Select how you'd like to pay for your delivery
+            </p>
             <div className="text-xl font-semibold text-gray-800 mt-4">
               Total: {currency} {amount.toLocaleString()}
             </div>
@@ -136,14 +150,16 @@ export default function PaymentSelection({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* M-Pesa STK Push Option */}
             <div
-              onClick={() => setSelectedMethod('mpesa')}
+              onClick={() => setSelectedMethod("mpesa")}
               className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <Smartphone className="w-6 h-6 text-white" />
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">M-Pesa STK</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">
+                  M-Pesa STK
+                </h4>
                 <p className="text-gray-600 mb-3 text-sm">Pay via STK Push</p>
                 <div className="space-y-1 text-xs text-gray-600">
                   <div className="flex items-center justify-center space-x-1">
@@ -167,14 +183,16 @@ export default function PaymentSelection({
 
             {/* M-Pesa Manual Till Option */}
             <div
-              onClick={() => setSelectedMethod('mpesa-manual')}
+              onClick={() => setSelectedMethod("mpesa-manual")}
               className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-green-500 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <span className="text-white font-bold text-sm">Till</span>
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">Lipa na M-Pesa</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">
+                  Lipa na M-Pesa
+                </h4>
                 <p className="text-gray-600 mb-3 text-sm">Till No: 5056903</p>
                 <div className="space-y-1 text-xs text-gray-600">
                   <div className="flex items-center justify-center space-x-1">
@@ -198,7 +216,7 @@ export default function PaymentSelection({
 
             {/* PayPal Option */}
             <div
-              onClick={() => setSelectedMethod('paypal')}
+              onClick={() => setSelectedMethod("paypal")}
               className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
@@ -206,7 +224,9 @@ export default function PaymentSelection({
                   <CreditCard className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-800 mb-2">PayPal</h4>
-                <p className="text-gray-600 mb-3 text-sm">International cards</p>
+                <p className="text-gray-600 mb-3 text-sm">
+                  International cards
+                </p>
                 <div className="space-y-1 text-xs text-gray-600">
                   <div className="flex items-center justify-center space-x-1">
                     <span>✓</span>
@@ -229,14 +249,16 @@ export default function PaymentSelection({
 
             {/* Cash on Delivery Option */}
             <div
-              onClick={() => setSelectedMethod('cash')}
+              onClick={() => setSelectedMethod("cash")}
               className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-rocs-green hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-rocs-green rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <Banknote className="w-6 h-6 text-white" />
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">Cash on Delivery</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">
+                  Cash on Delivery
+                </h4>
                 <p className="text-gray-600 mb-3 text-sm">Pay when delivered</p>
                 <div className="space-y-1 text-xs text-gray-600">
                   <div className="flex items-center justify-center space-x-1">
@@ -266,10 +288,10 @@ export default function PaymentSelection({
         <div>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-rocs-green">
-              {selectedMethod === 'paypal' && 'PayPal Payment'}
-              {selectedMethod === 'mpesa' && 'M-Pesa STK Push'}
-              {selectedMethod === 'mpesa-manual' && 'Lipa na M-Pesa'}
-              {selectedMethod === 'cash' && 'Cash on Delivery'}
+              {selectedMethod === "paypal" && "PayPal Payment"}
+              {selectedMethod === "mpesa" && "M-Pesa STK Push"}
+              {selectedMethod === "mpesa-manual" && "Lipa na M-Pesa"}
+              {selectedMethod === "cash" && "Cash on Delivery"}
             </h3>
             <button
               onClick={() => setSelectedMethod(null)}
@@ -280,7 +302,7 @@ export default function PaymentSelection({
             </button>
           </div>
 
-          {selectedMethod === 'mpesa' && (
+          {selectedMethod === "mpesa" && (
             <MpesaPayment
               amount={amount}
               currency={currency}
@@ -291,7 +313,7 @@ export default function PaymentSelection({
             />
           )}
 
-          {selectedMethod === 'mpesa-manual' && (
+          {selectedMethod === "mpesa-manual" && (
             <MpesaManual
               amount={amount}
               currency={currency}
@@ -300,7 +322,7 @@ export default function PaymentSelection({
             />
           )}
 
-          {selectedMethod === 'paypal' && (
+          {selectedMethod === "paypal" && (
             <PayPalPayment
               amount={paypalAmount}
               currency={paypalCurrency}
@@ -311,7 +333,7 @@ export default function PaymentSelection({
             />
           )}
 
-          {selectedMethod === 'cash' && (
+          {selectedMethod === "cash" && (
             <CashOnDelivery
               amount={amount}
               currency={currency}

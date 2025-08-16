@@ -1,5 +1,11 @@
-import { useState } from 'react';
-import { CheckCircle, AlertCircle, Loader, Phone, Smartphone } from 'lucide-react';
+import { useState } from "react";
+import {
+  CheckCircle,
+  AlertCircle,
+  Loader,
+  Phone,
+  Smartphone,
+} from "lucide-react";
 
 interface MpesaPaymentProps {
   amount: number;
@@ -10,31 +16,31 @@ interface MpesaPaymentProps {
   disabled?: boolean;
 }
 
-export default function MpesaPayment({ 
-  amount, 
-  currency = "KES", 
-  onSuccess, 
-  onError, 
+export default function MpesaPayment({
+  amount,
+  currency = "KES",
+  onSuccess,
+  onError,
   onCancel,
-  disabled = false 
+  disabled = false,
 }: MpesaPaymentProps) {
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [step, setStep] = useState<'phone' | 'processing' | 'waiting'>('phone');
+  const [step, setStep] = useState<"phone" | "processing" | "waiting">("phone");
 
   const formatPhoneNumber = (value: string) => {
     // Remove all non-digits
-    const digits = value.replace(/\D/g, '');
-    
+    const digits = value.replace(/\D/g, "");
+
     // Format as Kenyan number
-    if (digits.startsWith('254')) {
+    if (digits.startsWith("254")) {
       return digits.slice(0, 12);
-    } else if (digits.startsWith('0')) {
-      return '254' + digits.slice(1, 10);
-    } else if (digits.startsWith('7') || digits.startsWith('1')) {
-      return '254' + digits.slice(0, 9);
+    } else if (digits.startsWith("0")) {
+      return "254" + digits.slice(1, 10);
+    } else if (digits.startsWith("7") || digits.startsWith("1")) {
+      return "254" + digits.slice(0, 9);
     }
-    
+
     return digits.slice(0, 9);
   };
 
@@ -44,55 +50,54 @@ export default function MpesaPayment({
   };
 
   const isValidPhone = () => {
-    return phoneNumber.length >= 12 && phoneNumber.startsWith('254');
+    return phoneNumber.length >= 12 && phoneNumber.startsWith("254");
   };
 
   const handleMpesaPayment = async () => {
     if (!isValidPhone()) {
       onError({
-        method: 'mpesa',
-        error: 'Invalid phone number',
-        message: 'Please enter a valid Kenyan phone number'
+        method: "mpesa",
+        error: "Invalid phone number",
+        message: "Please enter a valid Kenyan phone number",
       });
       return;
     }
 
     setIsProcessing(true);
-    setStep('processing');
+    setStep("processing");
 
     try {
       // Simulate M-Pesa STK Push API call
       // In production, this would call your M-Pesa integration
       setTimeout(() => {
-        setStep('waiting');
-        
+        setStep("waiting");
+
         // Simulate user checking phone and entering PIN
         setTimeout(() => {
           setIsProcessing(false);
-          
+
           // Simulate successful payment
           onSuccess({
-            method: 'mpesa',
+            method: "mpesa",
             transactionId: `MP${Date.now()}`,
-            status: 'completed',
+            status: "completed",
             amount: amount,
             currency: currency,
             phoneNumber: phoneNumber,
             details: {
-              paymentMethod: 'M-Pesa STK Push',
+              paymentMethod: "M-Pesa STK Push",
               phoneNumber: phoneNumber,
-              transactionCode: `NLJ7RT${Math.random().toString(36).substr(2, 4).toUpperCase()}`
-            }
+              transactionCode: `NLJ7RT${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
+            },
           });
         }, 8000); // 8 seconds to simulate user entering PIN
       }, 2000);
-      
     } catch (error) {
       setIsProcessing(false);
       onError({
-        method: 'mpesa',
+        method: "mpesa",
         error: error,
-        message: 'M-Pesa payment failed. Please try again.'
+        message: "M-Pesa payment failed. Please try again.",
       });
     }
   };
@@ -101,7 +106,9 @@ export default function MpesaPayment({
     return (
       <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 text-center">
         <div className="text-gray-500 mb-2">M-Pesa Payment</div>
-        <div className="text-sm text-gray-400">Complete order details to enable payment</div>
+        <div className="text-sm text-gray-400">
+          Complete order details to enable payment
+        </div>
       </div>
     );
   }
@@ -112,13 +119,15 @@ export default function MpesaPayment({
         <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-4">
           <Smartphone className="w-8 h-8 text-white" />
         </div>
-        <div className="text-lg font-semibold text-gray-800">Pay with M-Pesa</div>
+        <div className="text-lg font-semibold text-gray-800">
+          Pay with M-Pesa
+        </div>
         <div className="text-2xl font-bold text-rocs-green">
           {currency} {amount.toLocaleString()}
         </div>
       </div>
 
-      {step === 'phone' && (
+      {step === "phone" && (
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -147,7 +156,7 @@ export default function MpesaPayment({
             disabled={!isValidPhone() || isProcessing}
             className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            Send STK Push to +{phoneNumber || 'Your Phone'}
+            Send STK Push to +{phoneNumber || "Your Phone"}
           </button>
 
           {onCancel && (
@@ -161,20 +170,26 @@ export default function MpesaPayment({
         </div>
       )}
 
-      {step === 'processing' && (
+      {step === "processing" && (
         <div className="text-center py-8">
           <Loader className="w-8 h-8 animate-spin mx-auto mb-4 text-green-600" />
-          <div className="text-lg font-medium text-gray-800 mb-2">Sending STK Push...</div>
-          <div className="text-gray-600">Please wait while we initiate the payment</div>
+          <div className="text-lg font-medium text-gray-800 mb-2">
+            Sending STK Push...
+          </div>
+          <div className="text-gray-600">
+            Please wait while we initiate the payment
+          </div>
         </div>
       )}
 
-      {step === 'waiting' && (
+      {step === "waiting" && (
         <div className="text-center py-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
             <Smartphone className="w-8 h-8 text-green-600 animate-pulse" />
           </div>
-          <div className="text-lg font-medium text-gray-800 mb-2">Check Your Phone</div>
+          <div className="text-lg font-medium text-gray-800 mb-2">
+            Check Your Phone
+          </div>
           <div className="text-gray-600 mb-4">
             STK Push sent to <strong>+{phoneNumber}</strong>
           </div>
@@ -184,7 +199,8 @@ export default function MpesaPayment({
             </div>
           </div>
           <div className="text-sm text-gray-500">
-            Payment will be processed automatically once you confirm on your phone
+            Payment will be processed automatically once you confirm on your
+            phone
           </div>
         </div>
       )}

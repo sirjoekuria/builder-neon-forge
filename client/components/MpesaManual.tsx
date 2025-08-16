@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { CheckCircle, Copy, Smartphone, ArrowRight, Clock } from 'lucide-react';
+import { useState } from "react";
+import { CheckCircle, Copy, Smartphone, ArrowRight, Clock } from "lucide-react";
 
 interface MpesaManualProps {
   amount: number;
@@ -8,11 +8,11 @@ interface MpesaManualProps {
   disabled?: boolean;
 }
 
-export default function MpesaManual({ 
-  amount, 
-  currency = "KES", 
+export default function MpesaManual({
+  amount,
+  currency = "KES",
   onConfirm,
-  disabled = false 
+  disabled = false,
 }: MpesaManualProps) {
   const [copied, setCopied] = useState(false);
   const tillNumber = "5056903";
@@ -33,7 +33,9 @@ export default function MpesaManual({
         <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-4">
           <Smartphone className="w-8 h-8 text-white" />
         </div>
-        <div className="text-lg font-semibold text-gray-800">Lipa na M-Pesa</div>
+        <div className="text-lg font-semibold text-gray-800">
+          Lipa na M-Pesa
+        </div>
         <div className="text-2xl font-bold text-rocs-green">
           {currency} {amount.toLocaleString()}
         </div>
@@ -45,34 +47,48 @@ export default function MpesaManual({
           <Smartphone className="w-5 h-5 mr-2" />
           M-Pesa Payment Instructions
         </h4>
-        
+
         <div className="space-y-3 text-sm text-green-700">
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              1
+            </span>
             <div>
               <div className="font-medium">Go to M-Pesa Menu</div>
-              <div className="text-green-600">On your phone, dial *334# or use M-Pesa app</div>
+              <div className="text-green-600">
+                On your phone, dial *334# or use M-Pesa app
+              </div>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              2
+            </span>
             <div>
               <div className="font-medium">Select "Lipa na M-Pesa"</div>
-              <div className="text-green-600">Choose option 4 - Lipa na M-Pesa</div>
+              <div className="text-green-600">
+                Choose option 4 - Lipa na M-Pesa
+              </div>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              3
+            </span>
             <div>
               <div className="font-medium">Select "Buy Goods and Services"</div>
-              <div className="text-green-600">Choose option 2 - Buy Goods and Services</div>
+              <div className="text-green-600">
+                Choose option 2 - Buy Goods and Services
+              </div>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              4
+            </span>
             <div>
               <div className="font-medium">Enter Till Number</div>
               <div className="flex items-center space-x-2 mt-1">
@@ -84,25 +100,36 @@ export default function MpesaManual({
                   className="bg-green-600 text-white px-3 py-2 rounded text-xs hover:bg-green-700 transition-colors flex items-center space-x-1"
                 >
                   <Copy className="w-3 h-3" />
-                  <span>{copied ? 'Copied!' : 'Copy'}</span>
+                  <span>{copied ? "Copied!" : "Copy"}</span>
                 </button>
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              5
+            </span>
             <div>
               <div className="font-medium">Enter Amount</div>
-              <div className="text-green-600">Enter <strong>{currency} {amount.toLocaleString()}</strong></div>
+              <div className="text-green-600">
+                Enter{" "}
+                <strong>
+                  {currency} {amount.toLocaleString()}
+                </strong>
+              </div>
             </div>
           </div>
-          
+
           <div className="flex items-start space-x-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              6
+            </span>
             <div>
               <div className="font-medium">Enter Your M-Pesa PIN</div>
-              <div className="text-green-600">Complete the transaction with your PIN</div>
+              <div className="text-green-600">
+                Complete the transaction with your PIN
+              </div>
             </div>
           </div>
         </div>
@@ -111,9 +138,15 @@ export default function MpesaManual({
       {/* Till Number Highlight */}
       <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white mb-6">
         <div className="text-center">
-          <div className="text-lg font-semibold mb-2">🏪 Rocs Crew Till Number</div>
-          <div className="text-3xl font-bold mb-2 tracking-wider">{tillNumber}</div>
-          <div className="text-green-100 text-sm">Copy this number to your M-Pesa</div>
+          <div className="text-lg font-semibold mb-2">
+            🏪 Rocs Crew Till Number
+          </div>
+          <div className="text-3xl font-bold mb-2 tracking-wider">
+            {tillNumber}
+          </div>
+          <div className="text-green-100 text-sm">
+            Copy this number to your M-Pesa
+          </div>
         </div>
       </div>
 
