@@ -46,6 +46,47 @@ export default function PaymentSelection({
     });
   };
 
+  const handleMpesaSuccess = (details: any) => {
+    setIsProcessing(false);
+    onPaymentSuccess({
+      method: 'mpesa',
+      transactionId: details.transactionId,
+      status: details.status,
+      amount: amount,
+      currency: currency,
+      details: details.details
+    });
+  };
+
+  const handleMpesaError = (error: any) => {
+    setIsProcessing(false);
+    onPaymentError({
+      method: 'mpesa',
+      error: error,
+      message: 'M-Pesa payment failed. Please try again.'
+    });
+  };
+
+  const handleMpesaManualConfirm = () => {
+    setIsProcessing(true);
+    // Simulate confirmation process
+    setTimeout(() => {
+      setIsProcessing(false);
+      onPaymentSuccess({
+        method: 'mpesa-manual',
+        transactionId: `MT-${Date.now()}`,
+        status: 'pending_verification',
+        amount: amount,
+        currency: currency,
+        details: {
+          paymentMethod: 'M-Pesa Till Payment',
+          tillNumber: '5056903',
+          note: 'Payment made via M-Pesa Till - Awaiting verification'
+        }
+      });
+    }, 1000);
+  };
+
   const handleCashConfirm = () => {
     setIsProcessing(true);
     // Simulate confirmation process
