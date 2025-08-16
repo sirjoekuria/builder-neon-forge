@@ -134,37 +134,95 @@ export default function PaymentSelection({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* PayPal Option */}
-            <div 
-              onClick={() => setSelectedMethod('paypal')}
-              className="border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
+            {/* M-Pesa STK Push Option */}
+            <div
+              onClick={() => setSelectedMethod('mpesa')}
+              className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                  <CreditCard className="w-8 h-8 text-white" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                  <Smartphone className="w-6 h-6 text-white" />
                 </div>
-                <h4 className="text-xl font-bold text-gray-800 mb-2">PayPal</h4>
-                <p className="text-gray-600 mb-4">Pay securely with PayPal</p>
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center justify-center space-x-2">
+                <h4 className="text-lg font-bold text-gray-800 mb-2">M-Pesa STK</h4>
+                <p className="text-gray-600 mb-3 text-sm">Pay via STK Push</p>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div className="flex items-center justify-center space-x-1">
                     <span>✓</span>
-                    <span>Instant payment confirmation</span>
+                    <span>Instant payment</span>
                   </div>
-                  <div className="flex items-center justify-center space-x-2">
+                  <div className="flex items-center justify-center space-x-1">
+                    <span>✓</span>
+                    <span>No till number needed</span>
+                  </div>
+                </div>
+                <div className="mt-3 text-green-600 font-medium text-sm">
+                  Pay {currency} {amount.toLocaleString()}
+                </div>
+                <div className="mt-2 flex items-center justify-center text-rocs-green font-medium text-sm">
+                  <span>Select M-Pesa</span>
+                  <ArrowRight className="w-3 h-3 ml-1" />
+                </div>
+              </div>
+            </div>
+
+            {/* M-Pesa Manual Till Option */}
+            <div
+              onClick={() => setSelectedMethod('mpesa-manual')}
+              className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-green-500 hover:shadow-lg transition-all duration-300 group"
+            >
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-green-500 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                  <span className="text-white font-bold text-sm">Till</span>
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">Lipa na M-Pesa</h4>
+                <p className="text-gray-600 mb-3 text-sm">Till No: 5056903</p>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div className="flex items-center justify-center space-x-1">
+                    <span>✓</span>
+                    <span>Pay from any phone</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-1">
+                    <span>✓</span>
+                    <span>Step-by-step guide</span>
+                  </div>
+                </div>
+                <div className="mt-3 text-green-600 font-medium text-sm">
+                  Pay {currency} {amount.toLocaleString()}
+                </div>
+                <div className="mt-2 flex items-center justify-center text-rocs-green font-medium text-sm">
+                  <span>Select Till Payment</span>
+                  <ArrowRight className="w-3 h-3 ml-1" />
+                </div>
+              </div>
+            </div>
+
+            {/* PayPal Option */}
+            <div
+              onClick={() => setSelectedMethod('paypal')}
+              className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
+            >
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                  <CreditCard className="w-6 h-6 text-white" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">PayPal</h4>
+                <p className="text-gray-600 mb-3 text-sm">International cards</p>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div className="flex items-center justify-center space-x-1">
+                    <span>✓</span>
+                    <span>Instant confirmation</span>
+                  </div>
+                  <div className="flex items-center justify-center space-x-1">
                     <span>✓</span>
                     <span>Secure & encrypted</span>
                   </div>
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>✓</span>
-                    <span>International payment support</span>
-                  </div>
                 </div>
-                <div className="mt-4 text-blue-600 font-medium">
+                <div className="mt-3 text-blue-600 font-medium text-sm">
                   Pay ~${paypalAmount.toFixed(2)} USD
                 </div>
-                <div className="mt-4 flex items-center justify-center text-rocs-green font-medium">
+                <div className="mt-2 flex items-center justify-center text-rocs-green font-medium text-sm">
                   <span>Select PayPal</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="w-3 h-3 ml-1" />
                 </div>
               </div>
             </div>
