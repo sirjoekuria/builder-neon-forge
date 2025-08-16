@@ -280,6 +280,26 @@ export default function PaymentSelection({
             </button>
           </div>
 
+          {selectedMethod === 'mpesa' && (
+            <MpesaPayment
+              amount={amount}
+              currency={currency}
+              onSuccess={handleMpesaSuccess}
+              onError={handleMpesaError}
+              onCancel={() => setSelectedMethod(null)}
+              disabled={isProcessing}
+            />
+          )}
+
+          {selectedMethod === 'mpesa-manual' && (
+            <MpesaManual
+              amount={amount}
+              currency={currency}
+              onConfirm={handleMpesaManualConfirm}
+              disabled={isProcessing}
+            />
+          )}
+
           {selectedMethod === 'paypal' && (
             <PayPalPayment
               amount={paypalAmount}
