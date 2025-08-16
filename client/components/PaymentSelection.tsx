@@ -266,7 +266,10 @@ export default function PaymentSelection({
         <div>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-rocs-green">
-              {selectedMethod === 'paypal' ? 'PayPal Payment' : 'Cash on Delivery'}
+              {selectedMethod === 'paypal' && 'PayPal Payment'}
+              {selectedMethod === 'mpesa' && 'M-Pesa STK Push'}
+              {selectedMethod === 'mpesa-manual' && 'Lipa na M-Pesa'}
+              {selectedMethod === 'cash' && 'Cash on Delivery'}
             </h3>
             <button
               onClick={() => setSelectedMethod(null)}
