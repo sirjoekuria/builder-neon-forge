@@ -13,7 +13,7 @@ interface PaymentSelectionProps {
   disabled?: boolean;
 }
 
-type PaymentMethod = 'paypal' | 'cash' | null;
+type PaymentMethod = 'paypal' | 'mpesa' | 'mpesa-manual' | 'cash' | null;
 
 export default function PaymentSelection({ 
   amount, 
