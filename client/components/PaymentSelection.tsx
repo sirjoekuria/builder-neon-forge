@@ -228,36 +228,32 @@ export default function PaymentSelection({
             </div>
 
             {/* Cash on Delivery Option */}
-            <div 
+            <div
               onClick={() => setSelectedMethod('cash')}
-              className="border-2 border-gray-200 rounded-xl p-6 cursor-pointer hover:border-rocs-green hover:shadow-lg transition-all duration-300 group"
+              className="border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-rocs-green hover:shadow-lg transition-all duration-300 group"
             >
               <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-rocs-green rounded-full mb-4 group-hover:scale-110 transition-transform">
-                  <Banknote className="w-8 h-8 text-white" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-rocs-green rounded-full mb-3 group-hover:scale-110 transition-transform">
+                  <Banknote className="w-6 h-6 text-white" />
                 </div>
-                <h4 className="text-xl font-bold text-gray-800 mb-2">Cash on Delivery</h4>
-                <p className="text-gray-600 mb-4">Pay when you receive your package</p>
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center justify-center space-x-2">
+                <h4 className="text-lg font-bold text-gray-800 mb-2">Cash on Delivery</h4>
+                <p className="text-gray-600 mb-3 text-sm">Pay when delivered</p>
+                <div className="space-y-1 text-xs text-gray-600">
+                  <div className="flex items-center justify-center space-x-1">
                     <span>✓</span>
-                    <span>No advance payment required</span>
+                    <span>No advance payment</span>
                   </div>
-                  <div className="flex items-center justify-center space-x-2">
+                  <div className="flex items-center justify-center space-x-1">
                     <span>✓</span>
-                    <span>Pay in cash or M-Pesa</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-2">
-                    <span>✓</span>
-                    <span>Preferred by local customers</span>
+                    <span>Pay cash or M-Pesa</span>
                   </div>
                 </div>
-                <div className="mt-4 text-rocs-green font-medium">
+                <div className="mt-3 text-rocs-green font-medium text-sm">
                   Pay {currency} {amount.toLocaleString()} on delivery
                 </div>
-                <div className="mt-4 flex items-center justify-center text-rocs-green font-medium">
-                  <span>Select Cash on Delivery</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <div className="mt-2 flex items-center justify-center text-rocs-green font-medium text-sm">
+                  <span>Select Cash</span>
+                  <ArrowRight className="w-3 h-3 ml-1" />
                 </div>
               </div>
             </div>
