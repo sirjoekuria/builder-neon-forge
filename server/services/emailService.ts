@@ -322,18 +322,50 @@ const generateRiderEarningsHTML = (rider: any, earning: any) => {
           </div>
         </div>
 
+        <div class="trip-breakdown">
+          <div class="trip-header">🚛 TRIP PAYMENT BREAKDOWN</div>
+
+          <div class="earnings-row" style="font-size: 18px; font-weight: bold; background: #e0f2fe; padding: 12px; border-radius: 6px; border: 1px solid #0284c7;">
+            <span>💵 Total Trip Amount Paid by Customer:</span>
+            <span style="color: #0284c7;">KES ${earning.amount.toFixed(2)}</span>
+          </div>
+
+          <div class="commission-deduction">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>🏢 Company Deduction (20% Commission):</span>
+              <span style="font-size: 18px;">- KES ${earning.commission.toFixed(2)}</span>
+            </div>
+            <div style="font-size: 12px; margin-top: 5px; opacity: 0.8;">
+              This covers platform costs, support, insurance & marketing
+            </div>
+          </div>
+
+          <div class="earnings-total">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>💰 YOUR NET PAY (80%):</span>
+              <span style="font-size: 24px; color: #10b981;">KES ${earning.riderEarning.toFixed(2)}</span>
+            </div>
+            <div style="font-size: 14px; margin-top: 8px; text-align: center; opacity: 0.9;">
+              ✅ This amount has been added to your account balance
+            </div>
+          </div>
+        </div>
+
         <div class="earnings-summary">
+          <div style="text-align: center; margin-bottom: 15px; font-weight: bold; color: #10b981; font-size: 16px;">
+            📊 PAYMENT CALCULATION SUMMARY
+          </div>
           <div class="earnings-row">
-            <span>💵 Order Amount:</span>
+            <span>Customer Paid:</span>
             <span>KES ${earning.amount.toFixed(2)}</span>
           </div>
-          <div class="earnings-row">
-            <span>🏢 Company Commission (20%):</span>
-            <span>KES ${earning.commission.toFixed(2)}</span>
+          <div class="earnings-row" style="color: #dc2626;">
+            <span>Company Commission (20%):</span>
+            <span>- KES ${earning.commission.toFixed(2)}</span>
           </div>
-          <div class="earnings-row earnings-total">
-            <span>💰 Your Earnings (80%):</span>
-            <span>KES ${earning.riderEarning.toFixed(2)}</span>
+          <div class="earnings-row" style="border-top: 1px solid #10b981; padding-top: 8px; margin-top: 8px;">
+            <span style="font-weight: bold;">Net Amount to Rider (80%):</span>
+            <span style="font-weight: bold; color: #10b981;">KES ${earning.riderEarning.toFixed(2)}</span>
           </div>
         </div>
 
