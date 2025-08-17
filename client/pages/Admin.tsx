@@ -335,11 +335,15 @@ export default function Admin() {
     }
   }, [isAuthenticated]);
 
-  // Auto-refresh every 30 seconds when on orders tab
+  // Auto-refresh every 30 seconds when on orders or rider-earnings tab
   useEffect(() => {
-    if (isAuthenticated && activeTab === 'orders') {
+    if (isAuthenticated && (activeTab === 'orders' || activeTab === 'rider-earnings')) {
       const interval = setInterval(() => {
-        fetchOrders();
+        if (activeTab === 'orders') {
+          fetchOrders();
+        } else if (activeTab === 'rider-earnings') {
+          fetchRiders();
+        }
       }, 30000);
       return () => clearInterval(interval);
     }
