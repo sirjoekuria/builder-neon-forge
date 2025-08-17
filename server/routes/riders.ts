@@ -50,7 +50,12 @@ const sampleRiders = [
     rating: 4.9,
     totalDeliveries: 203,
     joinedAt: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
-    isActive: true
+    isActive: true,
+    currentBalance: 8960, // KES
+    totalEarnings: 32480, // KES
+    totalWithdrawn: 23520, // KES
+    lastWithdrawal: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    earnings: []
   },
   {
     id: 'RD-003',
