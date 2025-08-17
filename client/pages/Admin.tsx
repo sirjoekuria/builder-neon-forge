@@ -199,6 +199,13 @@ export default function Admin() {
   const [availableRiders, setAvailableRiders] = useState<any[]>([]);
   const [partnershipRequests, setPartnershipRequests] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Rider earnings state
+  const [riderEarnings, setRiderEarnings] = useState<any[]>([]);
+  const [selectedRiderForEarnings, setSelectedRiderForEarnings] = useState<string | null>(null);
+  const [paymentAmount, setPaymentAmount] = useState<string>('');
+  const [paymentMethod, setPaymentMethod] = useState<string>('mpesa');
+  const [paymentNotes, setPaymentNotes] = useState<string>('');
   const [assigningRider, setAssigningRider] = useState<string | null>(null);
   
   // UI states
