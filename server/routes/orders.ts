@@ -239,14 +239,16 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
     // Assign rider info when confirmed
     if (status === 'confirmed' && !order.riderName) {
       const riders = [
-        { name: 'Peter Kimani', phone: '+254 700 123 456' },
-        { name: 'James Mwangi', phone: '+254 701 987 654' },
-        { name: 'David Ochieng', phone: '+254 702 456 789' },
-        { name: 'Samuel Kiprotich', phone: '+254 703 654 321' }
+        { id: 'RD-001', name: 'Peter Kimani', phone: '+254 700 123 456', email: 'peter.kimani@example.com' },
+        { id: 'RD-002', name: 'James Mwangi', phone: '+254 701 987 654', email: 'james.mwangi@example.com' },
+        { id: 'RD-003', name: 'David Ochieng', phone: '+254 702 456 789', email: 'david.ochieng@example.com' },
+        { id: 'RD-004', name: 'Samuel Kiprotich', phone: '+254 703 654 321', email: 'samuel.kiprotich@example.com' }
       ];
       const randomRider = riders[Math.floor(Math.random() * riders.length)];
+      order.riderId = randomRider.id;
       order.riderName = randomRider.name;
       order.riderPhone = randomRider.phone;
+      order.riderEmail = randomRider.email;
     }
 
     // Send email receipt when order is confirmed
