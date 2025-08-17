@@ -275,35 +275,57 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
         console.log(`Order ${order.id} delivered - Processing rider earnings for ${order.riderName}`);
         console.log(`Order amount: KES ${order.cost}, Rider will earn: KES ${(order.cost * 0.8).toFixed(2)} (80%)`);
 
-        // Calculate earnings
-        const riderEarning = order.cost * 0.8;
-        const commission = order.cost * 0.2;
+        // Find rider and add earning
+        let rider = null;
+        if (order.riderId) {
+          // Try to find by ID first
+          rider = findRiderByName(order.riderName); // Using findRiderByName for now since we have the full mapping
+        } else {
+          // Fallback to finding by name
+          rider = findRiderByName(order.riderName);
+        }
 
-        console.log(`✅ Rider earning recorded - Company: KES ${commission.toFixed(2)} (20%), Rider: KES ${riderEarning.toFixed(2)} (80%)`);
-        console.log(`📝 Note: Rider earnings will be updated when admin processes the delivery in the Rider Earnings tab`);
+        if (rider) {
+          const earningResult = addEarningToRider(rider.id, {
+            orderId: order.id,
+            orderAmount: order.cost,
+            deliveryDate: now
+          });
 
-        // Send earnings notification email to rider if we have email
-        if (order.riderEmail) {
-          try {
-            const earningData = {
-              riderId: order.riderId || 'UNKNOWN',
-              riderName: order.riderName,
-              riderEmail: order.riderEmail,
-              orderId: order.id,
-              orderAmount: order.cost,
-              riderEarning,
-              commission,
-              deliveryDate: now,
-              customerName: order.customerName,
-              pickupLocation: order.pickup,
-              deliveryLocation: order.delivery
-            };
+          if (earningResult.success) {
+            console.log(`✅ Rider earning processed successfully:`, earningResult);
 
-            await sendRiderEarningsReceipt(earningData);
-            console.log(`📧 Delivery completion notification sent to rider ${order.riderName}`);
-          } catch (emailError) {
-            console.error('Error sending rider notification:', emailError);
+            // Send earnings receipt email to rider
+            try {
+              const riderEarning = order.cost * 0.8;
+              const commission = order.cost * 0.2;
+
+              const earningData = {
+                riderId: rider.id,
+                riderName: rider.fullName,
+                riderEmail: rider.email,
+                orderId: order.id,
+                orderAmount: order.cost,
+                riderEarning,
+                commission,
+                newBalance: earningResult.newBalance,
+                totalEarnings: earningResult.totalEarnings,
+                deliveryDate: now,
+                customerName: order.customerName,
+                pickupLocation: order.pickup,
+                deliveryLocation: order.delivery
+              };
+
+              await sendRiderEarningsReceipt(earningData);
+              console.log(`📧 Earnings receipt sent to rider ${rider.fullName}`);
+            } catch (emailError) {
+              console.error('Error sending earnings receipt:', emailError);
+            }
+          } else {
+            console.error('Failed to add rider earning:', earningResult.error);
           }
+        } else {
+          console.log(`⚠️ Rider ${order.riderName} not found in system - earnings will need to be manually processed`);
         }
       } catch (error) {
         console.error('Error processing rider earnings:', error);
