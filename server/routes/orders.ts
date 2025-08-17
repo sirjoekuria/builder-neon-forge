@@ -296,6 +296,27 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
           if (earningResult.success) {
             console.log(`✅ Rider earning processed successfully:`, earningResult);
 
+            // Log rider activity for delivery completion with earnings
+            logRiderActivity({
+              riderId: rider.id,
+              riderName: rider.fullName,
+              type: 'delivery_completed',
+              orderId: order.id,
+              description: `Successfully delivered order ${order.id} to ${order.delivery}`,
+              amount: order.cost,
+              commission: order.cost * 0.2,
+              netEarning: order.cost * 0.8,
+              location: order.delivery,
+              metadata: {
+                customerName: order.customerName,
+                customerPhone: order.customerPhone,
+                pickupLocation: order.pickup,
+                deliveryLocation: order.delivery,
+                balanceChange: order.cost * 0.8,
+                newBalance: earningResult.newBalance
+              }
+            });
+
             // Send earnings receipt email to rider
             try {
               const riderEarning = order.cost * 0.8;
