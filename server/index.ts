@@ -30,7 +30,10 @@ import {
   updateRiderStatus,
   toggleRiderActive,
   getAvailableRiders,
-  deleteRider
+  deleteRider,
+  getRiderEarnings,
+  addRiderEarning,
+  processRiderPayment
 } from "./routes/riders";
 import {
   userSignup,
