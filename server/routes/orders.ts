@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { sendOrderReceipt, sendAdminNotification, sendRiderEarningsReceipt } from "../services/emailService";
+import { addRiderEarning } from "./riders";
 
 // In-memory storage for orders (in production, use a proper database)
 let orders: any[] = [];
