@@ -124,5 +124,14 @@ export function createServer() {
   app.delete("/api/admin/partnership-requests/:id", deletePartnershipRequest);
   app.get("/api/partnership-requests/:id", getPartnershipRequest);
 
+  // Rider Activity routes
+  app.get("/api/admin/rider-activities", getAllActivities);
+  app.get("/api/admin/rider-activities/stats", getActivitiesStats);
+  app.get("/api/admin/rider-activities/rider/:riderId", getRiderSpecificActivities);
+  app.get("/api/admin/rider-activities/order/:orderId", getOrderSpecificActivities);
+  app.get("/api/admin/rider-activities/earnings/:riderId", getRiderEarningsHistory);
+  app.post("/api/admin/rider-activities/log", createActivity);
+  app.get("/api/admin/rider-activities/types", getActivityTypes);
+
   return app;
 }
