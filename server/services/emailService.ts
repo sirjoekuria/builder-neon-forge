@@ -267,9 +267,12 @@ const generateRiderEarningsHTML = (rider: any, earning: any) => {
         .detail-item { }
         .detail-label { font-weight: bold; color: #374151; margin-bottom: 3px; }
         .detail-value { color: #6b7280; }
-        .earnings-summary { background: #f0fdf4; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px solid #10b981; }
-        .earnings-row { display: flex; justify-content: space-between; margin: 8px 0; }
-        .earnings-total { font-weight: bold; font-size: 18px; color: #10b981; border-top: 2px solid #e5e7eb; padding-top: 10px; margin-top: 10px; }
+        .earnings-summary { background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #10b981; }
+        .earnings-row { display: flex; justify-content: space-between; margin: 12px 0; font-size: 16px; }
+        .earnings-total { font-weight: bold; font-size: 20px; color: #10b981; border-top: 3px solid #10b981; padding-top: 15px; margin-top: 15px; background: #ecfdf5; padding: 15px; border-radius: 6px; }
+        .commission-deduction { color: #dc2626; font-weight: bold; background: #fef2f2; padding: 12px; border-radius: 6px; margin: 8px 0; border: 1px solid #fecaca; }
+        .trip-breakdown { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .trip-header { color: #334155; font-weight: bold; margin-bottom: 15px; font-size: 18px; text-align: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; }
         .balance-info { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 15px; margin: 20px 0; }
         .balance-header { color: #d97706; font-weight: bold; margin-bottom: 10px; }
         .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
