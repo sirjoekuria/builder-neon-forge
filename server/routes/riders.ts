@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { logRiderActivity } from "../utils/riderActivity";
 
 // In-memory storage for riders (in production, use a proper database)
 let riders: any[] = [];
