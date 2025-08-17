@@ -432,6 +432,24 @@ export const assignRiderToOrder: RequestHandler = (req, res) => {
       });
     }
 
+    // Log rider activity for order assignment
+    logRiderActivity({
+      riderId: riderId,
+      riderName: riderName,
+      type: 'order_assigned',
+      orderId: order.id,
+      description: `Assigned to delivery order ${order.id} (${order.pickup} → ${order.delivery})`,
+      location: order.pickup,
+      metadata: {
+        customerName: order.customerName,
+        customerPhone: order.customerPhone,
+        pickupLocation: order.pickup,
+        deliveryLocation: order.delivery,
+        previousStatus: 'available',
+        newStatus: 'assigned'
+      }
+    });
+
     res.json({
       success: true,
       message: 'Rider assigned successfully',
