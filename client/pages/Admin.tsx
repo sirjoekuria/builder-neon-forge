@@ -24,7 +24,14 @@ import {
   Building2,
   DollarSign,
   CreditCard,
-  Download
+  Download,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+  Home,
+  Settings,
+  Activity
 } from 'lucide-react';
 
 const ADMIN_PASSWORD = 'Admin432';
@@ -210,13 +217,17 @@ export default function Admin() {
   const [paymentMethod, setPaymentMethod] = useState<string>('mpesa');
   const [paymentNotes, setPaymentNotes] = useState<string>('');
   const [assigningRider, setAssigningRider] = useState<string | null>(null);
-  
+
   // UI states
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
   const [editingOrder, setEditingOrder] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // Sidebar states
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<{[key: string]: boolean}>({});
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -816,36 +827,238 @@ export default function Admin() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Navigation Tabs */}
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
-              {[
-                { key: 'overview', label: 'Overview', icon: TrendingUp },
-                { key: 'orders', label: 'Orders', icon: Package },
-                { key: 'messages', label: 'Messages', icon: MessageSquare },
-                { key: 'users', label: 'Users', icon: Users },
-                { key: 'riders', label: 'Riders', icon: Bike },
-                { key: 'rider-earnings', label: 'Rider Earnings', icon: DollarSign },
-                { key: 'partnerships', label: 'Partnerships', icon: Handshake }
-              ].map((tab) => (
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-rocs-green rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">RC</span>
+            </div>
+            <h2 className="text-lg font-semibold text-rocs-green">Admin Panel</h2>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden text-gray-500 hover:text-gray-700"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <nav className="mt-6 px-3">
+          {/* Overview */}
+          <button
+            onClick={() => {
+              setActiveTab('overview');
+              setSidebarOpen(false);
+            }}
+            className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors mb-1 ${
+              activeTab === 'overview'
+                ? 'bg-rocs-green text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <Home className="w-5 h-5" />
+            <span>Dashboard Overview</span>
+          </button>
+
+          {/* Operations Menu */}
+          <div className="mb-2">
+            <button
+              onClick={() => setExpandedMenus(prev => ({ ...prev, operations: !prev.operations }))}
+              className="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <Package className="w-5 h-5" />
+                <span className="font-medium">Operations</span>
+              </div>
+              {expandedMenus.operations ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
+            {expandedMenus.operations && (
+              <div className="ml-6 mt-1 space-y-1">
                 <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
-                  className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === tab.key
-                      ? 'border-rocs-green text-rocs-green'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  onClick={() => {
+                    setActiveTab('orders');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'orders'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  <tab.icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+                  Orders Management
                 </button>
-              ))}
-            </nav>
+                <button
+                  onClick={() => {
+                    setActiveTab('messages');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'messages'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Customer Messages
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* People Management Menu */}
+          <div className="mb-2">
+            <button
+              onClick={() => setExpandedMenus(prev => ({ ...prev, people: !prev.people }))}
+              className="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <Users className="w-5 h-5" />
+                <span className="font-medium">People</span>
+              </div>
+              {expandedMenus.people ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
+            {expandedMenus.people && (
+              <div className="ml-6 mt-1 space-y-1">
+                <button
+                  onClick={() => {
+                    setActiveTab('users');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'users'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Customer Users
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('riders');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'riders'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Rider Management
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('partnerships');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'partnerships'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Business Partners
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Financial Menu */}
+          <div className="mb-2">
+            <button
+              onClick={() => setExpandedMenus(prev => ({ ...prev, financial: !prev.financial }))}
+              className="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <DollarSign className="w-5 h-5" />
+                <span className="font-medium">Financial</span>
+              </div>
+              {expandedMenus.financial ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
+            {expandedMenus.financial && (
+              <div className="ml-6 mt-1 space-y-1">
+                <button
+                  onClick={() => {
+                    setActiveTab('rider-earnings');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'rider-earnings'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Rider Earnings
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('rider-activity');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'rider-activity'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Rider Activity Log
+                </button>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        {/* Logout Button */}
+        <div className="absolute bottom-4 left-3 right-3">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 lg:ml-0">
+        {/* Mobile Header */}
+        <div className="lg:hidden bg-white shadow-sm border-b">
+          <div className="flex items-center justify-between px-4 py-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <div className="flex items-center space-x-3">
+              <div className="w-6 h-6 bg-rocs-green rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-xs">RC</span>
+              </div>
+              <h1 className="text-lg font-bold text-rocs-green">Admin Dashboard</h1>
+            </div>
+            <div className="w-6"></div>
           </div>
         </div>
+
+        {/* Desktop Header */}
+        <div className="hidden lg:block bg-white shadow-sm border-b">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-rocs-green capitalize">
+                {activeTab === 'rider-earnings' ? 'Rider Earnings' :
+                 activeTab === 'rider-activity' ? 'Rider Activity Log' :
+                 activeTab.replace('-', ' ')}
+              </h1>
+              <div className="text-sm text-gray-500">
+                Last updated: {new Date().toLocaleTimeString()}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-4 lg:p-6">
 
         {/* Overview Tab */}
         {activeTab === 'overview' && (
@@ -1978,7 +2191,7 @@ export default function Admin() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${earnings.earnings.slice(-5).map(e => `🔹 ${e.orderId}: +KES ${e.riderEarning.toLocaleString()} (${formatDate(e.deliveryDate)})`).join('\n') || 'No earnings recorded yet'}
 
-💡 Commission Structure: 20% Company | 80% Rider
+�� Commission Structure: 20% Company | 80% Rider
                                 `;
                                 alert(details);
                               }
@@ -1997,7 +2210,28 @@ ${earnings.earnings.slice(-5).map(e => `🔹 ${e.orderId}: +KES ${e.riderEarning
             </div>
           </div>
         )}
+
+        {/* Rider Activity Log Tab */}
+        {activeTab === 'rider-activity' && (
+          <div className="space-y-6">
+            {/* Coming Soon - This will be implemented in the next step */}
+            <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
+              <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Rider Activity Log</h3>
+              <p className="text-gray-600">Comprehensive rider activity tracking coming up next...</p>
+            </div>
+          </div>
+        )}
+        </div>
       </div>
+
+      {/* Overlay for mobile sidebar */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
     </div>
   );
 }
