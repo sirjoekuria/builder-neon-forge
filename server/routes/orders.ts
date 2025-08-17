@@ -266,6 +266,44 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
       }
     }
 
+    // Process rider earnings when order is delivered
+    if (status === 'delivered' && order.riderId) {
+      try {
+        // Add earning to rider account
+        const addEarningResponse = await fetch(`${process.env.API_BASE_URL || 'http://localhost:8080'}/api/admin/riders/${order.riderId}/add-earning`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderId: order.id,
+            orderAmount: order.cost,
+            deliveryDate: now
+          })
+        });
+
+        if (addEarningResponse.ok) {
+          const earningResult = await addEarningResponse.json();
+          console.log(`Rider earning added: KES ${earningResult.earning.riderEarning} for rider ${order.riderId}`);
+
+          // Send earnings receipt to rider
+          const ridersResponse = await fetch(`${process.env.API_BASE_URL || 'http://localhost:8080'}/api/admin/riders`);
+          if (ridersResponse.ok) {
+            const ridersData = await ridersResponse.json();
+            const rider = ridersData.riders.find((r: any) => r.id === order.riderId);
+
+            if (rider) {
+              await sendRiderEarningsReceipt(rider, earningResult.earning);
+              console.log(`Earnings receipt sent to rider: ${rider.email}`);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error processing rider earnings:', error);
+        // Continue with the response even if earnings processing fails
+      }
+    }
+
     res.json({
       success: true,
       message: 'Order status updated successfully',
