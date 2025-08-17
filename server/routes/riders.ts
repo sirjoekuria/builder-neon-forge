@@ -410,8 +410,9 @@ export const processRiderPayment: RequestHandler = (req, res) => {
 
     // Add payment record
     if (!rider.payments) rider.payments = [];
+    const paymentId = `PAY-${Date.now()}`;
     rider.payments.push({
-      id: `PAY-${Date.now()}`,
+      id: paymentId,
       amount,
       paymentMethod,
       notes,
@@ -419,12 +420,28 @@ export const processRiderPayment: RequestHandler = (req, res) => {
       status: 'completed'
     });
 
+    // Log rider activity for payment received
+    logRiderActivity({
+      riderId: id,
+      riderName: rider.fullName,
+      type: 'payment_received',
+      description: `Received payment of KES ${amount.toLocaleString()} via ${paymentMethod}`,
+      amount: amount,
+      metadata: {
+        paymentMethod,
+        balanceChange: -amount,
+        newBalance: rider.currentBalance,
+        paymentId,
+        notes
+      }
+    });
+
     res.json({
       success: true,
       message: 'Payment processed successfully',
       newBalance: rider.currentBalance,
       totalWithdrawn: rider.totalWithdrawn,
-      paymentId: rider.payments[rider.payments.length - 1].id
+      paymentId: paymentId
     });
   } catch (error) {
     console.error('Error processing rider payment:', error);
