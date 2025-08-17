@@ -238,6 +238,29 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
       description: statusDescriptions[status as keyof typeof statusDescriptions]
     });
 
+    // Log rider activities for status changes (if rider is assigned)
+    if (order.riderName && (status === 'picked_up' || status === 'in_transit')) {
+      const rider = findRiderByName(order.riderName);
+      if (rider) {
+        if (status === 'picked_up') {
+          logRiderActivity({
+            riderId: rider.id,
+            riderName: rider.fullName,
+            type: 'pickup_completed',
+            orderId: order.id,
+            description: `Package picked up from ${order.pickup} for order ${order.id}`,
+            location: order.pickup,
+            metadata: {
+              customerName: order.customerName,
+              customerPhone: order.customerPhone,
+              pickupLocation: order.pickup,
+              deliveryLocation: order.delivery
+            }
+          });
+        }
+      }
+    }
+
     // Assign rider info when confirmed
     if (status === 'confirmed' && !order.riderName) {
       const riders = [
