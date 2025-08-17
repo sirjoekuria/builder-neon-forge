@@ -189,7 +189,7 @@ export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users' | 'riders' | 'partnerships'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'messages' | 'users' | 'riders' | 'rider-earnings' | 'partnerships'>('overview');
   
   // Data states
   const [messages, setMessages] = useState<Message[]>([]);
