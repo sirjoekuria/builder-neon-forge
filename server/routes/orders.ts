@@ -267,17 +267,54 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
     }
 
     // Process rider earnings when order is delivered
-    if (status === 'delivered' && order.riderName) {
+    if (status === 'delivered' && order.riderId) {
       try {
         console.log(`Order ${order.id} delivered - Processing rider earnings for ${order.riderName}`);
         console.log(`Order amount: KES ${order.cost}, Rider will earn: KES ${(order.cost * 0.8).toFixed(2)} (80%)`);
 
-        // Note: In production, this would update the rider's balance in the database
-        // For now, we log the earning information
-        const riderEarning = order.cost * 0.8;
-        const commission = order.cost * 0.2;
+        // Add earning to rider's balance
+        const earningResponse = await fetch(`http://localhost:3000/api/admin/riders/${order.riderId}/add-earning`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderId: order.id,
+            orderAmount: order.cost,
+            deliveryDate: now
+          })
+        });
 
-        console.log(`Commission breakdown - Company: KES ${commission.toFixed(2)} (20%), Rider: KES ${riderEarning.toFixed(2)} (80%)`);
+        if (earningResponse.ok) {
+          const earningResult = await earningResponse.json();
+          console.log(`✅ Rider earning processed successfully:`, earningResult);
+
+          // Send earnings receipt email to rider
+          try {
+            const riderEarning = order.cost * 0.8;
+            const commission = order.cost * 0.2;
+
+            const earningData = {
+              riderId: order.riderId,
+              riderName: order.riderName,
+              riderEmail: order.riderEmail || `${order.riderName.toLowerCase().replace(' ', '.')}@example.com`, // Fallback email
+              orderId: order.id,
+              orderAmount: order.cost,
+              riderEarning,
+              commission,
+              newBalance: earningResult.newBalance,
+              totalEarnings: earningResult.totalEarnings,
+              deliveryDate: now
+            };
+
+            await sendRiderEarningsReceipt(earningData);
+            console.log(`📧 Earnings receipt sent to rider ${order.riderName}`);
+          } catch (emailError) {
+            console.error('Error sending earnings receipt:', emailError);
+          }
+        } else {
+          console.error('Failed to process rider earning:', await earningResponse.text());
+        }
       } catch (error) {
         console.error('Error processing rider earnings:', error);
       }
