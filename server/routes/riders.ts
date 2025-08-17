@@ -20,7 +20,21 @@ const sampleRiders = [
     rating: 4.8,
     totalDeliveries: 156,
     joinedAt: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
-    isActive: true
+    isActive: true,
+    currentBalance: 12480, // KES
+    totalEarnings: 24960, // KES
+    totalWithdrawn: 12480, // KES
+    lastWithdrawal: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    earnings: [
+      {
+        orderId: 'RC-2024-001',
+        amount: 156,
+        commission: 31.2, // 20% commission
+        riderEarning: 124.8, // 80% to rider
+        deliveryDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        status: 'paid'
+      }
+    ]
   },
   {
     id: 'RD-002',
