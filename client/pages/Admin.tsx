@@ -436,6 +436,55 @@ export default function Admin() {
     }
   };
 
+  // Rider earnings management functions
+  const fetchRiderEarnings = async (riderId: string) => {
+    try {
+      const response = await fetch(`/api/admin/riders/${riderId}/earnings`);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
+    } catch (error) {
+      console.error('Error fetching rider earnings:', error);
+    }
+    return null;
+  };
+
+  const processRiderPayment = async (riderId: string) => {
+    try {
+      const response = await fetch(`/api/admin/riders/${riderId}/process-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: parseFloat(paymentAmount),
+          paymentMethod,
+          notes: paymentNotes
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(`✅ Payment Processed Successfully!\n\nAmount: KES ${parseFloat(paymentAmount).toLocaleString()}\nNew Balance: KES ${result.newBalance.toLocaleString()}\nPayment ID: ${result.paymentId}`);
+
+        // Reset form
+        setPaymentAmount('');
+        setPaymentNotes('');
+        setSelectedRiderForEarnings(null);
+
+        // Refresh data
+        await fetchRiders();
+      } else {
+        const error = await response.json();
+        alert(`❌ Payment Failed:\n${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      alert('❌ Error processing payment. Please try again.');
+    }
+  };
+
   // Partnership management functions
   const updatePartnershipRequestStatus = async (requestId: string, status: 'approved' | 'rejected') => {
     try {
