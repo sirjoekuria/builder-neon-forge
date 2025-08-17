@@ -2214,11 +2214,238 @@ ${earnings.earnings.slice(-5).map(e => `🔹 ${e.orderId}: +KES ${e.riderEarning
         {/* Rider Activity Log Tab */}
         {activeTab === 'rider-activity' && (
           <div className="space-y-6">
-            {/* Coming Soon - This will be implemented in the next step */}
-            <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
-              <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Rider Activity Log</h3>
-              <p className="text-gray-600">Comprehensive rider activity tracking coming up next...</p>
+            {/* Header */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Rider Activity Log</h2>
+                <button
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/admin/rider-activities');
+                      if (response.ok) {
+                        const data = await response.json();
+                        console.log('Activities loaded:', data);
+                      }
+                    } catch (error) {
+                      console.error('Error refreshing activities:', error);
+                    }
+                  }}
+                  disabled={isLoading}
+                  className="flex items-center space-x-2 bg-rocs-green hover:bg-rocs-green-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <svg className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>{isLoading ? 'Refreshing...' : 'Refresh Activities'}</span>
+                </button>
+              </div>
+
+              {/* Activity Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">47</div>
+                  <div className="text-sm text-blue-600">Today's Activities</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">23</div>
+                  <div className="text-sm text-green-600">Deliveries</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-purple-600">5</div>
+                  <div className="text-sm text-purple-600">Payments</div>
+                </div>
+                <div className="bg-orange-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-orange-600">18</div>
+                  <div className="text-sm text-orange-600">Pickups</div>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">12</div>
+                  <div className="text-sm text-yellow-600">Active Riders</div>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">156</div>
+                  <div className="text-sm text-red-600">Total Activities</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="bg-white p-4 rounded-lg shadow border border-gray-200">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Rider</label>
+                  <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green">
+                    <option value="">All Riders</option>
+                    <option value="RD-001">John Mwangi</option>
+                    <option value="RD-002">Peter Kimani</option>
+                    <option value="RD-003">James Mwangi</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Activity Type</label>
+                  <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green">
+                    <option value="">All Types</option>
+                    <option value="delivery_completed">Deliveries Completed</option>
+                    <option value="payment_received">Payments Received</option>
+                    <option value="order_assigned">Orders Assigned</option>
+                    <option value="pickup_completed">Pickups Completed</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                  <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green">
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="all">All Time</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Search Order ID</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. RC-2024-001"
+                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Activity Timeline */}
+            <div className="bg-white rounded-lg shadow border border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900">Live Activity Timeline</h3>
+                <p className="text-sm text-gray-600">Real-time tracking of all rider activities and earnings</p>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {/* Sample Activity Items */}
+                  {[
+                    {
+                      id: 'ACT-001',
+                      rider: 'John Mwangi',
+                      riderId: 'RD-001',
+                      type: 'delivery_completed',
+                      description: 'Successfully delivered order RC-2024-001 to KICC, Nairobi CBD',
+                      amount: 156,
+                      commission: 31.2,
+                      netEarning: 124.8,
+                      time: '2 minutes ago',
+                      icon: '✅',
+                      color: 'green'
+                    },
+                    {
+                      id: 'ACT-002',
+                      rider: 'Peter Kimani',
+                      riderId: 'RD-002',
+                      type: 'pickup_completed',
+                      description: 'Package picked up from Sarit Centre, Westlands for order RC-2024-003',
+                      time: '8 minutes ago',
+                      icon: '📦',
+                      color: 'orange'
+                    },
+                    {
+                      id: 'ACT-003',
+                      rider: 'John Mwangi',
+                      riderId: 'RD-001',
+                      type: 'payment_received',
+                      description: 'Received payment of KES 5,000 via M-Pesa',
+                      amount: 5000,
+                      time: '1 hour ago',
+                      icon: '💰',
+                      color: 'purple'
+                    },
+                    {
+                      id: 'ACT-004',
+                      rider: 'James Mwangi',
+                      riderId: 'RD-004',
+                      type: 'order_assigned',
+                      description: 'Assigned to delivery order RC-2024-004 (Karen → Kilimani)',
+                      time: '1.5 hours ago',
+                      icon: '🏍️',
+                      color: 'blue'
+                    },
+                    {
+                      id: 'ACT-005',
+                      rider: 'Peter Kimani',
+                      riderId: 'RD-002',
+                      type: 'delivery_completed',
+                      description: 'Successfully delivered order RC-2024-002 to Yaya Centre, Kilimani',
+                      amount: 243,
+                      commission: 48.6,
+                      netEarning: 194.4,
+                      time: '2 hours ago',
+                      icon: '✅',
+                      color: 'green'
+                    }
+                  ].map((activity) => (
+                    <div key={activity.id} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
+                        activity.color === 'green' ? 'bg-green-500' :
+                        activity.color === 'orange' ? 'bg-orange-500' :
+                        activity.color === 'purple' ? 'bg-purple-500' :
+                        activity.color === 'blue' ? 'bg-blue-500' : 'bg-gray-500'
+                      }`}>
+                        <span className="text-lg">{activity.icon}</span>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1">
+                          <h4 className="text-sm font-medium text-gray-900">{activity.rider}</h4>
+                          <span className="text-xs text-gray-500">{activity.time}</span>
+                        </div>
+
+                        <p className="text-sm text-gray-600 mb-2">{activity.description}</p>
+
+                        {activity.netEarning && (
+                          <div className="bg-white rounded p-3 border border-gray-200">
+                            <div className="grid grid-cols-3 gap-4 text-xs">
+                              <div>
+                                <span className="text-gray-500">Order Amount:</span>
+                                <div className="font-semibold text-gray-900">KES {activity.amount?.toLocaleString()}</div>
+                              </div>
+                              <div>
+                                <span className="text-gray-500">Company (20%):</span>
+                                <div className="font-semibold text-red-600">-KES {activity.commission?.toFixed(2)}</div>
+                              </div>
+                              <div>
+                                <span className="text-gray-500">Rider Net (80%):</span>
+                                <div className="font-semibold text-green-600">+KES {activity.netEarning?.toFixed(2)}</div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {activity.amount && !activity.netEarning && (
+                          <div className="bg-white rounded p-3 border border-gray-200">
+                            <span className="text-xs text-gray-500">Payment Amount:</span>
+                            <div className="font-semibold text-purple-600">-KES {activity.amount?.toLocaleString()}</div>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col items-end space-y-1">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          activity.type === 'delivery_completed' ? 'bg-green-100 text-green-800' :
+                          activity.type === 'pickup_completed' ? 'bg-orange-100 text-orange-800' :
+                          activity.type === 'payment_received' ? 'bg-purple-100 text-purple-800' :
+                          activity.type === 'order_assigned' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {activity.type.replace('_', ' ')}
+                        </span>
+                        <span className="text-xs text-gray-500">{activity.riderId}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                <div className="text-center mt-6">
+                  <button className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-lg transition-colors">
+                    Load More Activities
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
