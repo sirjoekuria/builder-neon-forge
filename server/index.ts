@@ -95,6 +95,9 @@ export function createServer() {
   app.patch("/api/admin/riders/:id/active", toggleRiderActive);
   app.get("/api/riders/available", getAvailableRiders);
   app.delete("/api/admin/riders/:id", deleteRider);
+  app.get("/api/admin/riders/:id/earnings", getRiderEarnings);
+  app.post("/api/admin/riders/:id/add-earning", addRiderEarning);
+  app.post("/api/admin/riders/:id/process-payment", processRiderPayment);
 
   // Auth routes
   app.post("/api/users/signup", userSignup);
