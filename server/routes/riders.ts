@@ -283,3 +283,125 @@ export const deleteRider: RequestHandler = (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// GET /api/admin/riders/:id/earnings - Get rider earnings details
+export const getRiderEarnings: RequestHandler = (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const rider = riders.find(r => r.id === id);
+    if (!rider) {
+      return res.status(404).json({ error: 'Rider not found' });
+    }
+
+    res.json({
+      riderId: rider.id,
+      fullName: rider.fullName,
+      email: rider.email,
+      currentBalance: rider.currentBalance || 0,
+      totalEarnings: rider.totalEarnings || 0,
+      totalWithdrawn: rider.totalWithdrawn || 0,
+      lastWithdrawal: rider.lastWithdrawal,
+      earnings: rider.earnings || [],
+      totalDeliveries: rider.totalDeliveries || 0,
+      rating: rider.rating || 0
+    });
+  } catch (error) {
+    console.error('Error getting rider earnings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// POST /api/admin/riders/:id/add-earning - Add earning for completed delivery
+export const addRiderEarning: RequestHandler = (req, res) => {
+  try {
+    const { id } = req.params;
+    const { orderId, orderAmount, deliveryDate } = req.body;
+
+    const riderIndex = riders.findIndex(r => r.id === id);
+    if (riderIndex === -1) {
+      return res.status(404).json({ error: 'Rider not found' });
+    }
+
+    const rider = riders[riderIndex];
+
+    // Calculate commission (20% to company, 80% to rider)
+    const commission = orderAmount * 0.20;
+    const riderEarning = orderAmount * 0.80;
+
+    // Create earning record
+    const earning = {
+      orderId,
+      amount: orderAmount,
+      commission,
+      riderEarning,
+      deliveryDate: deliveryDate || new Date().toISOString(),
+      status: 'pending'
+    };
+
+    // Update rider data
+    if (!rider.earnings) rider.earnings = [];
+    rider.earnings.push(earning);
+
+    rider.currentBalance = (rider.currentBalance || 0) + riderEarning;
+    rider.totalEarnings = (rider.totalEarnings || 0) + riderEarning;
+    rider.totalDeliveries = (rider.totalDeliveries || 0) + 1;
+
+    res.json({
+      success: true,
+      message: 'Earning added successfully',
+      earning,
+      newBalance: rider.currentBalance,
+      totalEarnings: rider.totalEarnings
+    });
+  } catch (error) {
+    console.error('Error adding rider earning:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// POST /api/admin/riders/:id/process-payment - Process payment to rider
+export const processRiderPayment: RequestHandler = (req, res) => {
+  try {
+    const { id } = req.params;
+    const { amount, paymentMethod, notes } = req.body;
+
+    const riderIndex = riders.findIndex(r => r.id === id);
+    if (riderIndex === -1) {
+      return res.status(404).json({ error: 'Rider not found' });
+    }
+
+    const rider = riders[riderIndex];
+
+    if (amount > (rider.currentBalance || 0)) {
+      return res.status(400).json({ error: 'Insufficient balance' });
+    }
+
+    // Update rider balance
+    rider.currentBalance = (rider.currentBalance || 0) - amount;
+    rider.totalWithdrawn = (rider.totalWithdrawn || 0) + amount;
+    rider.lastWithdrawal = new Date().toISOString();
+
+    // Add payment record
+    if (!rider.payments) rider.payments = [];
+    rider.payments.push({
+      id: `PAY-${Date.now()}`,
+      amount,
+      paymentMethod,
+      notes,
+      processedAt: new Date().toISOString(),
+      status: 'completed'
+    });
+
+    res.json({
+      success: true,
+      message: 'Payment processed successfully',
+      newBalance: rider.currentBalance,
+      totalWithdrawn: rider.totalWithdrawn,
+      paymentId: rider.payments[rider.payments.length - 1].id
+    });
+  } catch (error) {
+    console.error('Error processing rider payment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
