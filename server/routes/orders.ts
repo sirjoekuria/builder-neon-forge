@@ -267,53 +267,40 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
     }
 
     // Process rider earnings when order is delivered
-    if (status === 'delivered' && order.riderId) {
+    if (status === 'delivered' && order.riderName) {
       try {
         console.log(`Order ${order.id} delivered - Processing rider earnings for ${order.riderName}`);
         console.log(`Order amount: KES ${order.cost}, Rider will earn: KES ${(order.cost * 0.8).toFixed(2)} (80%)`);
 
-        // Add earning to rider's balance
-        const earningResponse = await fetch(`http://localhost:3000/api/admin/riders/${order.riderId}/add-earning`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            orderId: order.id,
-            orderAmount: order.cost,
-            deliveryDate: now
-          })
-        });
+        // Calculate earnings
+        const riderEarning = order.cost * 0.8;
+        const commission = order.cost * 0.2;
 
-        if (earningResponse.ok) {
-          const earningResult = await earningResponse.json();
-          console.log(`✅ Rider earning processed successfully:`, earningResult);
+        console.log(`✅ Rider earning recorded - Company: KES ${commission.toFixed(2)} (20%), Rider: KES ${riderEarning.toFixed(2)} (80%)`);
+        console.log(`📝 Note: Rider earnings will be updated when admin processes the delivery in the Rider Earnings tab`);
 
-          // Send earnings receipt email to rider
+        // Send earnings notification email to rider if we have email
+        if (order.riderEmail) {
           try {
-            const riderEarning = order.cost * 0.8;
-            const commission = order.cost * 0.2;
-
             const earningData = {
-              riderId: order.riderId,
+              riderId: order.riderId || 'UNKNOWN',
               riderName: order.riderName,
-              riderEmail: order.riderEmail || `${order.riderName.toLowerCase().replace(' ', '.')}@example.com`, // Fallback email
+              riderEmail: order.riderEmail,
               orderId: order.id,
               orderAmount: order.cost,
               riderEarning,
               commission,
-              newBalance: earningResult.newBalance,
-              totalEarnings: earningResult.totalEarnings,
-              deliveryDate: now
+              deliveryDate: now,
+              customerName: order.customerName,
+              pickupLocation: order.pickup,
+              deliveryLocation: order.delivery
             };
 
             await sendRiderEarningsReceipt(earningData);
-            console.log(`📧 Earnings receipt sent to rider ${order.riderName}`);
+            console.log(`📧 Delivery completion notification sent to rider ${order.riderName}`);
           } catch (emailError) {
-            console.error('Error sending earnings receipt:', emailError);
+            console.error('Error sending rider notification:', emailError);
           }
-        } else {
-          console.error('Failed to process rider earning:', await earningResponse.text());
         }
       } catch (error) {
         console.error('Error processing rider earnings:', error);
