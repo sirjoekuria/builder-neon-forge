@@ -4,7 +4,7 @@ import { RequestHandler } from "express";
 let riders: any[] = [];
 let riderIdCounter = 1;
 
-// Sample data for demonstration
+// Sample data for demonstration - enhanced with earnings tracking
 const sampleRiders = [
   {
     id: 'RD-001',
@@ -32,7 +32,7 @@ const sampleRiders = [
         commission: 31.2, // 20% commission
         riderEarning: 124.8, // 80% to rider
         deliveryDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        status: 'paid'
+        status: 'pending'
       }
     ]
   },
@@ -71,7 +71,32 @@ const sampleRiders = [
     rating: 0,
     totalDeliveries: 0,
     joinedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    isActive: false
+    isActive: false,
+    currentBalance: 0,
+    totalEarnings: 0,
+    totalWithdrawn: 0,
+    earnings: []
+  },
+  {
+    id: 'RD-004',
+    fullName: 'James Mwangi',
+    email: 'james.mwangi@example.com',
+    phone: '+254 701 987 654',
+    nationalId: '44332211',
+    motorcycle: 'Bajaj Pulsar 150, 2020',
+    experience: '2-3 years',
+    area: 'Kilimani',
+    motivation: 'I want to provide reliable delivery services while earning a good income.',
+    status: 'approved',
+    rating: 4.7,
+    totalDeliveries: 89,
+    joinedAt: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
+    isActive: true,
+    currentBalance: 3460, // KES
+    totalEarnings: 15680, // KES
+    totalWithdrawn: 12220, // KES
+    lastWithdrawal: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    earnings: []
   }
 ];
 
