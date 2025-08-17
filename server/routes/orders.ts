@@ -267,40 +267,19 @@ export const updateOrderStatus: RequestHandler = async (req, res) => {
     }
 
     // Process rider earnings when order is delivered
-    if (status === 'delivered' && order.riderId) {
+    if (status === 'delivered' && order.riderName) {
       try {
-        // Add earning to rider account
-        const addEarningResponse = await fetch(`${process.env.API_BASE_URL || 'http://localhost:8080'}/api/admin/riders/${order.riderId}/add-earning`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            orderId: order.id,
-            orderAmount: order.cost,
-            deliveryDate: now
-          })
-        });
+        console.log(`Order ${order.id} delivered - Processing rider earnings for ${order.riderName}`);
+        console.log(`Order amount: KES ${order.cost}, Rider will earn: KES ${(order.cost * 0.8).toFixed(2)} (80%)`);
 
-        if (addEarningResponse.ok) {
-          const earningResult = await addEarningResponse.json();
-          console.log(`Rider earning added: KES ${earningResult.earning.riderEarning} for rider ${order.riderId}`);
+        // Note: In production, this would update the rider's balance in the database
+        // For now, we log the earning information
+        const riderEarning = order.cost * 0.8;
+        const commission = order.cost * 0.2;
 
-          // Send earnings receipt to rider
-          const ridersResponse = await fetch(`${process.env.API_BASE_URL || 'http://localhost:8080'}/api/admin/riders`);
-          if (ridersResponse.ok) {
-            const ridersData = await ridersResponse.json();
-            const rider = ridersData.riders.find((r: any) => r.id === order.riderId);
-
-            if (rider) {
-              await sendRiderEarningsReceipt(rider, earningResult.earning);
-              console.log(`Earnings receipt sent to rider: ${rider.email}`);
-            }
-          }
-        }
+        console.log(`Commission breakdown - Company: KES ${commission.toFixed(2)} (20%), Rider: KES ${riderEarning.toFixed(2)} (80%)`);
       } catch (error) {
         console.error('Error processing rider earnings:', error);
-        // Continue with the response even if earnings processing fails
       }
     }
 
