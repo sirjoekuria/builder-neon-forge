@@ -60,6 +60,20 @@ import {
   createActivity,
   getActivityTypes
 } from "./routes/riderActivity";
+import {
+  createWithdrawal,
+  getAdminWithdrawalRequests,
+  getRiderWithdrawals,
+  updateWithdrawalStatus,
+  getAdminAutomatedPayments,
+  getRiderAutomatedPaymentHistory,
+  triggerAutomatedPayments,
+  getSchedulerStatus,
+  startScheduler,
+  stopScheduler,
+  calculateFee
+} from "./routes/withdrawals";
+import { initializeScheduler } from "./services/cronScheduler";
 
 export function createServer() {
   const app = express();
