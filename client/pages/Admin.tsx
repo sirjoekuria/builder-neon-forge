@@ -21,7 +21,10 @@ import {
   UserX,
   Star,
   Handshake,
-  Building2
+  Building2,
+  DollarSign,
+  CreditCard,
+  Download
 } from 'lucide-react';
 
 const ADMIN_PASSWORD = 'Admin432';
@@ -542,7 +545,7 @@ export default function Admin() {
 
         if (result.success) {
           const order = orders.find(o => o.id === orderId);
-          alert(`✅ Payment Confirmed Successfully!\n\n📧 Receipt sent to: ${order?.customerEmail}\n💰 Order ID: ${orderId}\n\nCustomer has been notified via email with their receipt.`);
+          alert(`✅ Payment Confirmed Successfully!\n\n📧 Receipt sent to: ${order?.customerEmail}\n�� Order ID: ${orderId}\n\nCustomer has been notified via email with their receipt.`);
 
           // Refresh orders to get latest data
           await fetchOrders();
@@ -820,6 +823,7 @@ export default function Admin() {
                 { key: 'messages', label: 'Messages', icon: MessageSquare },
                 { key: 'users', label: 'Users', icon: Users },
                 { key: 'riders', label: 'Riders', icon: Bike },
+                { key: 'rider-earnings', label: 'Rider Earnings', icon: DollarSign },
                 { key: 'partnerships', label: 'Partnerships', icon: Handshake }
               ].map((tab) => (
                 <button
@@ -1727,6 +1731,261 @@ export default function Admin() {
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Rider Earnings Tab */}
+        {activeTab === 'rider-earnings' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Rider Earnings Management</h2>
+                <button
+                  onClick={fetchRiders}
+                  disabled={isLoading}
+                  className="flex items-center space-x-2 bg-rocs-green hover:bg-rocs-green-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <svg className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>{isLoading ? 'Refreshing...' : 'Refresh Data'}</span>
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">
+                    KES {riders.filter(r => r.status === 'approved').reduce((sum, r) => sum + (r.currentBalance || 0), 0).toLocaleString()}
+                  </div>
+                  <div className="text-sm text-green-600">Total Pending Payouts</div>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">
+                    KES {riders.filter(r => r.status === 'approved').reduce((sum, r) => sum + (r.totalEarnings || 0), 0).toLocaleString()}
+                  </div>
+                  <div className="text-sm text-blue-600">Total Rider Earnings</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-purple-600">
+                    KES {riders.filter(r => r.status === 'approved').reduce((sum, r) => sum + (r.totalWithdrawn || 0), 0).toLocaleString()}
+                  </div>
+                  <div className="text-sm text-purple-600">Total Paid Out</div>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">
+                    {riders.filter(r => r.status === 'approved' && (r.currentBalance || 0) > 0).length}
+                  </div>
+                  <div className="text-sm text-yellow-600">Riders with Balance</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Riders Earnings List */}
+            <div className="space-y-4">
+              {isLoading ? (
+                <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rocs-green mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading rider earnings...</p>
+                </div>
+              ) : riders.filter(r => r.status === 'approved').length === 0 ? (
+                <div className="bg-white rounded-lg shadow border border-gray-200 p-12 text-center">
+                  <DollarSign className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No approved riders found</h3>
+                  <p className="text-gray-600">Approve riders first to manage their earnings.</p>
+                </div>
+              ) : (
+                riders.filter(r => r.status === 'approved').map((rider) => (
+                  <div key={rider.id} className="bg-white rounded-lg shadow border border-gray-200 p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 bg-rocs-green rounded-full flex items-center justify-center">
+                          <DollarSign className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">{rider.fullName}</h3>
+                          <p className="text-gray-600">{rider.id} • {rider.area}</p>
+                          <div className="flex items-center space-x-1 mt-1">
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            <span className="text-sm text-gray-600">{rider.rating} ({rider.totalDeliveries} deliveries)</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-green-600">KES {(rider.currentBalance || 0).toLocaleString()}</div>
+                        <div className="text-sm text-gray-600">Current Balance</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Total Earnings</p>
+                        <p className="text-lg font-semibold text-blue-600">KES {(rider.totalEarnings || 0).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Total Withdrawn</p>
+                        <p className="text-lg font-semibold text-purple-600">KES {(rider.totalWithdrawn || 0).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Last Withdrawal</p>
+                        <p className="text-sm text-gray-900">
+                          {rider.lastWithdrawal ? formatDate(rider.lastWithdrawal) : 'Never'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">Contact</p>
+                        <p className="text-sm text-gray-900">{rider.email}</p>
+                        <p className="text-sm text-gray-900">{rider.phone}</p>
+                      </div>
+                    </div>
+
+                    {/* Recent Earnings */}
+                    {rider.earnings && rider.earnings.length > 0 && (
+                      <div className="mb-4">
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Recent Earnings</h4>
+                        <div className="bg-gray-50 rounded-lg p-3 max-h-32 overflow-y-auto">
+                          {rider.earnings.slice(-3).map((earning, index) => (
+                            <div key={index} className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0">
+                              <div>
+                                <span className="text-xs text-gray-600">{earning.orderId}</span>
+                                <span className="text-xs text-gray-500 ml-2">{formatDate(earning.deliveryDate)}</span>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-sm font-medium text-green-600">+KES {earning.riderEarning.toLocaleString()}</div>
+                                <div className="text-xs text-gray-500">from KES {earning.amount}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Payment Actions */}
+                    <div className="border-t pt-4">
+                      {selectedRiderForEarnings === rider.id ? (
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h4 className="font-medium text-gray-800 mb-3">Process Payment to {rider.fullName}</h4>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Amount (KES)</label>
+                              <input
+                                type="number"
+                                value={paymentAmount}
+                                onChange={(e) => setPaymentAmount(e.target.value)}
+                                max={rider.currentBalance || 0}
+                                min="1"
+                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green"
+                                placeholder="Enter amount"
+                              />
+                              <p className="text-xs text-gray-500 mt-1">Max: KES {(rider.currentBalance || 0).toLocaleString()}</p>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                              <select
+                                value={paymentMethod}
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green"
+                              >
+                                <option value="mpesa">M-Pesa</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="cash">Cash</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                              <input
+                                type="text"
+                                value={paymentNotes}
+                                onChange={(e) => setPaymentNotes(e.target.value)}
+                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-rocs-green"
+                                placeholder="Payment notes"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => processRiderPayment(rider.id)}
+                              disabled={!paymentAmount || parseFloat(paymentAmount) <= 0 || parseFloat(paymentAmount) > (rider.currentBalance || 0)}
+                              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                            >
+                              <CreditCard className="w-4 h-4" />
+                              <span>Process Payment</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedRiderForEarnings(null);
+                                setPaymentAmount('');
+                                setPaymentNotes('');
+                              }}
+                              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 text-sm"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => {
+                              setSelectedRiderForEarnings(rider.id);
+                              setPaymentAmount('');
+                              setPaymentNotes('');
+                            }}
+                            disabled={(rider.currentBalance || 0) <= 0}
+                            className="bg-rocs-green text-white px-4 py-2 rounded hover:bg-rocs-green-dark text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                          >
+                            <DollarSign className="w-4 h-4" />
+                            <span>Pay Rider</span>
+                          </button>
+                          <button
+                            onClick={async () => {
+                              const earnings = await fetchRiderEarnings(rider.id);
+                              if (earnings) {
+                                const details = `
+🚴‍♂️ RIDER EARNINGS SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 Rider: ${earnings.fullName}
+🆔 ID: ${earnings.riderId}
+📧 Email: ${earnings.email}
+
+💰 FINANCIAL SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💵 Current Balance: KES ${earnings.currentBalance.toLocaleString()}
+📈 Total Earnings: KES ${earnings.totalEarnings.toLocaleString()}
+💸 Total Withdrawn: KES ${earnings.totalWithdrawn.toLocaleString()}
+📅 Last Withdrawal: ${earnings.lastWithdrawal ? formatDate(earnings.lastWithdrawal) : 'Never'}
+
+📊 DELIVERY STATS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚚 Total Deliveries: ${earnings.totalDeliveries}
+⭐ Rating: ${earnings.rating}/5.0
+
+📋 RECENT EARNINGS (Last 5)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${earnings.earnings.slice(-5).map(e => `🔹 ${e.orderId}: +KES ${e.riderEarning.toLocaleString()} (${formatDate(e.deliveryDate)})`).join('\n') || 'No earnings recorded yet'}
+
+💡 Commission Structure: 20% Company | 80% Rider
+                                `;
+                                alert(details);
+                              }
+                            }}
+                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium flex items-center space-x-2"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View Details</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))
