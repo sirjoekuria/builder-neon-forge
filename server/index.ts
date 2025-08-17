@@ -51,6 +51,15 @@ import {
   deletePartnershipRequest,
   getPartnershipRequest
 } from "./routes/partnerships";
+import {
+  getAllActivities,
+  getActivitiesStats,
+  getRiderSpecificActivities,
+  getOrderSpecificActivities,
+  getRiderEarningsHistory,
+  createActivity,
+  getActivityTypes
+} from "./routes/riderActivity";
 
 export function createServer() {
   const app = express();
