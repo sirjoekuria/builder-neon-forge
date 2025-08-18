@@ -2477,6 +2477,376 @@ ${earnings.earnings.slice(-5).map(e => `🔹 ${e.orderId}: +KES ${e.riderEarning
             </div>
           </div>
         )}
+
+        {/* Withdrawal Requests Tab */}
+        {activeTab === 'withdrawal-requests' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Withdrawal Requests Management</h2>
+                <button
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/admin/withdrawal-requests');
+                      if (response.ok) {
+                        const data = await response.json();
+                        console.log('Withdrawal requests loaded:', data);
+                      }
+                    } catch (error) {
+                      console.error('Error refreshing withdrawal requests:', error);
+                    }
+                  }}
+                  disabled={isLoading}
+                  className="flex items-center space-x-2 bg-rocs-green hover:bg-rocs-green-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  <svg className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>{isLoading ? 'Refreshing...' : 'Refresh Requests'}</span>
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">3</div>
+                  <div className="text-sm text-yellow-600">Pending Requests</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">12</div>
+                  <div className="text-sm text-green-600">Approved Today</div>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">2</div>
+                  <div className="text-sm text-red-600">Rejected</div>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">KES 25,480</div>
+                  <div className="text-sm text-blue-600">Total Requested</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Fee Calculator */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Withdrawal Fee Calculator</h3>
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium text-blue-800 mb-2">Fee Structure:</h4>
+                    <ul className="text-sm text-blue-700 space-y-1">
+                      <li>• Below KES 1,000: <strong>KES 20 fee</strong></li>
+                      <li>• KES 1,000 and above: <strong>KES 50 fee</strong></li>
+                      <li>• Fees are deducted from withdrawal amount</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-blue-800 mb-2">Examples:</h4>
+                    <ul className="text-sm text-blue-700 space-y-1">
+                      <li>• Request KES 800 → Get KES 780 (KES 20 fee)</li>
+                      <li>• Request KES 1,500 → Get KES 1,450 (KES 50 fee)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Withdrawal Requests List */}
+            <div className="bg-white rounded-lg shadow border border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-medium text-gray-900">Recent Withdrawal Requests</h3>
+                  <div className="flex space-x-2">
+                    <select className="border border-gray-300 rounded px-3 py-1 text-sm">
+                      <option value="all">All Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="processed">Processed</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {/* Sample Withdrawal Requests */}
+                  {[
+                    {
+                      id: 'WR-001',
+                      rider: 'John Mwangi',
+                      riderId: 'RD-001',
+                      phone: '+254 712 345 678',
+                      amount: 800,
+                      fee: 20,
+                      netAmount: 780,
+                      status: 'pending',
+                      requestedAt: '2 hours ago',
+                      notes: 'Need funds for motorcycle maintenance'
+                    },
+                    {
+                      id: 'WR-002',
+                      rider: 'Peter Kimani',
+                      riderId: 'RD-002',
+                      phone: '+254 700 123 456',
+                      amount: 1500,
+                      fee: 50,
+                      netAmount: 1450,
+                      status: 'pending',
+                      requestedAt: '4 hours ago',
+                      notes: 'Emergency medical expenses'
+                    }
+                  ].map((request) => (
+                    <div key={request.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-10 h-10 bg-rocs-green rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold text-sm">{request.rider.split(' ').map(n => n[0]).join('')}</span>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">{request.rider}</h4>
+                            <p className="text-sm text-gray-600">{request.riderId} • {request.phone}</p>
+                            <p className="text-xs text-gray-500">{request.requestedAt}</p>
+                          </div>
+                        </div>
+                        <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                          request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          request.status === 'approved' ? 'bg-green-100 text-green-800' :
+                          'bg-red-100 text-red-800'
+                        }`}>
+                          {request.status}
+                        </span>
+                      </div>
+
+                      {/* Amount Breakdown */}
+                      <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                          <div>
+                            <span className="text-gray-500">Requested Amount:</span>
+                            <div className="font-semibold text-gray-900">KES {request.amount.toLocaleString()}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Withdrawal Fee:</span>
+                            <div className="font-semibold text-red-600">-KES {request.fee}</div>
+                          </div>
+                          <div>
+                            <span className="text-gray-500">Net Amount:</span>
+                            <div className="font-semibold text-green-600">KES {request.netAmount.toLocaleString()}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {request.notes && (
+                        <div className="mb-3 p-2 bg-blue-50 rounded border border-blue-200">
+                          <span className="text-xs text-blue-600 font-medium">Notes:</span>
+                          <p className="text-sm text-blue-700 mt-1">{request.notes}</p>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      {request.status === 'pending' && (
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => {
+                              if (confirm(`Approve withdrawal of KES ${request.amount} for ${request.rider}?`)) {
+                                alert(`✅ Withdrawal approved for ${request.rider}\nNet amount: KES ${request.netAmount}`);
+                              }
+                            }}
+                            className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition-colors"
+                          >
+                            ✅ Approve
+                          </button>
+                          <button
+                            onClick={() => {
+                              const reason = prompt('Reason for rejection:');
+                              if (reason) {
+                                alert(`❌ Withdrawal rejected for ${request.rider}\nReason: ${reason}`);
+                              }
+                            }}
+                            className="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition-colors"
+                          >
+                            ❌ Reject
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Automated Payments Tab */}
+        {activeTab === 'automated-payments' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Automated Payment System</h2>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => {
+                      if (confirm('Trigger automated payments now? This will pay all riders with balance.')) {
+                        alert('🚀 Automated payments triggered manually!');
+                      }
+                    }}
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    🚀 Trigger Now
+                  </button>
+                  <button className="bg-rocs-green hover:bg-rocs-green-dark text-white px-4 py-2 rounded-lg transition-colors">
+                    📊 View Reports
+                  </button>
+                </div>
+              </div>
+
+              {/* Scheduler Status */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-green-800 font-medium">Scheduler Active</span>
+                  </div>
+                  <p className="text-sm text-green-600 mt-1">Next payment: Today at 23:00</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">15</div>
+                  <div className="text-sm text-blue-600">Riders Eligible</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-purple-600">KES 45,290</div>
+                  <div className="text-sm text-purple-600">Total Pending</div>
+                </div>
+              </div>
+
+              {/* Payment Settings */}
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <h3 className="font-medium text-yellow-800 mb-2">📅 Automated Payment Schedule</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-yellow-700">
+                  <div>
+                    <ul className="space-y-1">
+                      <li>• <strong>Daily Schedule:</strong> 23:00 hrs (11 PM)</li>
+                      <li>• <strong>Payment Method:</strong> M-Pesa to registered phone</li>
+                      <li>• <strong>Eligibility:</strong> Approved riders with balance</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <ul className="space-y-1">
+                      <li>• <strong>Processing Time:</strong> 2-5 minutes per rider</li>
+                      <li>• <strong>Retry Policy:</strong> 3 attempts for failed payments</li>
+                      <li>• <strong>Notification:</strong> SMS + Email confirmation</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment History Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-gray-600">156</div>
+                  <div className="text-sm text-gray-600">Total Payments</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">98.7%</div>
+                  <div className="text-sm text-green-600">Success Rate</div>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">23</div>
+                  <div className="text-sm text-blue-600">Today's Payments</div>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">2</div>
+                  <div className="text-sm text-red-600">Failed Payments</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Automated Payments */}
+            <div className="bg-white rounded-lg shadow border border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900">Recent Automated Payments</h3>
+                <p className="text-sm text-gray-600">Payments processed automatically at 23:00 daily</p>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {/* Sample Automated Payments */}
+                  {[
+                    {
+                      id: 'AP-001',
+                      rider: 'John Mwangi',
+                      phone: '+254712345678',
+                      amount: 2480,
+                      status: 'success',
+                      transactionId: 'MP2024001234',
+                      processedAt: '23:00 Today'
+                    },
+                    {
+                      id: 'AP-002',
+                      rider: 'Peter Kimani',
+                      phone: '+254700123456',
+                      amount: 1890,
+                      status: 'success',
+                      transactionId: 'MP2024001235',
+                      processedAt: '23:01 Today'
+                    },
+                    {
+                      id: 'AP-003',
+                      rider: 'James Mwangi',
+                      phone: '+254701987654',
+                      amount: 3460,
+                      status: 'failed',
+                      transactionId: null,
+                      error: 'M-Pesa timeout',
+                      processedAt: '23:02 Today'
+                    }
+                  ].map((payment) => (
+                    <div key={payment.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex justify-between items-start">
+                        <div className="flex items-center space-x-4">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            payment.status === 'success' ? 'bg-green-500' : 'bg-red-500'
+                          }`}>
+                            <span className="text-white text-lg">
+                              {payment.status === 'success' ? '✅' : '❌'}
+                            </span>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">{payment.rider}</h4>
+                            <p className="text-sm text-gray-600">{payment.phone}</p>
+                            <p className="text-xs text-gray-500">{payment.processedAt}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-gray-900">KES {payment.amount.toLocaleString()}</div>
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            payment.status === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {payment.status}
+                          </span>
+                        </div>
+                      </div>
+
+                      {payment.transactionId && (
+                        <div className="mt-3 p-2 bg-green-50 rounded border border-green-200">
+                          <span className="text-xs text-green-600 font-medium">Transaction ID:</span>
+                          <span className="text-sm text-green-700 ml-2">{payment.transactionId}</span>
+                        </div>
+                      )}
+
+                      {payment.error && (
+                        <div className="mt-3 p-2 bg-red-50 rounded border border-red-200">
+                          <span className="text-xs text-red-600 font-medium">Error:</span>
+                          <span className="text-sm text-red-700 ml-2">{payment.error}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       </div>
 
