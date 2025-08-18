@@ -1075,6 +1075,8 @@ export default function Admin() {
               <h1 className="text-2xl font-bold text-rocs-green capitalize">
                 {activeTab === 'rider-earnings' ? 'Rider Earnings' :
                  activeTab === 'rider-activity' ? 'Rider Activity Log' :
+                 activeTab === 'withdrawal-requests' ? 'Withdrawal Requests' :
+                 activeTab === 'automated-payments' ? 'Automated Payments' :
                  activeTab.replace('-', ' ')}
               </h1>
               <div className="text-sm text-gray-500">
