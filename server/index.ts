@@ -147,5 +147,21 @@ export function createServer() {
   app.post("/api/admin/rider-activities/log", createActivity);
   app.get("/api/admin/rider-activities/types", getActivityTypes);
 
+  // Withdrawal and Automated Payment routes
+  app.post("/api/riders/:riderId/withdrawal-request", createWithdrawal);
+  app.get("/api/riders/:riderId/withdrawal-requests", getRiderWithdrawals);
+  app.get("/api/riders/:riderId/automated-payments", getRiderAutomatedPaymentHistory);
+  app.get("/api/admin/withdrawal-requests", getAdminWithdrawalRequests);
+  app.patch("/api/admin/withdrawal-requests/:requestId", updateWithdrawalStatus);
+  app.get("/api/admin/automated-payments", getAdminAutomatedPayments);
+  app.post("/api/admin/trigger-automated-payments", triggerAutomatedPayments);
+  app.get("/api/admin/payment-scheduler/status", getSchedulerStatus);
+  app.post("/api/admin/payment-scheduler/start", startScheduler);
+  app.post("/api/admin/payment-scheduler/stop", stopScheduler);
+  app.get("/api/withdrawal-fee-calculator", calculateFee);
+
+  // Initialize the automated payment scheduler
+  initializeScheduler();
+
   return app;
 }
