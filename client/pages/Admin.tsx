@@ -1004,6 +1004,32 @@ export default function Admin() {
                 >
                   Rider Activity Log
                 </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('withdrawal-requests');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'withdrawal-requests'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Withdrawal Requests
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab('automated-payments');
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    activeTab === 'automated-payments'
+                      ? 'bg-rocs-green text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Automated Payments
+                </button>
               </div>
             )}
           </div>
