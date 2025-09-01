@@ -12,6 +12,7 @@ const sampleRiders = [
     fullName: 'John Mwangi',
     email: 'john.mwangi@example.com',
     phone: '+254 712 345 678',
+    password: 'password123', // In production, this would be hashed
     nationalId: '12345678',
     motorcycle: 'Honda CB 150R, 2020',
     experience: '3-5 years',
@@ -22,6 +23,7 @@ const sampleRiders = [
     totalDeliveries: 156,
     joinedAt: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
     isActive: true,
+    userType: 'rider',
     currentBalance: 12480, // KES
     totalEarnings: 24960, // KES
     totalWithdrawn: 12480, // KES
@@ -42,6 +44,7 @@ const sampleRiders = [
     fullName: 'Peter Kimani',
     email: 'peter.kimani@example.com',
     phone: '+254 700 123 456',
+    password: 'password123', // In production, this would be hashed
     nationalId: '87654321',
     motorcycle: 'Yamaha YBR 125, 2019',
     experience: '5+ years',
@@ -52,6 +55,7 @@ const sampleRiders = [
     totalDeliveries: 203,
     joinedAt: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
     isActive: true,
+    userType: 'rider',
     currentBalance: 8960, // KES
     totalEarnings: 32480, // KES
     totalWithdrawn: 23520, // KES
@@ -63,6 +67,7 @@ const sampleRiders = [
     fullName: 'David Ochieng',
     email: 'david.ochieng@example.com',
     phone: '+254 722 987 654',
+    password: 'password123', // In production, this would be hashed
     nationalId: '11223344',
     motorcycle: 'TVS Apache 160, 2021',
     experience: '1-2 years',
@@ -73,6 +78,7 @@ const sampleRiders = [
     totalDeliveries: 0,
     joinedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     isActive: false,
+    userType: 'rider',
     currentBalance: 0,
     totalEarnings: 0,
     totalWithdrawn: 0,
@@ -83,6 +89,7 @@ const sampleRiders = [
     fullName: 'James Mwangi',
     email: 'james.mwangi@example.com',
     phone: '+254 701 987 654',
+    password: 'password123', // In production, this would be hashed
     nationalId: '44332211',
     motorcycle: 'Bajaj Pulsar 150, 2020',
     experience: '2-3 years',
@@ -93,6 +100,7 @@ const sampleRiders = [
     totalDeliveries: 89,
     joinedAt: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
     isActive: true,
+    userType: 'rider',
     currentBalance: 3460, // KES
     totalEarnings: 15680, // KES
     totalWithdrawn: 12220, // KES
