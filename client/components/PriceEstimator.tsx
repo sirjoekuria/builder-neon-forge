@@ -50,7 +50,7 @@ export default function PriceEstimator() {
               Calculate Your Delivery Cost
             </h2>
             <p className="text-lg text-gray-600">
-              Get an instant price estimate for your delivery at KES {PRICE_PER_KM} per kilometer
+              Get an instant price estimate for your delivery in Nairobi
             </p>
           </div>
 
