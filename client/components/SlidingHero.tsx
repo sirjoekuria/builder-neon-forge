@@ -7,7 +7,7 @@ const heroSlides = [
     title: "Fast & Reliable Delivery",
     subtitle: "Your parcels delivered safely across Nairobi",
     description: "Professional motorcycle delivery service with real-time tracking and guaranteed safety. Experience the fastest delivery in Kenya.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop&crop=center",
+    image: "https://images.pexels.com/photos/7363190/pexels-photo-7363190.jpeg",
     cta: "Book Delivery Now",
     features: ["Same Day Delivery", "Real-time Tracking", "Professional Riders"]
   },
@@ -16,7 +16,7 @@ const heroSlides = [
     title: "Track Your Order Live",
     subtitle: "Real-time updates on your delivery",
     description: "Know exactly where your parcel is with our advanced GPS tracking system. Get live updates from pickup to delivery.",
-    image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1920&h=1080&fit=crop&crop=center",
+    image: "https://images.pexels.com/photos/29019655/pexels-photo-29019655.jpeg",
     cta: "Track Order",
     features: ["GPS Tracking", "Live Updates", "Delivery Confirmation"]
   },
@@ -25,7 +25,7 @@ const heroSlides = [
     title: "Affordable Rates",
     subtitle: "KES 30 per kilometer",
     description: "Transparent pricing with no hidden fees. Calculate your delivery cost instantly and enjoy competitive rates across Nairobi.",
-    image: "https://images.unsplash.com/photo-1574116194873-cf8b53ad7c3a?w=1920&h=1080&fit=crop&crop=center",
+    image: "https://images.pexels.com/photos/6868558/pexels-photo-6868558.jpeg",
     cta: "Calculate Price",
     features: ["Transparent Pricing", "No Hidden Fees", "Instant Quotes"]
   },
@@ -34,7 +34,7 @@ const heroSlides = [
     title: "Professional Service",
     subtitle: "Trained & experienced riders",
     description: "Our team of professional motorcycle riders ensures your packages are handled with care and delivered on time, every time.",
-    image: "https://images.unsplash.com/photo-1558443957-2ca113d6b017?w=1920&h=1080&fit=crop&crop=center",
+    image: "https://images.pexels.com/photos/6169056/pexels-photo-6169056.jpeg",
     cta: "Learn More",
     features: ["Trained Riders", "Insured Packages", "24/7 Support"]
   }
