@@ -5,9 +5,10 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import PaymentSelection from './PaymentSelection';
-import LocationPicker from './LocationPicker';
+import MapboxLocationPicker from './MapboxLocationPicker';
 
 const PRICE_PER_KM = 30;
+const MINIMUM_PRICE = 200;
 
 interface Location {
   name: string;
