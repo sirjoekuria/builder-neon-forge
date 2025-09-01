@@ -78,20 +78,44 @@ export const userSignup: RequestHandler = (req, res) => {
   }
 };
 
-// POST /api/auth/login - User login
+// POST /api/auth/login - User login (handles both customers and riders)
 export const login: RequestHandler = (req, res) => {
   try {
-    const { email, password } = req.body;
-    
+    const { email, password, userType } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({
         error: 'Email and password are required'
       });
     }
 
-    // Find user
-    const user = users.find(u => u.email === email);
-    
+    let user = null;
+    let foundUserType = null;
+
+    // If userType is specified, search in the appropriate collection
+    if (userType === 'rider') {
+      // Import riders from riders module
+      const ridersModule = require('./riders');
+      const riders = ridersModule.getRidersData?.() || [];
+      user = riders.find((r: any) => r.email === email && r.userType === 'rider');
+      foundUserType = 'rider';
+    } else {
+      // Search in users first (customers)
+      user = users.find(u => u.email === email);
+      foundUserType = user?.userType || 'customer';
+    }
+
+    // If not found and no userType specified, also search riders
+    if (!user && !userType) {
+      const ridersModule = require('./riders');
+      const riders = ridersModule.getRidersData?.() || [];
+      const riderUser = riders.find((r: any) => r.email === email);
+      if (riderUser) {
+        user = riderUser;
+        foundUserType = 'rider';
+      }
+    }
+
     if (!user) {
       return res.status(401).json({
         error: 'Invalid credentials'
@@ -105,19 +129,37 @@ export const login: RequestHandler = (req, res) => {
       });
     }
 
-    if (!user.isActive) {
-      return res.status(401).json({
-        error: 'Account is inactive. Please contact support.'
-      });
+    // For riders, check if they are approved and active
+    if (foundUserType === 'rider') {
+      if (user.status !== 'approved') {
+        return res.status(401).json({
+          error: 'Rider account is not yet approved. Please wait for admin approval.'
+        });
+      }
+      if (!user.isActive) {
+        return res.status(401).json({
+          error: 'Rider account is inactive. Please contact support.'
+        });
+      }
+    } else {
+      // For regular users, just check if active
+      if (!user.isActive) {
+        return res.status(401).json({
+          error: 'Account is inactive. Please contact support.'
+        });
+      }
     }
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = user;
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Login successful',
-      user: userWithoutPassword
+      user: {
+        ...userWithoutPassword,
+        userType: foundUserType
+      }
     });
   } catch (error) {
     console.error('Error during login:', error);
