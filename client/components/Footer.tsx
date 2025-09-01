@@ -38,33 +38,38 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/tracking" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/tracking" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Track Order
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Our Services
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/about" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/signup" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/signup" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Join as Rider
+                </Link>
+              </li>
+              <li>
+                <Link to="/rider-login" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
+                  Rider Sign In
                 </Link>
               </li>
             </ul>
