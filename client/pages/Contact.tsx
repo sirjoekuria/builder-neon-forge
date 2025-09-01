@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, Phone, Mail, MapPin, UserPlus } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, UserPlus, Upload, Camera, FileText } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
