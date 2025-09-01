@@ -354,7 +354,7 @@ export default function OrderForm() {
 
         {/* Location Selection */}
         <div>
-          <LocationPicker
+          <MapboxLocationPicker
             onLocationSelect={handleLocationSelect}
             onDistanceCalculated={handleDistanceCalculated}
           />
