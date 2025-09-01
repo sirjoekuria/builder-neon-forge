@@ -105,6 +105,9 @@ const sampleRiders = [
 riders = [...sampleRiders];
 riderIdCounter = 4;
 
+// Export function to get riders data (for auth purposes)
+export const getRidersData = () => riders;
+
 // POST /api/riders/signup - Submit rider application
 export const riderSignup: RequestHandler = (req, res) => {
   try {
