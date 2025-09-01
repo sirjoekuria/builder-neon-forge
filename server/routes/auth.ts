@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { getRidersData } from "./riders";
 
 // In-memory storage for users (in production, use a proper database)
 let users: any[] = [];
