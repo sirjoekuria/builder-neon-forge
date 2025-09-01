@@ -68,7 +68,17 @@ export default function OrderForm() {
   const handleDistanceCalculated = useCallback((calculatedDistance: number, calculatedDuration: number) => {
     setDistance(calculatedDistance);
     setDuration(calculatedDuration);
-    setEstimatedPrice(Math.round(calculatedDistance * PRICE_PER_KM));
+
+    // Calculate base price
+    const basePrice = calculatedDistance * PRICE_PER_KM;
+
+    // Apply minimum price
+    const priceWithMinimum = Math.max(basePrice, MINIMUM_PRICE);
+
+    // Round to nearest 10
+    const finalPrice = Math.round(priceWithMinimum / 10) * 10;
+
+    setEstimatedPrice(finalPrice);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
