@@ -122,6 +122,11 @@ export default function Header() {
               >
                 Home
               </Link>
+              <Link to="/book-delivery" onClick={() => setIsMenuOpen(false)}>
+                <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-semibold w-fit">
+                  Book Now
+                </Button>
+              </Link>
               <Link
                 to="/tracking"
                 className="text-gray-700 hover:text-rocs-green transition-colors"
