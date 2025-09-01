@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { 
-  createMessage, 
-  getMessages, 
-  updateMessageStatus 
+import {
+  createMessage,
+  getMessages,
+  updateMessageStatus,
 } from "./routes/messages";
 import {
   createOrder,
@@ -13,7 +13,7 @@ import {
   updateOrderStatus,
   assignRiderToOrder,
   confirmPaymentAndSendReceipt,
-  resendReceipt
+  resendReceipt,
 } from "./routes/orders";
 import {
   createPayPalOrder,
@@ -22,7 +22,7 @@ import {
   processCashOnDelivery,
   getPayment,
   getAllPayments,
-  updatePaymentStatus
+  updatePaymentStatus,
 } from "./routes/payments";
 import {
   riderSignup,
@@ -34,7 +34,7 @@ import {
   getRiderEarnings,
   addRiderEarning,
   processRiderPayment,
-  uploadRiderDocuments
+  uploadRiderDocuments,
 } from "./routes/riders";
 import {
   userSignup,
@@ -43,14 +43,14 @@ import {
   updateProfile,
   getAllUsers,
   toggleUserStatus,
-  deleteUser
+  deleteUser,
 } from "./routes/auth";
 import {
   submitPartnershipRequest,
   getPartnershipRequests,
   updatePartnershipRequestStatus,
   deletePartnershipRequest,
-  getPartnershipRequest
+  getPartnershipRequest,
 } from "./routes/partnerships";
 import {
   getAllActivities,
@@ -59,7 +59,7 @@ import {
   getOrderSpecificActivities,
   getRiderEarningsHistory,
   createActivity,
-  getActivityTypes
+  getActivityTypes,
 } from "./routes/riderActivity";
 import {
   createWithdrawal,
@@ -72,7 +72,7 @@ import {
   getSchedulerStatus,
   startScheduler,
   stopScheduler,
-  calculateFee
+  calculateFee,
 } from "./routes/withdrawals";
 import { initializeScheduler } from "./services/cronScheduler";
 
@@ -100,7 +100,10 @@ export function createServer() {
   app.get("/api/admin/orders", getOrders);
   app.patch("/api/admin/orders/:id", updateOrderStatus);
   app.patch("/api/admin/orders/:id/assign-rider", assignRiderToOrder);
-  app.post("/api/admin/orders/:id/confirm-payment", confirmPaymentAndSendReceipt);
+  app.post(
+    "/api/admin/orders/:id/confirm-payment",
+    confirmPaymentAndSendReceipt,
+  );
   app.post("/api/admin/orders/:id/resend-receipt", resendReceipt);
 
   // Payment routes
@@ -135,25 +138,43 @@ export function createServer() {
   // Partnership routes
   app.post("/api/partnership-requests", submitPartnershipRequest);
   app.get("/api/admin/partnership-requests", getPartnershipRequests);
-  app.patch("/api/admin/partnership-requests/:id/status", updatePartnershipRequestStatus);
+  app.patch(
+    "/api/admin/partnership-requests/:id/status",
+    updatePartnershipRequestStatus,
+  );
   app.delete("/api/admin/partnership-requests/:id", deletePartnershipRequest);
   app.get("/api/partnership-requests/:id", getPartnershipRequest);
 
   // Rider Activity routes
   app.get("/api/admin/rider-activities", getAllActivities);
   app.get("/api/admin/rider-activities/stats", getActivitiesStats);
-  app.get("/api/admin/rider-activities/rider/:riderId", getRiderSpecificActivities);
-  app.get("/api/admin/rider-activities/order/:orderId", getOrderSpecificActivities);
-  app.get("/api/admin/rider-activities/earnings/:riderId", getRiderEarningsHistory);
+  app.get(
+    "/api/admin/rider-activities/rider/:riderId",
+    getRiderSpecificActivities,
+  );
+  app.get(
+    "/api/admin/rider-activities/order/:orderId",
+    getOrderSpecificActivities,
+  );
+  app.get(
+    "/api/admin/rider-activities/earnings/:riderId",
+    getRiderEarningsHistory,
+  );
   app.post("/api/admin/rider-activities/log", createActivity);
   app.get("/api/admin/rider-activities/types", getActivityTypes);
 
   // Withdrawal and Automated Payment routes
   app.post("/api/riders/:riderId/withdrawal-request", createWithdrawal);
   app.get("/api/riders/:riderId/withdrawal-requests", getRiderWithdrawals);
-  app.get("/api/riders/:riderId/automated-payments", getRiderAutomatedPaymentHistory);
+  app.get(
+    "/api/riders/:riderId/automated-payments",
+    getRiderAutomatedPaymentHistory,
+  );
   app.get("/api/admin/withdrawal-requests", getAdminWithdrawalRequests);
-  app.patch("/api/admin/withdrawal-requests/:requestId", updateWithdrawalStatus);
+  app.patch(
+    "/api/admin/withdrawal-requests/:requestId",
+    updateWithdrawalStatus,
+  );
   app.get("/api/admin/automated-payments", getAdminAutomatedPayments);
   app.post("/api/admin/trigger-automated-payments", triggerAutomatedPayments);
   app.get("/api/admin/payment-scheduler/status", getSchedulerStatus);

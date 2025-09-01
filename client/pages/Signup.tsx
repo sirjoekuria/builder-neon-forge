@@ -1,30 +1,42 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { UserPlus, Mail, Lock, User, Phone, MapPin, Eye, EyeOff, Upload, Camera, FileText } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  UserPlus,
+  Mail,
+  Lock,
+  User,
+  Phone,
+  MapPin,
+  Eye,
+  EyeOff,
+  Upload,
+  Camera,
+  FileText,
+} from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
 
 export default function Signup() {
-  const [userType, setUserType] = useState<'customer' | 'rider'>('customer');
+  const [userType, setUserType] = useState<"customer" | "rider">("customer");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
     // Rider specific fields
-    nationalId: '',
-    motorcycleColor: '',
-    motorcycleModel: '',
-    experience: '',
-    area: '',
-    motivation: '',
-    drivingLicenseExpiry: '',
-    goodConductExpiry: '',
-    motorcycleInsuranceExpiry: ''
+    nationalId: "",
+    motorcycleColor: "",
+    motorcycleModel: "",
+    experience: "",
+    area: "",
+    motivation: "",
+    drivingLicenseExpiry: "",
+    goodConductExpiry: "",
+    motorcycleInsuranceExpiry: "",
   });
 
   const [fileUploads, setFileUploads] = useState({
@@ -34,50 +46,75 @@ export default function Signup() {
     idCardBack: null as File | null,
     drivingLicense: null as File | null,
     goodConductCertificate: null as File | null,
-    motorcycleInsurance: null as File | null
+    motorcycleInsurance: null as File | null,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFileUploads(prev => ({
+      setFileUploads((prev) => ({
         ...prev,
-        [fieldName]: file
+        [fieldName]: file,
       }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
 
     // Validate rider specific requirements
-    if (userType === 'rider') {
-      const requiredFiles = ['passportPhoto', 'motorcyclePhoto', 'idCardFront', 'idCardBack', 'drivingLicense', 'goodConductCertificate', 'motorcycleInsurance'];
-      const missingFiles = requiredFiles.filter(field => !fileUploads[field as keyof typeof fileUploads]);
-      
+    if (userType === "rider") {
+      const requiredFiles = [
+        "passportPhoto",
+        "motorcyclePhoto",
+        "idCardFront",
+        "idCardBack",
+        "drivingLicense",
+        "goodConductCertificate",
+        "motorcycleInsurance",
+      ];
+      const missingFiles = requiredFiles.filter(
+        (field) => !fileUploads[field as keyof typeof fileUploads],
+      );
+
       if (missingFiles.length > 0) {
-        alert(`Please upload the following required documents: ${missingFiles.join(', ')}`);
+        alert(
+          `Please upload the following required documents: ${missingFiles.join(", ")}`,
+        );
         return;
       }
 
-      const requiredDates = ['drivingLicenseExpiry', 'goodConductExpiry', 'motorcycleInsuranceExpiry'];
-      const missingDates = requiredDates.filter(field => !formData[field as keyof typeof formData]);
-      
+      const requiredDates = [
+        "drivingLicenseExpiry",
+        "goodConductExpiry",
+        "motorcycleInsuranceExpiry",
+      ];
+      const missingDates = requiredDates.filter(
+        (field) => !formData[field as keyof typeof formData],
+      );
+
       if (missingDates.length > 0) {
-        alert(`Please provide expiry dates for: ${missingDates.join(', ')}`);
+        alert(`Please provide expiry dates for: ${missingDates.join(", ")}`);
         return;
       }
     }
@@ -85,21 +122,22 @@ export default function Signup() {
     setIsSubmitting(true);
 
     try {
-      const endpoint = userType === 'rider' ? '/api/riders/signup' : '/api/users/signup';
-      
+      const endpoint =
+        userType === "rider" ? "/api/riders/signup" : "/api/users/signup";
+
       // Create FormData for file uploads
       const submitData = new FormData();
-      
+
       // Add text fields
       Object.entries(formData).forEach(([key, value]) => {
         submitData.append(key, value);
       });
-      
-      submitData.append('userType', userType);
-      submitData.append('timestamp', new Date().toISOString());
+
+      submitData.append("userType", userType);
+      submitData.append("timestamp", new Date().toISOString());
 
       // Add files for rider applications
-      if (userType === 'rider') {
+      if (userType === "rider") {
         Object.entries(fileUploads).forEach(([key, file]) => {
           if (file) {
             submitData.append(key, file);
@@ -108,47 +146,56 @@ export default function Signup() {
       }
 
       const response = await fetch(endpoint, {
-        method: 'POST',
+        method: "POST",
         body: submitData, // Don't set Content-Type header, let browser set it for FormData
       });
 
       if (response.ok) {
         const result = await response.json();
         // Store user session
-        localStorage.setItem('user', JSON.stringify({
-          id: result.user?.id || result.rider?.id,
-          name: formData.fullName,
-          email: formData.email,
-          userType,
-          isAuthenticated: true
-        }));
-        
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: result.user?.id || result.rider?.id,
+            name: formData.fullName,
+            email: formData.email,
+            userType,
+            isAuthenticated: true,
+          }),
+        );
+
         // Redirect based on user type
-        if (userType === 'rider') {
-          alert('Rider application submitted successfully! You will be notified once approved.');
-          window.location.href = '/';
+        if (userType === "rider") {
+          alert(
+            "Rider application submitted successfully! You will be notified once approved.",
+          );
+          window.location.href = "/";
         } else {
-          alert('Account created successfully!');
-          window.location.href = '/book-delivery';
+          alert("Account created successfully!");
+          window.location.href = "/book-delivery";
         }
       } else {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to create account');
+        throw new Error(error.error || "Failed to create account");
       }
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Error creating account. Please try again.');
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Error creating account. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const FileUpload = ({ 
-    label, 
-    name, 
-    accept, 
-    required = true, 
+  const FileUpload = ({
+    label,
+    name,
+    accept,
+    required = true,
     icon: Icon = Upload,
-    description 
+    description,
   }: {
     label: string;
     name: string;
@@ -158,9 +205,12 @@ export default function Signup() {
     description?: string;
   }) => (
     <div>
-      <Label htmlFor={name} className="text-gray-700 font-medium flex items-center gap-2">
+      <Label
+        htmlFor={name}
+        className="text-gray-700 font-medium flex items-center gap-2"
+      >
         <Icon className="w-4 h-4" />
-        {label} {required && '*'}
+        {label} {required && "*"}
       </Label>
       {description && (
         <p className="text-sm text-gray-500 mt-1 mb-2">{description}</p>
@@ -178,10 +228,9 @@ export default function Signup() {
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-rocs-green transition-colors">
           <Icon className="w-8 h-8 mx-auto text-gray-400 mb-2" />
           <p className="text-sm text-gray-600">
-            {fileUploads[name as keyof typeof fileUploads] 
-              ? fileUploads[name as keyof typeof fileUploads]?.name 
-              : `Click to upload ${label.toLowerCase()}`
-            }
+            {fileUploads[name as keyof typeof fileUploads]
+              ? fileUploads[name as keyof typeof fileUploads]?.name
+              : `Click to upload ${label.toLowerCase()}`}
           </p>
         </div>
       </div>
@@ -195,38 +244,48 @@ export default function Signup() {
           <div className="w-16 h-16 bg-rocs-green rounded-full flex items-center justify-center mx-auto mb-4">
             <UserPlus className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-rocs-green mb-2">Join Rocs Crew</h1>
+          <h1 className="text-3xl font-bold text-rocs-green mb-2">
+            Join Rocs Crew
+          </h1>
           <p className="text-gray-600">Create your account to get started</p>
         </div>
 
         {/* User Type Selection */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Choose Account Type</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Choose Account Type
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
-              onClick={() => setUserType('customer')}
+              onClick={() => setUserType("customer")}
               className={`p-6 rounded-lg border-2 transition-all ${
-                userType === 'customer'
-                  ? 'border-rocs-green bg-rocs-green/5'
-                  : 'border-gray-200 hover:border-rocs-green/50'
+                userType === "customer"
+                  ? "border-rocs-green bg-rocs-green/5"
+                  : "border-gray-200 hover:border-rocs-green/50"
               }`}
             >
-              <User className={`w-8 h-8 mx-auto mb-3 ${userType === 'customer' ? 'text-rocs-green' : 'text-gray-400'}`} />
+              <User
+                className={`w-8 h-8 mx-auto mb-3 ${userType === "customer" ? "text-rocs-green" : "text-gray-400"}`}
+              />
               <h3 className="font-semibold text-gray-800 mb-2">Customer</h3>
               <p className="text-sm text-gray-600">Book and track deliveries</p>
             </button>
-            
+
             <button
-              onClick={() => setUserType('rider')}
+              onClick={() => setUserType("rider")}
               className={`p-6 rounded-lg border-2 transition-all ${
-                userType === 'rider'
-                  ? 'border-rocs-green bg-rocs-green/5'
-                  : 'border-gray-200 hover:border-rocs-green/50'
+                userType === "rider"
+                  ? "border-rocs-green bg-rocs-green/5"
+                  : "border-gray-200 hover:border-rocs-green/50"
               }`}
             >
-              <MapPin className={`w-8 h-8 mx-auto mb-3 ${userType === 'rider' ? 'text-rocs-green' : 'text-gray-400'}`} />
+              <MapPin
+                className={`w-8 h-8 mx-auto mb-3 ${userType === "rider" ? "text-rocs-green" : "text-gray-400"}`}
+              />
               <h3 className="font-semibold text-gray-800 mb-2">Rider</h3>
-              <p className="text-sm text-gray-600">Deliver packages and earn money</p>
+              <p className="text-sm text-gray-600">
+                Deliver packages and earn money
+              </p>
             </button>
           </div>
         </div>
@@ -234,9 +293,11 @@ export default function Signup() {
         {/* Signup Form */}
         <div className="bg-white rounded-xl shadow-lg p-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">
-            {userType === 'rider' ? 'Rider Application' : 'Customer Registration'}
+            {userType === "rider"
+              ? "Rider Application"
+              : "Customer Registration"}
           </h2>
-          
+
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information */}
             <div>
@@ -245,7 +306,10 @@ export default function Signup() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="fullName" className="text-gray-700 font-medium">
+                  <Label
+                    htmlFor="fullName"
+                    className="text-gray-700 font-medium"
+                  >
                     Full Name *
                   </Label>
                   <Input
@@ -259,7 +323,7 @@ export default function Signup() {
                     placeholder="Your full name"
                   />
                 </div>
-                
+
                 <div>
                   <Label htmlFor="email" className="text-gray-700 font-medium">
                     Email Address *
@@ -293,10 +357,13 @@ export default function Signup() {
                     placeholder="+254 7XX XXX XXX"
                   />
                 </div>
-                
-                {userType === 'rider' && (
+
+                {userType === "rider" && (
                   <div>
-                    <Label htmlFor="nationalId" className="text-gray-700 font-medium">
+                    <Label
+                      htmlFor="nationalId"
+                      className="text-gray-700 font-medium"
+                    >
                       National ID Number *
                     </Label>
                     <Input
@@ -316,14 +383,17 @@ export default function Signup() {
               {/* Password Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div>
-                  <Label htmlFor="password" className="text-gray-700 font-medium">
+                  <Label
+                    htmlFor="password"
+                    className="text-gray-700 font-medium"
+                  >
                     Password *
                   </Label>
                   <div className="relative">
                     <Input
                       id="password"
                       name="password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       required
                       value={formData.password}
                       onChange={handleInputChange}
@@ -335,13 +405,20 @@ export default function Signup() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 </div>
-                
+
                 <div>
-                  <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">
+                  <Label
+                    htmlFor="confirmPassword"
+                    className="text-gray-700 font-medium"
+                  >
                     Confirm Password *
                   </Label>
                   <Input
@@ -359,7 +436,7 @@ export default function Signup() {
             </div>
 
             {/* Rider Specific Fields */}
-            {userType === 'rider' && (
+            {userType === "rider" && (
               <>
                 {/* Motorcycle Information */}
                 <div>
@@ -368,7 +445,10 @@ export default function Signup() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="motorcycleColor" className="text-gray-700 font-medium">
+                      <Label
+                        htmlFor="motorcycleColor"
+                        className="text-gray-700 font-medium"
+                      >
                         Motorcycle Color *
                       </Label>
                       <Input
@@ -382,9 +462,12 @@ export default function Signup() {
                         placeholder="e.g., Red, Blue, Black"
                       />
                     </div>
-                    
+
                     <div>
-                      <Label htmlFor="motorcycleModel" className="text-gray-700 font-medium">
+                      <Label
+                        htmlFor="motorcycleModel"
+                        className="text-gray-700 font-medium"
+                      >
                         Motorcycle Model *
                       </Label>
                       <Input
@@ -402,7 +485,10 @@ export default function Signup() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
-                      <Label htmlFor="experience" className="text-gray-700 font-medium">
+                      <Label
+                        htmlFor="experience"
+                        className="text-gray-700 font-medium"
+                      >
                         Riding Experience *
                       </Label>
                       <select
@@ -421,7 +507,10 @@ export default function Signup() {
                     </div>
 
                     <div>
-                      <Label htmlFor="area" className="text-gray-700 font-medium">
+                      <Label
+                        htmlFor="area"
+                        className="text-gray-700 font-medium"
+                      >
                         Preferred Working Area *
                       </Label>
                       <select
@@ -490,7 +579,7 @@ export default function Signup() {
                   <h3 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">
                     Licenses and Certificates
                   </h3>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <FileUpload
@@ -501,7 +590,10 @@ export default function Signup() {
                         description="Valid motorcycle driving license"
                       />
                       <div>
-                        <Label htmlFor="drivingLicenseExpiry" className="text-gray-700 font-medium">
+                        <Label
+                          htmlFor="drivingLicenseExpiry"
+                          className="text-gray-700 font-medium"
+                        >
                           Driving License Expiry Date *
                         </Label>
                         <Input
@@ -525,7 +617,10 @@ export default function Signup() {
                         description="Certificate of good conduct from DCI"
                       />
                       <div>
-                        <Label htmlFor="goodConductExpiry" className="text-gray-700 font-medium">
+                        <Label
+                          htmlFor="goodConductExpiry"
+                          className="text-gray-700 font-medium"
+                        >
                           Good Conduct Certificate Expiry Date *
                         </Label>
                         <Input
@@ -549,7 +644,10 @@ export default function Signup() {
                         description="Valid motorcycle insurance certificate"
                       />
                       <div>
-                        <Label htmlFor="motorcycleInsuranceExpiry" className="text-gray-700 font-medium">
+                        <Label
+                          htmlFor="motorcycleInsuranceExpiry"
+                          className="text-gray-700 font-medium"
+                        >
                           Insurance Expiry Date *
                         </Label>
                         <Input
@@ -572,7 +670,10 @@ export default function Signup() {
                     Personal Statement
                   </h3>
                   <div>
-                    <Label htmlFor="motivation" className="text-gray-700 font-medium">
+                    <Label
+                      htmlFor="motivation"
+                      className="text-gray-700 font-medium"
+                    >
                       Why do you want to join Rocs Crew? *
                     </Label>
                     <textarea
@@ -603,7 +704,9 @@ export default function Signup() {
               ) : (
                 <span className="flex items-center justify-center">
                   <UserPlus className="w-4 h-4 mr-2" />
-                  {userType === 'rider' ? 'Submit Application' : 'Create Account'}
+                  {userType === "rider"
+                    ? "Submit Application"
+                    : "Create Account"}
                 </span>
               )}
             </Button>
@@ -611,8 +714,11 @@ export default function Signup() {
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
-              <Link to="/login" className="text-rocs-green hover:text-rocs-green-dark font-medium">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-rocs-green hover:text-rocs-green-dark font-medium"
+              >
                 Sign in here
               </Link>
             </p>

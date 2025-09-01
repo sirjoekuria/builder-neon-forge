@@ -1,27 +1,38 @@
-import { useState } from 'react';
-import { Send, Phone, Mail, MapPin, UserPlus, Upload, Camera, FileText } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
+import { useState } from "react";
+import {
+  Send,
+  Phone,
+  Mail,
+  MapPin,
+  UserPlus,
+  Upload,
+  Camera,
+  FileText,
+} from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [showRiderSignup, setShowRiderSignup] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -30,31 +41,31 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/messages', {
-        method: 'POST',
+      const response = await fetch("/api/messages", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         }),
       });
 
       if (response.ok) {
         setSubmitted(true);
         setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
         });
       } else {
-        throw new Error('Failed to send message');
+        throw new Error("Failed to send message");
       }
     } catch (error) {
-      alert('Error sending message. Please try again or contact us directly.');
+      alert("Error sending message. Please try again or contact us directly.");
     } finally {
       setIsSubmitting(false);
     }
@@ -67,7 +78,9 @@ export default function Contact() {
           <div className="w-20 h-20 bg-rocs-green rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-white text-3xl">✓</span>
           </div>
-          <h2 className="text-3xl font-bold text-rocs-green mb-4">Message Sent Successfully!</h2>
+          <h2 className="text-3xl font-bold text-rocs-green mb-4">
+            Message Sent Successfully!
+          </h2>
           <p className="text-lg text-gray-600 mb-8">
             Thank you for contacting us. We'll get back to you within 24 hours.
           </p>
@@ -93,7 +106,7 @@ export default function Contact() {
             <p className="text-lg text-gray-600 mb-6">
               Have questions about our delivery services? We're here to help!
             </p>
-            
+
             {/* Rider Signup Button */}
             <div className="mb-8">
               <Button
@@ -101,7 +114,7 @@ export default function Contact() {
                 className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-semibold"
               >
                 <UserPlus className="w-5 h-5 mr-2" />
-                {showRiderSignup ? 'Hide Rider Signup' : 'Join Our Riders Team'}
+                {showRiderSignup ? "Hide Rider Signup" : "Join Our Riders Team"}
               </Button>
             </div>
           </div>
@@ -122,9 +135,13 @@ export default function Contact() {
                       <Phone className="w-6 h-6 text-gray-800" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-1">Phone</h4>
+                      <h4 className="font-semibold text-gray-800 mb-1">
+                        Phone
+                      </h4>
                       <p className="text-gray-600">+254 700 898 950</p>
-                      <p className="text-sm text-gray-500">Available 24/7 for emergency deliveries</p>
+                      <p className="text-sm text-gray-500">
+                        Available 24/7 for emergency deliveries
+                      </p>
                     </div>
                   </div>
 
@@ -133,9 +150,13 @@ export default function Contact() {
                       <Mail className="w-6 h-6 text-gray-800" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-1">Email</h4>
+                      <h4 className="font-semibold text-gray-800 mb-1">
+                        Email
+                      </h4>
                       <p className="text-gray-600">Kuriajoe85@gmail.com</p>
-                      <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
+                      <p className="text-sm text-gray-500">
+                        We'll respond within 24 hours
+                      </p>
                     </div>
                   </div>
 
@@ -144,9 +165,15 @@ export default function Contact() {
                       <MapPin className="w-6 h-6 text-gray-800" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-1">Service Area</h4>
-                      <p className="text-gray-600">Nairobi & Surrounding Areas</p>
-                      <p className="text-sm text-gray-500">Same-day delivery available</p>
+                      <h4 className="font-semibold text-gray-800 mb-1">
+                        Service Area
+                      </h4>
+                      <p className="text-gray-600">
+                        Nairobi & Surrounding Areas
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Same-day delivery available
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -154,7 +181,9 @@ export default function Contact() {
 
               {/* Business Hours */}
               <div className="bg-rocs-green-light p-6 rounded-xl">
-                <h4 className="font-semibold text-rocs-green mb-4">Business Hours</h4>
+                <h4 className="font-semibold text-rocs-green mb-4">
+                  Business Hours
+                </h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Monday - Friday:</span>
@@ -180,7 +209,7 @@ export default function Contact() {
               <h3 className="text-2xl font-semibold text-rocs-green mb-6">
                 Send Us a Message
               </h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -198,9 +227,12 @@ export default function Contact() {
                       placeholder="Your full name"
                     />
                   </div>
-                  
+
                   <div>
-                    <Label htmlFor="email" className="text-gray-700 font-medium">
+                    <Label
+                      htmlFor="email"
+                      className="text-gray-700 font-medium"
+                    >
                       Email Address *
                     </Label>
                     <Input
@@ -218,7 +250,10 @@ export default function Contact() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="phone" className="text-gray-700 font-medium">
+                    <Label
+                      htmlFor="phone"
+                      className="text-gray-700 font-medium"
+                    >
                       Phone Number
                     </Label>
                     <Input
@@ -231,9 +266,12 @@ export default function Contact() {
                       placeholder="+254 7XX XXX XXX"
                     />
                   </div>
-                  
+
                   <div>
-                    <Label htmlFor="subject" className="text-gray-700 font-medium">
+                    <Label
+                      htmlFor="subject"
+                      className="text-gray-700 font-medium"
+                    >
                       Subject *
                     </Label>
                     <Input
@@ -250,7 +288,10 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <Label htmlFor="message" className="text-gray-700 font-medium">
+                  <Label
+                    htmlFor="message"
+                    className="text-gray-700 font-medium"
+                  >
                     Message *
                   </Label>
                   <Textarea
@@ -294,20 +335,20 @@ export default function Contact() {
 // Rider Signup Form Component
 function RiderSignupForm() {
   const [riderData, setRiderData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-    nationalId: '',
-    motorcycleColor: '',
-    motorcycleModel: '',
-    experience: '',
-    area: '',
-    motivation: '',
-    drivingLicenseExpiry: '',
-    goodConductExpiry: '',
-    motorcycleInsuranceExpiry: ''
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    nationalId: "",
+    motorcycleColor: "",
+    motorcycleModel: "",
+    experience: "",
+    area: "",
+    motivation: "",
+    drivingLicenseExpiry: "",
+    goodConductExpiry: "",
+    motorcycleInsuranceExpiry: "",
   });
 
   const [fileUploads, setFileUploads] = useState({
@@ -317,26 +358,33 @@ function RiderSignupForm() {
     idCardBack: null as File | null,
     drivingLicense: null as File | null,
     goodConductCertificate: null as File | null,
-    motorcycleInsurance: null as File | null
+    motorcycleInsurance: null as File | null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setRiderData(prev => ({
+    setRiderData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFileUploads(prev => ({
+      setFileUploads((prev) => ({
         ...prev,
-        [fieldName]: file
+        [fieldName]: file,
       }));
     }
   };
@@ -345,24 +393,42 @@ function RiderSignupForm() {
     e.preventDefault();
 
     if (riderData.password !== riderData.confirmPassword) {
-      alert('Passwords do not match');
+      alert("Passwords do not match");
       return;
     }
 
     // Validate required files
-    const requiredFiles = ['passportPhoto', 'motorcyclePhoto', 'idCardFront', 'idCardBack', 'drivingLicense', 'goodConductCertificate', 'motorcycleInsurance'];
-    const missingFiles = requiredFiles.filter(field => !fileUploads[field as keyof typeof fileUploads]);
+    const requiredFiles = [
+      "passportPhoto",
+      "motorcyclePhoto",
+      "idCardFront",
+      "idCardBack",
+      "drivingLicense",
+      "goodConductCertificate",
+      "motorcycleInsurance",
+    ];
+    const missingFiles = requiredFiles.filter(
+      (field) => !fileUploads[field as keyof typeof fileUploads],
+    );
 
     if (missingFiles.length > 0) {
-      alert(`Please upload the following required documents: ${missingFiles.join(', ')}`);
+      alert(
+        `Please upload the following required documents: ${missingFiles.join(", ")}`,
+      );
       return;
     }
 
-    const requiredDates = ['drivingLicenseExpiry', 'goodConductExpiry', 'motorcycleInsuranceExpiry'];
-    const missingDates = requiredDates.filter(field => !riderData[field as keyof typeof riderData]);
+    const requiredDates = [
+      "drivingLicenseExpiry",
+      "goodConductExpiry",
+      "motorcycleInsuranceExpiry",
+    ];
+    const missingDates = requiredDates.filter(
+      (field) => !riderData[field as keyof typeof riderData],
+    );
 
     if (missingDates.length > 0) {
-      alert(`Please provide expiry dates for: ${missingDates.join(', ')}`);
+      alert(`Please provide expiry dates for: ${missingDates.join(", ")}`);
       return;
     }
 
@@ -377,8 +443,8 @@ function RiderSignupForm() {
         submitData.append(key, value);
       });
 
-      submitData.append('timestamp', new Date().toISOString());
-      submitData.append('status', 'pending');
+      submitData.append("timestamp", new Date().toISOString());
+      submitData.append("status", "pending");
 
       // Add files
       Object.entries(fileUploads).forEach(([key, file]) => {
@@ -387,18 +453,18 @@ function RiderSignupForm() {
         }
       });
 
-      const response = await fetch('/api/riders/signup', {
-        method: 'POST',
+      const response = await fetch("/api/riders/signup", {
+        method: "POST",
         body: submitData, // Don't set Content-Type header, let browser set it for FormData
       });
 
       if (response.ok) {
         setSubmitted(true);
       } else {
-        throw new Error('Failed to submit rider application');
+        throw new Error("Failed to submit rider application");
       }
     } catch (error) {
-      alert('Error submitting application. Please try again.');
+      alert("Error submitting application. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -410,7 +476,7 @@ function RiderSignupForm() {
     accept,
     required = true,
     icon: Icon = Upload,
-    description
+    description,
   }: {
     label: string;
     name: string;
@@ -420,9 +486,12 @@ function RiderSignupForm() {
     description?: string;
   }) => (
     <div>
-      <Label htmlFor={name} className="text-gray-700 font-medium flex items-center gap-2">
+      <Label
+        htmlFor={name}
+        className="text-gray-700 font-medium flex items-center gap-2"
+      >
         <Icon className="w-4 h-4" />
-        {label} {required && '*'}
+        {label} {required && "*"}
       </Label>
       {description && (
         <p className="text-sm text-gray-500 mt-1 mb-2">{description}</p>
@@ -442,8 +511,7 @@ function RiderSignupForm() {
           <p className="text-sm text-gray-600">
             {fileUploads[name as keyof typeof fileUploads]
               ? fileUploads[name as keyof typeof fileUploads]?.name
-              : `Click to upload ${label.toLowerCase()}`
-            }
+              : `Click to upload ${label.toLowerCase()}`}
           </p>
         </div>
       </div>
@@ -457,9 +525,12 @@ function RiderSignupForm() {
           <div className="w-16 h-16 bg-rocs-green rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-white text-2xl">✓</span>
           </div>
-          <h3 className="text-2xl font-bold text-rocs-green mb-2">Application Submitted!</h3>
+          <h3 className="text-2xl font-bold text-rocs-green mb-2">
+            Application Submitted!
+          </h3>
           <p className="text-gray-600">
-            Thank you for your interest in joining our riders team. We'll review your application and get back to you within 48 hours.
+            Thank you for your interest in joining our riders team. We'll review
+            your application and get back to you within 48 hours.
           </p>
         </div>
       </div>
@@ -472,8 +543,9 @@ function RiderSignupForm() {
         Join Our Riders Team - Complete Application
       </h3>
       <p className="text-gray-600 mb-6">
-        Become a part of Rocs Crew and start earning money delivering packages across Nairobi.
-        Please fill out all fields and upload required documents.
+        Become a part of Rocs Crew and start earning money delivering packages
+        across Nairobi. Please fill out all fields and upload required
+        documents.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-8">
@@ -568,7 +640,10 @@ function RiderSignupForm() {
             </div>
 
             <div>
-              <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">
+              <Label
+                htmlFor="confirmPassword"
+                className="text-gray-700 font-medium"
+              >
                 Confirm Password *
               </Label>
               <Input
@@ -592,7 +667,10 @@ function RiderSignupForm() {
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="motorcycleColor" className="text-gray-700 font-medium">
+              <Label
+                htmlFor="motorcycleColor"
+                className="text-gray-700 font-medium"
+              >
                 Motorcycle Color *
               </Label>
               <Input
@@ -608,7 +686,10 @@ function RiderSignupForm() {
             </div>
 
             <div>
-              <Label htmlFor="motorcycleModel" className="text-gray-700 font-medium">
+              <Label
+                htmlFor="motorcycleModel"
+                className="text-gray-700 font-medium"
+              >
                 Motorcycle Model *
               </Label>
               <Input
@@ -725,7 +806,10 @@ function RiderSignupForm() {
                 description="Valid motorcycle driving license"
               />
               <div>
-                <Label htmlFor="drivingLicenseExpiry" className="text-gray-700 font-medium">
+                <Label
+                  htmlFor="drivingLicenseExpiry"
+                  className="text-gray-700 font-medium"
+                >
                   Driving License Expiry Date *
                 </Label>
                 <Input
@@ -749,7 +833,10 @@ function RiderSignupForm() {
                 description="Certificate of good conduct from DCI"
               />
               <div>
-                <Label htmlFor="goodConductExpiry" className="text-gray-700 font-medium">
+                <Label
+                  htmlFor="goodConductExpiry"
+                  className="text-gray-700 font-medium"
+                >
                   Good Conduct Certificate Expiry Date *
                 </Label>
                 <Input
@@ -773,7 +860,10 @@ function RiderSignupForm() {
                 description="Valid motorcycle insurance certificate"
               />
               <div>
-                <Label htmlFor="motorcycleInsuranceExpiry" className="text-gray-700 font-medium">
+                <Label
+                  htmlFor="motorcycleInsuranceExpiry"
+                  className="text-gray-700 font-medium"
+                >
                   Insurance Expiry Date *
                 </Label>
                 <Input
