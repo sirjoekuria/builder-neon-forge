@@ -14,15 +14,23 @@ export default function PriceEstimator() {
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
 
   const calculatePrice = () => {
-    // In a real app, you'd use Google Maps API to calculate actual distance
+    // In a real app, you'd use Mapbox API to calculate actual distance
     // For now, we'll use a simplified calculation
     if (pickup && delivery) {
-      // Simulate distance calculation (in real app, use Maps API)
+      // Simulate distance calculation (in real app, use Mapbox API)
       const estimatedDistance = Math.floor(Math.random() * 20) + 5; // Random 5-25 km
-      const price = estimatedDistance * PRICE_PER_KM;
-      
+
+      // Calculate base price
+      const basePrice = estimatedDistance * PRICE_PER_KM;
+
+      // Apply minimum price
+      const priceWithMinimum = Math.max(basePrice, MINIMUM_PRICE);
+
+      // Round to nearest 10
+      const finalPrice = Math.round(priceWithMinimum / 10) * 10;
+
       setDistance(estimatedDistance);
-      setEstimatedPrice(price);
+      setEstimatedPrice(finalPrice);
     }
   };
 
