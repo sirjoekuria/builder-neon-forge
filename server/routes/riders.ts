@@ -1,5 +1,51 @@
 import { RequestHandler } from "express";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 import { logRiderActivity } from "../utils/riderActivity";
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = 'uploads/riders';
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Generate unique filename with timestamp and original extension
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: function (req, file, cb) {
+    // Accept images and PDFs only
+    if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image and PDF files are allowed!'));
+    }
+  }
+});
+
+// Multer middleware for multiple file fields
+export const uploadRiderDocuments = upload.fields([
+  { name: 'passportPhoto', maxCount: 1 },
+  { name: 'motorcyclePhoto', maxCount: 1 },
+  { name: 'idCardFront', maxCount: 1 },
+  { name: 'idCardBack', maxCount: 1 },
+  { name: 'drivingLicense', maxCount: 1 },
+  { name: 'goodConductCertificate', maxCount: 1 },
+  { name: 'motorcycleInsurance', maxCount: 1 }
+]);
 
 // In-memory storage for riders (in production, use a proper database)
 let riders: any[] = [];
