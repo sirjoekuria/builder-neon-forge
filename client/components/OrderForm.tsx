@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import PaymentSelection from './PaymentSelection';
-import MapboxLocationPicker from './MapboxLocationPicker';
+import SimpleMapboxLocationPicker from './SimpleMapboxLocationPicker';
 
 const PRICE_PER_KM = 30;
 const MINIMUM_PRICE = 200;
