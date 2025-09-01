@@ -158,6 +158,13 @@ export default function Header() {
               >
                 Join as Rider
               </Link>
+              <Link
+                to="/rider-login"
+                className="text-gray-700 hover:text-rocs-green transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Rider Sign In
+              </Link>
               
               {user ? (
                 <div className="space-y-3">
