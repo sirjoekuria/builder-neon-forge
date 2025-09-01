@@ -27,7 +27,7 @@
     "express": "^5.1.0",
     "mapbox-gl": "^3.14.0",
     "nodemailer": "^7.0.5",
-    "react-map-gl": "^8.0.4",
+    "react-map-gl": "7.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
