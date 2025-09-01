@@ -18,16 +18,16 @@ export default function Footer() {
               Nairobi's premier motorcycle delivery service. Fast, reliable, and affordable parcel delivery across the city.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-all duration-200 hover:scale-110 active:scale-95">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-all duration-200 hover:scale-110 active:scale-95">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-all duration-200 hover:scale-110 active:scale-95">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-colors">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-rocs-yellow transition-all duration-200 hover:scale-110 active:scale-95">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
@@ -80,32 +80,32 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6">Our Services</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Same-day Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Express Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Document Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Package Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/services" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Food Delivery
                 </Link>
               </li>
               <li>
-                <Link to="/tracking" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+                <Link to="/tracking" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-x-1 hover:underline active:scale-95">
                   Real-time Tracking
                 </Link>
               </li>
@@ -158,13 +158,13 @@ export default function Footer() {
               © 2024 Rocs Crew. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
-              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-y-[-2px] hover:underline active:scale-95">
                 Privacy Policy
               </Link>
-              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-y-[-2px] hover:underline active:scale-95">
                 Terms of Service
               </Link>
-              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-colors">
+              <Link to="/contact" className="text-rocs-green-light hover:text-rocs-yellow transition-all duration-200 hover:translate-y-[-2px] hover:underline active:scale-95">
                 Support
               </Link>
             </div>
