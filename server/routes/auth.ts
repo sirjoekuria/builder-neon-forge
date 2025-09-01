@@ -95,10 +95,9 @@ export const login: RequestHandler = (req, res) => {
 
     // If userType is specified, search in the appropriate collection
     if (userType === 'rider') {
-      // Import riders from riders module
-      const ridersModule = require('./riders');
-      const riders = ridersModule.getRidersData?.() || [];
-      user = riders.find((r: any) => r.email === email && r.userType === 'rider');
+      // Search in riders collection
+      const riders = getRidersData();
+      user = riders.find((r: any) => r.email === email);
       foundUserType = 'rider';
     } else {
       // Search in users first (customers)
@@ -108,8 +107,7 @@ export const login: RequestHandler = (req, res) => {
 
     // If not found and no userType specified, also search riders
     if (!user && !userType) {
-      const ridersModule = require('./riders');
-      const riders = ridersModule.getRidersData?.() || [];
+      const riders = getRidersData();
       const riderUser = riders.find((r: any) => r.email === email);
       if (riderUser) {
         user = riderUser;
