@@ -10,6 +10,8 @@ import BookDelivery from "./pages/BookDelivery";
 import Admin from "./pages/Admin";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import RiderLogin from "./pages/RiderLogin";
+import RiderWithdrawal from "./pages/RiderWithdrawal";
 import NotFound from "./pages/NotFound";
 // import { Toaster } from "./components/ui/toaster";
 
