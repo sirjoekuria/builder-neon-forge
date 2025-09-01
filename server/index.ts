@@ -113,7 +113,7 @@ export function createServer() {
   app.patch("/api/payments/:id/status", updatePaymentStatus);
 
   // Rider routes
-  app.post("/api/riders/signup", riderSignup);
+  app.post("/api/riders/signup", uploadRiderDocuments, riderSignup);
   app.get("/api/admin/riders", getRiders);
   app.patch("/api/admin/riders/:id/status", updateRiderStatus);
   app.patch("/api/admin/riders/:id/active", toggleRiderActive);
