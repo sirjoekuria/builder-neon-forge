@@ -42,6 +42,11 @@ export default function Header() {
             <Link to="/" className="text-gray-700 hover:text-rocs-green transition-colors">
               Home
             </Link>
+            <Link to="/book-delivery">
+              <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-semibold">
+                Book Now
+              </Button>
+            </Link>
             <Link to="/tracking" className="text-gray-700 hover:text-rocs-green transition-colors">
               Track Order
             </Link>
