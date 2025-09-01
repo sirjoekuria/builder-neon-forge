@@ -33,7 +33,8 @@ import {
   deleteRider,
   getRiderEarnings,
   addRiderEarning,
-  processRiderPayment
+  processRiderPayment,
+  uploadRiderDocuments
 } from "./routes/riders";
 import {
   userSignup,
