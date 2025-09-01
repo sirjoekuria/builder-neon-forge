@@ -143,11 +143,8 @@ export default function PriceEstimator() {
 
             {/* Pricing Info */}
             <div className="mt-8 bg-rocs-yellow-light rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-rocs-green mb-4">Pricing Information</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div>
-                  <strong>Base Rate:</strong> KES {PRICE_PER_KM} per kilometer
-                </div>
+              <h3 className="text-lg font-semibold text-rocs-green mb-4">Service Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
                   <strong>Service Area:</strong> Nairobi and surrounding areas
                 </div>
