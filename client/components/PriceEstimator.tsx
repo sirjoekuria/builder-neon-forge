@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 const PRICE_PER_KM = 30;
+const MINIMUM_PRICE = 200;
 
 export default function PriceEstimator() {
   const [pickup, setPickup] = useState('');
