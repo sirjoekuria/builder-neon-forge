@@ -403,7 +403,7 @@ export default function OrderForm() {
               Delivery Summary
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-rocs-green">{distance?.toFixed(1)} km</div>
                 <div className="text-sm text-gray-600">Distance</div>
@@ -413,11 +413,7 @@ export default function OrderForm() {
                 <div className="text-sm text-gray-600">Est. Time</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-rocs-green">KES 30</div>
-                <div className="text-sm text-gray-600">Per Kilometer</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-rocs-yellow">KES {estimatedPrice}</div>
+                <div className="text-3xl font-bold text-rocs-yellow">KES {estimatedPrice?.toLocaleString()}</div>
                 <div className="text-sm text-gray-600">Total Cost</div>
               </div>
             </div>
