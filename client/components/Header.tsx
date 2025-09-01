@@ -162,11 +162,6 @@ export default function Header() {
                     <User className="w-4 h-4" />
                     <span>{user.name}</span>
                   </div>
-                  <Link to="/book-delivery">
-                    <Button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 w-fit">
-                      Book Now
-                    </Button>
-                  </Link>
                   <Button
                     onClick={handleLogout}
                     variant="outline"
