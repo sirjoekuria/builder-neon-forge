@@ -171,15 +171,35 @@ export const riderSignup: RequestHandler = (req, res) => {
       phone,
       password,
       nationalId,
-      motorcycle,
+      motorcycleColor,
+      motorcycleModel,
       experience,
       area,
-      motivation
+      motivation,
+      drivingLicenseExpiry,
+      goodConductExpiry,
+      motorcycleInsuranceExpiry
     } = req.body;
 
-    if (!fullName || !email || !phone || !password || !nationalId || !motorcycle || !experience || !area || !motivation) {
+    // Validate required text fields
+    if (!fullName || !email || !phone || !password || !nationalId ||
+        !motorcycleColor || !motorcycleModel || !experience || !area || !motivation ||
+        !drivingLicenseExpiry || !goodConductExpiry || !motorcycleInsuranceExpiry) {
       return res.status(400).json({
-        error: 'All fields are required for rider application including password'
+        error: 'All fields are required for rider application including password and expiry dates'
+      });
+    }
+
+    // Validate uploaded files
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const requiredFiles = ['passportPhoto', 'motorcyclePhoto', 'idCardFront', 'idCardBack',
+                          'drivingLicense', 'goodConductCertificate', 'motorcycleInsurance'];
+
+    const missingFiles = requiredFiles.filter(field => !files[field] || files[field].length === 0);
+
+    if (missingFiles.length > 0) {
+      return res.status(400).json({
+        error: `Missing required documents: ${missingFiles.join(', ')}`
       });
     }
 
@@ -194,6 +214,14 @@ export const riderSignup: RequestHandler = (req, res) => {
       });
     }
 
+    // Extract file paths for storage
+    const documents = {};
+    requiredFiles.forEach(field => {
+      if (files[field] && files[field][0]) {
+        documents[field] = files[field][0].path;
+      }
+    });
+
     const newRider = {
       id: `RD-${riderIdCounter.toString().padStart(3, '0')}`,
       fullName,
@@ -201,10 +229,15 @@ export const riderSignup: RequestHandler = (req, res) => {
       phone,
       password, // In production, this should be hashed
       nationalId,
-      motorcycle,
+      motorcycleColor,
+      motorcycleModel,
       experience,
       area,
       motivation,
+      drivingLicenseExpiry,
+      goodConductExpiry,
+      motorcycleInsuranceExpiry,
+      documents, // Store all uploaded document paths
       status: 'pending',
       rating: 0,
       totalDeliveries: 0,
