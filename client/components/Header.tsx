@@ -56,6 +56,9 @@ export default function Header() {
             <Link to="/signup" className="text-gray-700 hover:text-rocs-green transition-colors">
               Join as Rider
             </Link>
+            <Link to="/rider-login" className="text-gray-700 hover:text-rocs-green transition-colors">
+              Rider Sign In
+            </Link>
             <Link to="/admin" className="text-gray-700 hover:text-rocs-green transition-colors">
               Admin
             </Link>
