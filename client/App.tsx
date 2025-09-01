@@ -30,6 +30,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/rider-login" element={<RiderLogin />} />
+            <Route path="/rider-withdrawal" element={<RiderWithdrawal />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
