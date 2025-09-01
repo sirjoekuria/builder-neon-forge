@@ -112,21 +112,22 @@ export const riderSignup: RequestHandler = (req, res) => {
       fullName,
       email,
       phone,
+      password,
       nationalId,
       motorcycle,
       experience,
       area,
       motivation
     } = req.body;
-    
-    if (!fullName || !email || !phone || !nationalId || !motorcycle || !experience || !area || !motivation) {
+
+    if (!fullName || !email || !phone || !password || !nationalId || !motorcycle || !experience || !area || !motivation) {
       return res.status(400).json({
-        error: 'All fields are required for rider application'
+        error: 'All fields are required for rider application including password'
       });
     }
 
     // Check if rider already exists
-    const existingRider = riders.find(rider => 
+    const existingRider = riders.find(rider =>
       rider.email === email || rider.phone === phone || rider.nationalId === nationalId
     );
 
@@ -141,6 +142,7 @@ export const riderSignup: RequestHandler = (req, res) => {
       fullName,
       email,
       phone,
+      password, // In production, this should be hashed
       nationalId,
       motorcycle,
       experience,
@@ -150,19 +152,25 @@ export const riderSignup: RequestHandler = (req, res) => {
       rating: 0,
       totalDeliveries: 0,
       joinedAt: new Date().toISOString(),
-      isActive: false
+      isActive: false,
+      userType: 'rider',
+      currentBalance: 0,
+      totalEarnings: 0,
+      totalWithdrawn: 0,
+      earnings: []
     };
 
     riders.push(newRider);
     riderIdCounter++;
 
-    res.status(201).json({ 
-      success: true, 
-      message: 'Rider application submitted successfully',
+    res.status(201).json({
+      success: true,
+      message: 'Rider application submitted successfully. You will be notified once approved.',
       rider: {
         id: newRider.id,
         fullName: newRider.fullName,
         email: newRider.email,
+        userType: newRider.userType,
         status: newRider.status
       }
     });
