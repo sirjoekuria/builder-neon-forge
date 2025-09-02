@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { MapPin, Navigation, Search, X } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { MapPin, Navigation, Search, X } from "lucide-react";
 
 interface Location {
   name: string;
@@ -13,43 +13,95 @@ interface LocationPickerProps {
   onDistanceCalculated?: (distance: number, duration: number) => void;
 }
 
-export default function LocationPicker({ onLocationSelect, onDistanceCalculated }: LocationPickerProps) {
+export default function LocationPicker({
+  onLocationSelect,
+  onDistanceCalculated,
+}: LocationPickerProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
   const [dropoffLocation, setDropoffLocation] = useState<Location | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Location[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [selectedLocationType, setSelectedLocationType] = useState<'pickup' | 'dropoff'>('pickup');
+  const [selectedLocationType, setSelectedLocationType] = useState<
+    "pickup" | "dropoff"
+  >("pickup");
   const [distance, setDistance] = useState<number | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
 
   // Common locations in Nairobi for quick selection
   const commonLocations: Location[] = [
-    { name: 'JKIA Airport', address: 'Jomo Kenyatta International Airport, Nairobi', lat: -1.3192, lng: 36.9275 },
-    { name: 'CBD', address: 'Central Business District, Nairobi', lat: -1.2864, lng: 36.8172 },
-    { name: 'Westlands', address: 'Westlands, Nairobi', lat: -1.2676, lng: 36.8103 },
-    { name: 'Karen', address: 'Karen, Nairobi', lat: -1.3318, lng: 36.7026 },
-    { name: 'Kileleshwa', address: 'Kileleshwa, Nairobi', lat: -1.2833, lng: 36.7833 },
-    { name: 'Eastleigh', address: 'Eastleigh, Nairobi', lat: -1.2833, lng: 36.8500 },
-    { name: 'Kasarani', address: 'Kasarani, Nairobi', lat: -1.2167, lng: 36.9000 },
-    { name: 'Embakasi', address: 'Embakasi, Nairobi', lat: -1.3167, lng: 36.8833 },
-    { name: 'Thika Road Mall', address: 'Thika Road, Nairobi', lat: -1.2167, lng: 36.8833 },
-    { name: 'Junction Mall', address: 'Ngong Road, Nairobi', lat: -1.3019, lng: 36.7819 }
+    {
+      name: "JKIA Airport",
+      address: "Jomo Kenyatta International Airport, Nairobi",
+      lat: -1.3192,
+      lng: 36.9275,
+    },
+    {
+      name: "CBD",
+      address: "Central Business District, Nairobi",
+      lat: -1.2864,
+      lng: 36.8172,
+    },
+    {
+      name: "Westlands",
+      address: "Westlands, Nairobi",
+      lat: -1.2676,
+      lng: 36.8103,
+    },
+    { name: "Karen", address: "Karen, Nairobi", lat: -1.3318, lng: 36.7026 },
+    {
+      name: "Kileleshwa",
+      address: "Kileleshwa, Nairobi",
+      lat: -1.2833,
+      lng: 36.7833,
+    },
+    {
+      name: "Eastleigh",
+      address: "Eastleigh, Nairobi",
+      lat: -1.2833,
+      lng: 36.85,
+    },
+    { name: "Kasarani", address: "Kasarani, Nairobi", lat: -1.2167, lng: 36.9 },
+    {
+      name: "Embakasi",
+      address: "Embakasi, Nairobi",
+      lat: -1.3167,
+      lng: 36.8833,
+    },
+    {
+      name: "Thika Road Mall",
+      address: "Thika Road, Nairobi",
+      lat: -1.2167,
+      lng: 36.8833,
+    },
+    {
+      name: "Junction Mall",
+      address: "Ngong Road, Nairobi",
+      lat: -1.3019,
+      lng: 36.7819,
+    },
   ];
 
   // This function is now moved to useCallback below to prevent infinite loops
 
   // Calculate distance between two points using Haversine formula
-  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+  const calculateDistance = (
+    lat1: number,
+    lng1: number,
+    lat2: number,
+    lng2: number,
+  ): number => {
     const R = 6371; // Earth's radius in kilometers
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-      Math.sin(dLng/2) * Math.sin(dLng/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLng = ((lng2 - lng1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
 
@@ -59,36 +111,36 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const location: Location = {
-            name: 'Current Location',
-            address: 'Your current location',
+            name: "Current Location",
+            address: "Your current location",
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           };
-          
-          if (selectedLocationType === 'pickup') {
+
+          if (selectedLocationType === "pickup") {
             setPickupLocation(location);
           } else {
             setDropoffLocation(location);
           }
         },
         (error) => {
-          console.error('Geolocation error:', error);
-          alert('Unable to get your current location. Please select manually.');
-        }
+          console.error("Geolocation error:", error);
+          alert("Unable to get your current location. Please select manually.");
+        },
       );
     } else {
-      alert('Geolocation is not supported by this browser.');
+      alert("Geolocation is not supported by this browser.");
     }
   };
 
   // Handle location selection
   const selectLocation = (location: Location) => {
-    if (selectedLocationType === 'pickup') {
+    if (selectedLocationType === "pickup") {
       setPickupLocation(location);
     } else {
       setDropoffLocation(location);
     }
-    setSearchQuery('');
+    setSearchQuery("");
     setSearchResults([]);
   };
 
@@ -99,7 +151,7 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
         pickupLocation.lat,
         pickupLocation.lng,
         dropoffLocation.lat,
-        dropoffLocation.lng
+        dropoffLocation.lng,
       );
 
       // Estimate duration (assuming average speed of 25 km/h in Nairobi traffic)
@@ -127,26 +179,29 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
 
       try {
         // Filter common locations first for quick access
-        const filteredCommon = commonLocations.filter(location =>
-          location.name.toLowerCase().includes(query.toLowerCase()) ||
-          location.address.toLowerCase().includes(query.toLowerCase())
+        const filteredCommon = commonLocations.filter(
+          (location) =>
+            location.name.toLowerCase().includes(query.toLowerCase()) ||
+            location.address.toLowerCase().includes(query.toLowerCase()),
         );
 
         // Use Mapbox Geocoding API for comprehensive search
-        const mapboxAccessToken = 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
+        const mapboxAccessToken =
+          "pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw";
 
         // Search with various types to include buildings, businesses, POIs
         const searchTypes = [
-          'place',      // neighborhoods, villages, districts
-          'poi',        // points of interest (buildings, businesses)
-          'address',    // street addresses
-          'locality',   // cities, towns
-          'neighborhood' // neighborhoods
-        ].join(',');
+          "place", // neighborhoods, villages, districts
+          "poi", // points of interest (buildings, businesses)
+          "address", // street addresses
+          "locality", // cities, towns
+          "neighborhood", // neighborhoods
+        ].join(",");
 
-        const geocodingUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
+        const geocodingUrl =
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
           `access_token=${mapboxAccessToken}&` +
-          `country=KE&` +  // Restrict to Kenya
+          `country=KE&` + // Restrict to Kenya
           `proximity=36.8219,-1.2921&` + // Bias towards Nairobi center
           `types=${searchTypes}&` +
           `limit=10&` +
@@ -160,10 +215,10 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
 
         if (data.features && data.features.length > 0) {
           apiResults = data.features.map((feature: any) => ({
-            name: feature.text || feature.place_name.split(',')[0],
+            name: feature.text || feature.place_name.split(",")[0],
             address: feature.place_name,
             lat: feature.center[1],
-            lng: feature.center[0]
+            lng: feature.center[0],
           }));
         }
 
@@ -171,10 +226,12 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
         const combinedResults = [...filteredCommon];
 
         // Add API results that aren't duplicates
-        apiResults.forEach(apiResult => {
-          const isDuplicate = combinedResults.some(existing =>
-            existing.name.toLowerCase() === apiResult.name.toLowerCase() ||
-            (Math.abs(existing.lat - apiResult.lat) < 0.001 && Math.abs(existing.lng - apiResult.lng) < 0.001)
+        apiResults.forEach((apiResult) => {
+          const isDuplicate = combinedResults.some(
+            (existing) =>
+              existing.name.toLowerCase() === apiResult.name.toLowerCase() ||
+              (Math.abs(existing.lat - apiResult.lat) < 0.001 &&
+                Math.abs(existing.lng - apiResult.lng) < 0.001),
           );
 
           if (!isDuplicate) {
@@ -184,20 +241,25 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
 
         setSearchResults(combinedResults);
       } catch (error) {
-        console.error('Location search error:', error);
+        console.error("Location search error:", error);
 
         // Fallback to common locations if API fails
-        const filteredCommon = commonLocations.filter(location =>
-          location.name.toLowerCase().includes(query.toLowerCase()) ||
-          location.address.toLowerCase().includes(query.toLowerCase())
+        const filteredCommon = commonLocations.filter(
+          (location) =>
+            location.name.toLowerCase().includes(query.toLowerCase()) ||
+            location.address.toLowerCase().includes(query.toLowerCase()),
         );
 
-        setSearchResults(filteredCommon.length > 0 ? filteredCommon : commonLocations.slice(0, 5));
+        setSearchResults(
+          filteredCommon.length > 0
+            ? filteredCommon
+            : commonLocations.slice(0, 5),
+        );
       } finally {
         setIsSearching(false);
       }
     },
-    [commonLocations]
+    [commonLocations],
   );
 
   // Debounced search
@@ -219,21 +281,21 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
       {/* Location Type Selector */}
       <div className="flex mb-4">
         <button
-          onClick={() => setSelectedLocationType('pickup')}
+          onClick={() => setSelectedLocationType("pickup")}
           className={`flex-1 py-2 px-4 rounded-l-lg border-2 transition-colors ${
-            selectedLocationType === 'pickup'
-              ? 'bg-rocs-green text-white border-rocs-green'
-              : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+            selectedLocationType === "pickup"
+              ? "bg-rocs-green text-white border-rocs-green"
+              : "bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100"
           }`}
         >
           Pickup Location
         </button>
         <button
-          onClick={() => setSelectedLocationType('dropoff')}
+          onClick={() => setSelectedLocationType("dropoff")}
           className={`flex-1 py-2 px-4 rounded-r-lg border-2 border-l-0 transition-colors ${
-            selectedLocationType === 'dropoff'
-              ? 'bg-rocs-green text-white border-rocs-green'
-              : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+            selectedLocationType === "dropoff"
+              ? "bg-rocs-green text-white border-rocs-green"
+              : "bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100"
           }`}
         >
           Drop-off Location
@@ -255,7 +317,7 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
             {searchQuery && (
               <button
                 onClick={() => {
-                  setSearchQuery('');
+                  setSearchQuery("");
                   setSearchResults([]);
                 }}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
@@ -293,7 +355,9 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
       {/* Quick Select Common Locations */}
       {!searchQuery && (
         <div className="mb-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Quick Select:</h4>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">
+            Quick Select:
+          </h4>
           <div className="grid grid-cols-2 gap-2">
             {commonLocations.slice(0, 6).map((location, index) => (
               <button
@@ -314,8 +378,12 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
           <div className="bg-green-50 border border-green-200 rounded-lg p-3">
             <div className="flex items-center justify-between">
               <div>
-                <div className="font-medium text-green-800">Pickup: {pickupLocation.name}</div>
-                <div className="text-sm text-green-600">{pickupLocation.address}</div>
+                <div className="font-medium text-green-800">
+                  Pickup: {pickupLocation.name}
+                </div>
+                <div className="text-sm text-green-600">
+                  {pickupLocation.address}
+                </div>
               </div>
               <button
                 onClick={() => setPickupLocation(null)}
@@ -331,8 +399,12 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <div className="flex items-center justify-between">
               <div>
-                <div className="font-medium text-blue-800">Drop-off: {dropoffLocation.name}</div>
-                <div className="text-sm text-blue-600">{dropoffLocation.address}</div>
+                <div className="font-medium text-blue-800">
+                  Drop-off: {dropoffLocation.name}
+                </div>
+                <div className="text-sm text-blue-600">
+                  {dropoffLocation.address}
+                </div>
               </div>
               <button
                 onClick={() => setDropoffLocation(null)}
