@@ -231,8 +231,24 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {/* Tabs */}
         <Tabs defaultValue="messages" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
-            <TabsTrigger value="orders">Orders</TabsTrigger>
+            <TabsTrigger value="messages">
+              {stats.unreadMessages > 0 ? (
+                <UnreadMessageDot>
+                  Messages
+                </UnreadMessageDot>
+              ) : (
+                'Messages'
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="orders">
+              {stats.pendingOrders > 0 ? (
+                <PendingBookingDot>
+                  Orders
+                </PendingBookingDot>
+              ) : (
+                'Orders'
+              )}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="messages" className="space-y-4">
