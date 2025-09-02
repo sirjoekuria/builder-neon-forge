@@ -7,6 +7,7 @@ import Tracking from "./pages/Tracking";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import BookDelivery from "./pages/BookDelivery";
+import CalculatePrice from "./pages/CalculatePrice";
 import Admin from "./pages/Admin";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
