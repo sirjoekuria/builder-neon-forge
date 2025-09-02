@@ -66,10 +66,10 @@ export default function Header() {
 
           {/* Contact Info & CTA */}
           <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex items-center space-x-1 text-sm text-gray-600">
+            <a href="tel:+254700898950" className="flex items-center space-x-1 text-sm text-gray-600 hover:text-rocs-green transition-colors">
               <Phone className="w-4 h-4" />
               <span>+254 700 898 950</span>
-            </div>
+            </a>
             
             {user ? (
               <div className="flex items-center space-x-3">
