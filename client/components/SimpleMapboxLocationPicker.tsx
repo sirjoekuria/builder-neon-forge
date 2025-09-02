@@ -22,6 +22,83 @@ interface SearchResult {
 
 const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
 
+// Comprehensive Kenyan landmarks and buildings database
+const KENYAN_LANDMARKS: SearchResult[] = [
+  // Major Malls
+  { id: 'westgate-mall', place_name: 'Westgate Shopping Mall, Westlands, Nairobi', center: [36.8065, -1.2676], text: 'Westgate Mall' },
+  { id: 'junction-mall', place_name: 'Junction Mall, Ngong Road, Nairobi', center: [36.7819, -1.3019], text: 'Junction Mall' },
+  { id: 'sarit-centre', place_name: 'Sarit Centre, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Sarit Centre' },
+  { id: 'village-market', place_name: 'Village Market, Gigiri, Nairobi', center: [36.8150, -1.2430], text: 'Village Market' },
+  { id: 'galleria-mall', place_name: 'Galleria Shopping Mall, Langata Road, Nairobi', center: [36.7650, -1.3350], text: 'Galleria Mall' },
+  { id: 'thika-road-mall', place_name: 'Thika Road Mall, Roysambu, Nairobi', center: [36.8833, -1.2167], text: 'Thika Road Mall' },
+  { id: 'garden-city-mall', place_name: 'Garden City Mall, Thika Road, Nairobi', center: [36.8950, -1.2100], text: 'Garden City Mall' },
+  { id: 'yaya-centre', place_name: 'Yaya Centre, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Yaya Centre' },
+  { id: 'prestige-plaza', place_name: 'Prestige Plaza, Ngong Road, Nairobi', center: [36.7700, -1.3200], text: 'Prestige Plaza' },
+  { id: 'nextgen-mall', place_name: 'NextGen Mall, Mombasa Road, Nairobi', center: [36.8400, -1.3400], text: 'NextGen Mall' },
+
+  // Government Buildings & Landmarks
+  { id: 'kicc', place_name: 'Kenyatta International Conference Centre (KICC), CBD, Nairobi', center: [36.8172, -1.2873], text: 'KICC' },
+  { id: 'parliament', place_name: 'Parliament Buildings, CBD, Nairobi', center: [36.8181, -1.2884], text: 'Parliament Buildings' },
+  { id: 'state-house', place_name: 'State House, Nairobi', center: [36.8050, -1.2700], text: 'State House' },
+  { id: 'city-hall', place_name: 'City Hall, CBD, Nairobi', center: [36.8172, -1.2864], text: 'City Hall' },
+  { id: 'nyayo-house', place_name: 'Nyayo House, Uhuru Highway, Nairobi', center: [36.8181, -1.2890], text: 'Nyayo House' },
+  { id: 'anniversary-towers', place_name: 'Anniversary Towers, University Way, Nairobi', center: [36.8181, -1.2870], text: 'Anniversary Towers' },
+
+  // Hotels
+  { id: 'hilton-nairobi', place_name: 'Hilton Nairobi, Mama Ngina Street, CBD, Nairobi', center: [36.8181, -1.2864], text: 'Hilton Hotel' },
+  { id: 'serena-hotel', place_name: 'Serena Hotel, Kenyatta Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Serena Hotel' },
+  { id: 'sankara-hotel', place_name: 'Sankara Nairobi, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Sankara Hotel' },
+  { id: 'villa-rosa-kempinski', place_name: 'Villa Rosa Kempinski, Chiromo Road, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Villa Rosa Kempinski' },
+  { id: 'intercontinental', place_name: 'InterContinental Nairobi, City Hall Way, CBD, Nairobi', center: [36.8181, -1.2864], text: 'InterContinental Hotel' },
+
+  // Hospitals
+  { id: 'knh', place_name: 'Kenyatta National Hospital, Hospital Road, Nairobi', center: [36.8050, -1.3000], text: 'Kenyatta National Hospital' },
+  { id: 'nairobi-hospital', place_name: 'Nairobi Hospital, Argwings Kodhek Road, Nairobi', center: [36.7850, -1.2950], text: 'Nairobi Hospital' },
+  { id: 'aga-khan-hospital', place_name: 'Aga Khan University Hospital, Third Parklands Avenue, Nairobi', center: [36.8200, -1.2600], text: 'Aga Khan Hospital' },
+  { id: 'mater-hospital', place_name: 'Mater Hospital, South B, Nairobi', center: [36.8300, -1.3100], text: 'Mater Hospital' },
+
+  // Universities
+  { id: 'university-of-nairobi', place_name: 'University of Nairobi, Harry Thuku Road, Nairobi', center: [36.8181, -1.2790], text: 'University of Nairobi' },
+  { id: 'strathmore-university', place_name: 'Strathmore University, Ole Sangale Road, Madaraka, Nairobi', center: [36.7950, -1.3050], text: 'Strathmore University' },
+  { id: 'usiu', place_name: 'United States International University (USIU), Thika Road, Kasarani, Nairobi', center: [36.8900, -1.2200], text: 'USIU' },
+  { id: 'daystar-university', place_name: 'Daystar University, Athi River Campus, Machakos', center: [36.9800, -1.4500], text: 'Daystar University' },
+
+  // Business Districts & Areas
+  { id: 'cbd', place_name: 'Central Business District (CBD), Nairobi', center: [36.8172, -1.2864], text: 'CBD' },
+  { id: 'westlands', place_name: 'Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Westlands' },
+  { id: 'karen', place_name: 'Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen' },
+  { id: 'kilimani', place_name: 'Kilimani, Nairobi', center: [36.7833, -1.2833], text: 'Kilimani' },
+  { id: 'kileleshwa', place_name: 'Kileleshwa, Nairobi', center: [36.7833, -1.2833], text: 'Kileleshwa' },
+  { id: 'eastleigh', place_name: 'Eastleigh, Nairobi', center: [36.8500, -1.2833], text: 'Eastleigh' },
+  { id: 'kasarani', place_name: 'Kasarani, Nairobi', center: [36.9000, -1.2167], text: 'Kasarani' },
+  { id: 'embakasi', place_name: 'Embakasi, Nairobi', center: [36.8833, -1.3167], text: 'Embakasi' },
+  { id: 'south-b', place_name: 'South B, Nairobi', center: [36.8300, -1.3100], text: 'South B' },
+  { id: 'south-c', place_name: 'South C, Nairobi', center: [36.8350, -1.3150], text: 'South C' },
+
+  // Transport Hubs
+  { id: 'jkia', place_name: 'Jomo Kenyatta International Airport (JKIA), Nairobi', center: [36.9275, -1.3192], text: 'JKIA Airport' },
+  { id: 'wilson-airport', place_name: 'Wilson Airport, Langata Road, Nairobi', center: [36.8150, -1.3220], text: 'Wilson Airport' },
+  { id: 'railway-station', place_name: 'Nairobi Railway Station, Station Road, CBD, Nairobi', center: [36.8181, -1.2890], text: 'Railway Station' },
+  { id: 'bus-station', place_name: 'Nairobi Bus Station, Accra Road, CBD, Nairobi', center: [36.8181, -1.2890], text: 'Bus Station' },
+
+  // Office Buildings
+  { id: 'iim-building', place_name: 'I&M Building, Kenyatta Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'I&M Building' },
+  { id: 'kcb-building', place_name: 'KCB Building, Kencom House, CBD, Nairobi', center: [36.8181, -1.2873], text: 'KCB Building' },
+  { id: 'uap-building', place_name: 'UAP Old Mutual Building, Upper Hill, Nairobi', center: [36.8050, -1.2950], text: 'UAP Building' },
+  { id: 'kencom-house', place_name: 'Kencom House, Moi Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Kencom House' },
+  { id: 'times-tower', place_name: 'Times Tower, Haile Selassie Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Times Tower' },
+
+  // Entertainment & Leisure
+  { id: 'uhuru-park', place_name: 'Uhuru Park, CBD, Nairobi', center: [36.8181, -1.2890], text: 'Uhuru Park' },
+  { id: 'central-park', place_name: 'Central Park, CBD, Nairobi', center: [36.8181, -1.2864], text: 'Central Park' },
+  { id: 'karura-forest', place_name: 'Karura Forest, Kiambu Road, Nairobi', center: [36.8500, -1.2300], text: 'Karura Forest' },
+  { id: 'nairobi-national-park', place_name: 'Nairobi National Park, Langata, Nairobi', center: [36.8000, -1.3500], text: 'Nairobi National Park' },
+
+  // Sports Venues
+  { id: 'kasarani-stadium', place_name: 'Moi International Sports Centre Kasarani, Thika Road, Nairobi', center: [36.9000, -1.2167], text: 'Kasarani Stadium' },
+  { id: 'nyayo-stadium', place_name: 'Nyayo National Stadium, Langata Road, Nairobi', center: [36.8000, -1.3200], text: 'Nyayo Stadium' },
+];
+
 export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanceCalculated }: LocationPickerProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
   const [dropoffLocation, setDropoffLocation] = useState<Location | null>(null);
