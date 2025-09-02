@@ -135,39 +135,63 @@ export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanc
 
   // Calculate distance and duration using Mapbox Directions API
   const calculateRoute = useCallback(async (pickup: Location, dropoff: Location) => {
+    if (!MAPBOX_ACCESS_TOKEN) {
+      console.error('Mapbox access token is not available for route calculation');
+      // Fallback to straight-line distance
+      const straightLineDistance = calculateStraightLineDistance(pickup.lat, pickup.lng, dropoff.lat, dropoff.lng);
+      const estimatedDuration = (straightLineDistance / 25) * 60; // Assume 25 km/h average speed
+
+      setDistance(straightLineDistance);
+      setDuration(estimatedDuration);
+
+      if (onDistanceCalculated) {
+        onDistanceCalculated(straightLineDistance, estimatedDuration);
+      }
+      return;
+    }
+
     try {
-      const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup.lng},${pickup.lat};${dropoff.lng},${dropoff.lat}?` +
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup.lng},${pickup.lat};${dropoff.lng},${dropoff.lat}?` +
         `access_token=${MAPBOX_ACCESS_TOKEN}&` +
         `geometries=geojson&` +
-        `overview=simplified`
-      );
-      
-      if (!response.ok) throw new Error('Directions request failed');
-      
+        `overview=simplified`;
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Directions request failed: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+
       const data = await response.json();
-      
+
+      if (data.message) {
+        throw new Error(`Mapbox Directions API Error: ${data.message}`);
+      }
+
       if (data.routes && data.routes.length > 0) {
         const route = data.routes[0];
         const distanceInKm = route.distance / 1000; // Convert meters to kilometers
         const durationInMinutes = route.duration / 60; // Convert seconds to minutes
-        
+
         setDistance(distanceInKm);
         setDuration(durationInMinutes);
-        
+
         if (onDistanceCalculated) {
           onDistanceCalculated(distanceInKm, durationInMinutes);
         }
+      } else {
+        throw new Error('No routes found');
       }
     } catch (error) {
       console.error('Route calculation error:', error);
       // Fallback to straight-line distance
       const straightLineDistance = calculateStraightLineDistance(pickup.lat, pickup.lng, dropoff.lat, dropoff.lng);
       const estimatedDuration = (straightLineDistance / 25) * 60; // Assume 25 km/h average speed
-      
+
       setDistance(straightLineDistance);
       setDuration(estimatedDuration);
-      
+
       if (onDistanceCalculated) {
         onDistanceCalculated(straightLineDistance, estimatedDuration);
       }
