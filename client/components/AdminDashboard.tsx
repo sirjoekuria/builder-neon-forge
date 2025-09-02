@@ -15,6 +15,7 @@ import {
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { PendingBookingDot, UnreadMessageDot } from './ui/notification-dot';
 
 interface Message {
   id: string;
