@@ -908,7 +908,13 @@ export default function Admin() {
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  Customer Messages
+                  {stats.unreadMessages > 0 ? (
+                    <UnreadMessageDot>
+                      Customer Messages
+                    </UnreadMessageDot>
+                  ) : (
+                    'Customer Messages'
+                  )}
                 </button>
               </div>
             )}
