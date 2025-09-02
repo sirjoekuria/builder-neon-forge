@@ -42,23 +42,37 @@ export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanc
   // Geocoding search function
   const searchLocation = async (query: string): Promise<SearchResult[]> => {
     if (!query.trim() || query.length < 3) return [];
-    
+
+    if (!MAPBOX_ACCESS_TOKEN) {
+      console.error('Mapbox access token is not available');
+      return [];
+    }
+
     try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
         `access_token=${MAPBOX_ACCESS_TOKEN}&` +
         `country=KE&` +
         `proximity=36.8219,-1.2921&` + // Bias towards Nairobi
         `types=place,locality,neighborhood,address,poi&` +
-        `limit=5`
-      );
-      
-      if (!response.ok) throw new Error('Geocoding request failed');
-      
+        `limit=5`;
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Geocoding request failed: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+
       const data = await response.json();
+
+      if (data.message) {
+        throw new Error(`Mapbox API Error: ${data.message}`);
+      }
+
       return data.features || [];
     } catch (error) {
       console.error('Geocoding error:', error);
+      // Return empty array instead of throwing to prevent UI breaks
       return [];
     }
   };
