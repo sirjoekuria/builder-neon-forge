@@ -138,7 +138,7 @@ export default function Contact() {
                       <h4 className="font-semibold text-gray-800 mb-1">
                         Phone
                       </h4>
-                      <p className="text-gray-600">+254 700 898 950</p>
+                      <a href="tel:+254700898950" className="text-gray-600 hover:text-rocs-green transition-colors">+254 700 898 950</a>
                       <p className="text-sm text-gray-500">
                         Available 24/7 for emergency deliveries
                       </p>
