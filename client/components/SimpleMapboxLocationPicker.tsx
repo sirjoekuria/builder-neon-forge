@@ -248,22 +248,36 @@ export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanc
           
           // Reverse geocode to get address
           try {
-            const response = await fetch(
-              `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?` +
+            if (!MAPBOX_ACCESS_TOKEN) {
+              throw new Error('Mapbox access token not available');
+            }
+
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?` +
               `access_token=${MAPBOX_ACCESS_TOKEN}&` +
-              `types=address,poi`
-            );
-            
+              `types=address,poi`;
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(`Reverse geocoding failed: ${response.status} ${response.statusText} - ${errorText}`);
+            }
+
             const data = await response.json();
+
+            if (data.message) {
+              throw new Error(`Mapbox API Error: ${data.message}`);
+            }
+
             const place = data.features?.[0];
-            
+
             const location: Location = {
               name: place ? place.text : 'Current Location',
               address: place ? place.place_name : `${lat.toFixed(6)}, ${lng.toFixed(6)}`,
               lat,
               lng
             };
-            
+
             if (isPickup) {
               setPickupLocation(location);
               setPickupQuery(location.address);
@@ -279,7 +293,7 @@ export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanc
               lat,
               lng
             };
-            
+
             if (isPickup) {
               setPickupLocation(location);
               setPickupQuery(location.address);
