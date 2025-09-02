@@ -128,10 +128,12 @@ export default function PriceEstimator() {
                       </div>
                     </div>
 
-                    <Button className="bg-rocs-green hover:bg-rocs-green-dark text-white w-full">
-                      Book This Delivery
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
+                    <Link to="/book-delivery">
+                      <Button className="bg-rocs-green hover:bg-rocs-green-dark text-white w-full">
+                        Book This Delivery
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 ) : (
                   <div className="text-center text-gray-500">
