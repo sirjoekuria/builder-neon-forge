@@ -125,30 +125,50 @@ export default function Signup() {
       const endpoint =
         userType === "rider" ? "/api/riders/signup" : "/api/users/signup";
 
-      // Create FormData for file uploads
-      const submitData = new FormData();
+      let response;
 
-      // Add text fields
-      Object.entries(formData).forEach(([key, value]) => {
-        submitData.append(key, value);
-      });
-
-      submitData.append("userType", userType);
-      submitData.append("timestamp", new Date().toISOString());
-
-      // Add files for rider applications
       if (userType === "rider") {
+        // Create FormData for file uploads (riders)
+        const submitData = new FormData();
+
+        // Add text fields
+        Object.entries(formData).forEach(([key, value]) => {
+          submitData.append(key, value);
+        });
+
+        submitData.append("userType", userType);
+        submitData.append("timestamp", new Date().toISOString());
+
+        // Add files for rider applications
         Object.entries(fileUploads).forEach(([key, file]) => {
           if (file) {
             submitData.append(key, file);
           }
         });
-      }
 
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: submitData, // Don't set Content-Type header, let browser set it for FormData
-      });
+        response = await fetch(endpoint, {
+          method: "POST",
+          body: submitData, // Don't set Content-Type header, let browser set it for FormData
+        });
+      } else {
+        // Send JSON for customer signup
+        const jsonData = {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          userType,
+          timestamp: new Date().toISOString()
+        };
+
+        response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData),
+        });
+      }
 
       if (response.ok) {
         const result = await response.json();
