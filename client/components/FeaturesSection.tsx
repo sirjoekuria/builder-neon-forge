@@ -79,12 +79,18 @@ export default function FeaturesSection() {
               Join thousands of satisfied customers and get your first delivery at an amazing rate!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105">
+              <Link
+                to="/calculate-price"
+                className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+              >
                 Calculate Price
-              </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-rocs-green font-bold px-8 py-3 rounded-lg transition-all duration-300">
+              </Link>
+              <Link
+                to="/tracking"
+                className="border-2 border-white text-white hover:bg-white hover:text-rocs-green font-bold px-8 py-3 rounded-lg transition-all duration-300"
+              >
                 Track Your Order
-              </button>
+              </Link>
             </div>
           </div>
         </div>
