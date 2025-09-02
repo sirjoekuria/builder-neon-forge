@@ -126,22 +126,73 @@ export default function LocationPicker({ onLocationSelect, onDistanceCalculated 
       setIsSearching(true);
 
       try {
-        // Filter common locations first
+        // Filter common locations first for quick access
         const filteredCommon = commonLocations.filter(location =>
           location.name.toLowerCase().includes(query.toLowerCase()) ||
           location.address.toLowerCase().includes(query.toLowerCase())
         );
 
-        // Simulate API search with additional results
-        const additionalResults: Location[] = [
-          { name: `${query} - Area A`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
-          { name: `${query} - Area B`, address: `${query}, Nairobi`, lat: -1.2921 + (Math.random() - 0.5) * 0.1, lng: 36.8219 + (Math.random() - 0.5) * 0.1 },
-        ];
+        // Use Mapbox Geocoding API for comprehensive search
+        const mapboxAccessToken = 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
 
-        setSearchResults([...filteredCommon, ...additionalResults]);
+        // Search with various types to include buildings, businesses, POIs
+        const searchTypes = [
+          'place',      // neighborhoods, villages, districts
+          'poi',        // points of interest (buildings, businesses)
+          'address',    // street addresses
+          'locality',   // cities, towns
+          'neighborhood' // neighborhoods
+        ].join(',');
+
+        const geocodingUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
+          `access_token=${mapboxAccessToken}&` +
+          `country=KE&` +  // Restrict to Kenya
+          `proximity=36.8219,-1.2921&` + // Bias towards Nairobi center
+          `types=${searchTypes}&` +
+          `limit=10&` +
+          `autocomplete=true&` +
+          `language=en`;
+
+        const response = await fetch(geocodingUrl);
+        const data = await response.json();
+
+        let apiResults: Location[] = [];
+
+        if (data.features && data.features.length > 0) {
+          apiResults = data.features.map((feature: any) => ({
+            name: feature.text || feature.place_name.split(',')[0],
+            address: feature.place_name,
+            lat: feature.center[1],
+            lng: feature.center[0]
+          }));
+        }
+
+        // Combine results: common locations first, then API results
+        const combinedResults = [...filteredCommon];
+
+        // Add API results that aren't duplicates
+        apiResults.forEach(apiResult => {
+          const isDuplicate = combinedResults.some(existing =>
+            existing.name.toLowerCase() === apiResult.name.toLowerCase() ||
+            (Math.abs(existing.lat - apiResult.lat) < 0.001 && Math.abs(existing.lng - apiResult.lng) < 0.001)
+          );
+
+          if (!isDuplicate) {
+            combinedResults.push(apiResult);
+          }
+        });
+
+        setSearchResults(combinedResults);
       } catch (error) {
         console.error('Location search error:', error);
-        setSearchResults(commonLocations.slice(0, 5));
+
+        // Fallback to common locations if API fails
+        const filteredCommon = commonLocations.filter(location =>
+          location.name.toLowerCase().includes(query.toLowerCase()) ||
+          location.address.toLowerCase().includes(query.toLowerCase())
+        );
+
+        setSearchResults(filteredCommon.length > 0 ? filteredCommon : commonLocations.slice(0, 5));
       } finally {
         setIsSearching(false);
       }
