@@ -208,12 +208,18 @@ export default function Services() {
             Get started with Rocs Crew today and experience reliable delivery service
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-4 rounded-lg text-lg">
+            <Link
+              to="/calculate-price"
+              className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 font-bold px-8 py-4 rounded-lg text-lg transition-colors"
+            >
               Calculate Price
-            </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-rocs-green font-bold px-8 py-4 rounded-lg text-lg">
+            </Link>
+            <a
+              href="tel:+254700898950"
+              className="border-2 border-white text-white hover:bg-white hover:text-rocs-green font-bold px-8 py-4 rounded-lg text-lg transition-colors"
+            >
               Call +254 700 898 950
-            </button>
+            </a>
           </div>
         </div>
       </section>
