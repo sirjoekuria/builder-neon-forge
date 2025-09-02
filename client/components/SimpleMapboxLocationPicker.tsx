@@ -190,6 +190,106 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   // Industrial Area Apartments
   { id: 'industrial-area', place_name: 'Industrial Area Apartments, Industrial Area, Nairobi', center: [36.8400, -1.3200], text: 'Industrial Area' },
   { id: 'enterprise-road', place_name: 'Enterprise Road Apartments, Industrial Area, Nairobi', center: [36.8400, -1.3200], text: 'Enterprise Road' },
+
+  // Major Streets & Roads in Nairobi
+
+  // Main CBD Streets
+  { id: 'kenyatta-avenue', place_name: 'Kenyatta Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Kenyatta Avenue' },
+  { id: 'moi-avenue', place_name: 'Moi Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Moi Avenue' },
+  { id: 'uhuru-highway', place_name: 'Uhuru Highway, Nairobi', center: [36.8181, -1.2890], text: 'Uhuru Highway' },
+  { id: 'haile-selassie-avenue', place_name: 'Haile Selassie Avenue, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Haile Selassie Avenue' },
+  { id: 'mama-ngina-street', place_name: 'Mama Ngina Street, CBD, Nairobi', center: [36.8181, -1.2864], text: 'Mama Ngina Street' },
+  { id: 'tom-mboya-street', place_name: 'Tom Mboya Street, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Tom Mboya Street' },
+  { id: 'muindi-mbingu-street', place_name: 'Muindi Mbingu Street, CBD, Nairobi', center: [36.8181, -1.2873], text: 'Muindi Mbingu Street' },
+  { id: 'university-way', place_name: 'University Way, CBD, Nairobi', center: [36.8181, -1.2870], text: 'University Way' },
+  { id: 'ronald-ngala-street', place_name: 'Ronald Ngala Street, CBD, Nairobi', center: [36.8181, -1.2890], text: 'Ronald Ngala Street' },
+  { id: 'river-road', place_name: 'River Road, CBD, Nairobi', center: [36.8220, -1.2890], text: 'River Road' },
+
+  // Major Highways & Roads
+  { id: 'thika-road', place_name: 'Thika Road (A2), Nairobi', center: [36.8833, -1.2167], text: 'Thika Road' },
+  { id: 'ngong-road', place_name: 'Ngong Road, Nairobi', center: [36.7700, -1.3000], text: 'Ngong Road' },
+  { id: 'mombasa-road', place_name: 'Mombasa Road (A8), Nairobi', center: [36.8400, -1.3400], text: 'Mombasa Road' },
+  { id: 'waiyaki-way', place_name: 'Waiyaki Way, Nairobi', center: [36.8000, -1.2600], text: 'Waiyaki Way' },
+  { id: 'kiambu-road', place_name: 'Kiambu Road, Nairobi', center: [36.8500, -1.2300], text: 'Kiambu Road' },
+  { id: 'jogoo-road', place_name: 'Jogoo Road, Nairobi', center: [36.8700, -1.2900], text: 'Jogoo Road' },
+  { id: 'outer-ring-road', place_name: 'Outer Ring Road, Nairobi', center: [36.8500, -1.3000], text: 'Outer Ring Road' },
+  { id: 'eastern-bypass', place_name: 'Eastern Bypass, Nairobi', center: [36.9500, -1.3000], text: 'Eastern Bypass' },
+  { id: 'southern-bypass', place_name: 'Southern Bypass, Nairobi', center: [36.7500, -1.3800], text: 'Southern Bypass' },
+  { id: 'northern-bypass', place_name: 'Northern Bypass, Nairobi', center: [36.8000, -1.1800], text: 'Northern Bypass' },
+
+  // Westlands Area Roads
+  { id: 'westlands-road', place_name: 'Westlands Road, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Westlands Road' },
+  { id: 'ralph-bunche-road', place_name: 'Ralph Bunche Road, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Ralph Bunche Road' },
+  { id: 'chiromo-road', place_name: 'Chiromo Road, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Chiromo Road' },
+  { id: 'ring-road-westlands', place_name: 'Ring Road Westlands, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Ring Road Westlands' },
+
+  // Upper Hill & Kilimani Roads
+  { id: 'argwings-kodhek-road', place_name: 'Argwings Kodhek Road, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Argwings Kodhek Road' },
+  { id: 'wood-avenue-road', place_name: 'Wood Avenue, Kilimani, Nairobi', center: [36.7833, -1.2900], text: 'Wood Avenue' },
+  { id: 'dennis-pritt-road', place_name: 'Dennis Pritt Road, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Dennis Pritt Road' },
+  { id: 'ole-sangale-road', place_name: 'Ole Sangale Road, Madaraka, Nairobi', center: [36.7950, -1.3050], text: 'Ole Sangale Road' },
+
+  // Karen & Langata Roads
+  { id: 'karen-road', place_name: 'Karen Road, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen Road' },
+  { id: 'langata-road', place_name: 'Langata Road, Nairobi', center: [36.7500, -1.3500], text: 'Langata Road' },
+  { id: 'magadi-road', place_name: 'Magadi Road, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Magadi Road' },
+
+  // Eastlands Roads
+  { id: 'outering-road', place_name: 'Outering Road, Eastlands, Nairobi', center: [36.8700, -1.2900], text: 'Outering Road' },
+  { id: 'kangundo-road', place_name: 'Kangundo Road, Eastlands, Nairobi', center: [36.9200, -1.2800], text: 'Kangundo Road' },
+  { id: 'airport-north-road', place_name: 'Airport North Road, Embakasi, Nairobi', center: [36.9000, -1.3100], text: 'Airport North Road' },
+
+  // Schools - Primary & Secondary
+
+  // CBD & Central Nairobi Schools
+  { id: 'nairobi-school', place_name: 'Nairobi School, Nairobi Hill, Nairobi', center: [36.8100, -1.2700], text: 'Nairobi School' },
+  { id: 'hospital-hill-school', place_name: 'Hospital Hill School, Hospital Hill, Nairobi', center: [36.8050, -1.2900], text: 'Hospital Hill School' },
+  { id: 'eastleigh-high-school', place_name: 'Eastleigh High School, Eastleigh, Nairobi', center: [36.8500, -1.2833], text: 'Eastleigh High School' },
+
+  // Westlands Area Schools
+  { id: 'aga-khan-academy', place_name: 'Aga Khan Academy, Nairobi', center: [36.8200, -1.2600], text: 'Aga Khan Academy' },
+  { id: 'brookhouse-school', place_name: 'Brookhouse School, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Brookhouse School' },
+  { id: 'international-school-kenya', place_name: 'International School of Kenya, Nairobi', center: [36.8150, -1.2430], text: 'International School of Kenya' },
+
+  // Kilimani & Upper Hill Schools
+  { id: 'st-marys-school-nairobi', place_name: 'St. Mary\'s School, Nairobi', center: [36.7850, -1.2950], text: 'St. Mary\'s School' },
+  { id: 'braeside-school', place_name: 'Braeside School, Nairobi', center: [36.7850, -1.2950], text: 'Braeside School' },
+  { id: 'banda-school', place_name: 'Banda School, Nairobi', center: [36.8100, -1.2800], text: 'Banda School' },
+
+  // Karen & Langata Schools
+  { id: 'karen-preparatory-school', place_name: 'Karen Preparatory School, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen Preparatory School' },
+  { id: 'hillcrest-school', place_name: 'Hillcrest School, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Hillcrest School' },
+  { id: 'peponi-school', place_name: 'Peponi School, Ruiru, Kiambu', center: [36.9500, -1.1500], text: 'Peponi School' },
+  { id: 'rosslyn-academy', place_name: 'Rosslyn Academy, Nairobi', center: [36.8150, -1.2430], text: 'Rosslyn Academy' },
+
+  // Eastlands Schools
+  { id: 'ofafa-jericho-high', place_name: 'Ofafa Jericho High School, Eastlands, Nairobi', center: [36.8600, -1.2800], text: 'Ofafa Jericho High School' },
+  { id: 'makongeni-secondary', place_name: 'Makongeni Secondary School, Makongeni, Nairobi', center: [36.8700, -1.2900], text: 'Makongeni Secondary School' },
+  { id: 'starehe-boys-centre', place_name: 'Starehe Boys\' Centre, Nairobi', center: [36.8400, -1.2600], text: 'Starehe Boys\' Centre' },
+
+  // National Schools
+  { id: 'alliance-high-school', place_name: 'Alliance High School, Kikuyu, Kiambu', center: [36.6500, -1.2500], text: 'Alliance High School' },
+  { id: 'alliance-girls-high', place_name: 'Alliance Girls High School, Kikuyu, Kiambu', center: [36.6500, -1.2500], text: 'Alliance Girls High School' },
+  { id: 'kenya-high-school', place_name: 'Kenya High School, Nairobi', center: [36.8050, -1.2900], text: 'Kenya High School' },
+
+  // Kasarani & Thika Road Schools
+  { id: 'thika-road-primary', place_name: 'Thika Road Primary Schools, Thika Road, Nairobi', center: [36.8833, -1.2167], text: 'Thika Road Primary Schools' },
+  { id: 'kasarani-secondary', place_name: 'Kasarani Secondary Schools, Kasarani, Nairobi', center: [36.9000, -1.2167], text: 'Kasarani Secondary Schools' },
+
+  // Colleges & Tertiary Institutions
+  { id: 'kenyatta-university', place_name: 'Kenyatta University, Kahawa, Kiambu', center: [36.9300, -1.1800], text: 'Kenyatta University' },
+  { id: 'jkuat', place_name: 'Jomo Kenyatta University of Agriculture and Technology (JKUAT), Juja, Kiambu', center: [37.0100, -1.1000], text: 'JKUAT' },
+  { id: 'multimedia-university', place_name: 'Multimedia University of Kenya, Nairobi', center: [36.8900, -1.2200], text: 'Multimedia University' },
+  { id: 'technical-university', place_name: 'Technical University of Kenya, Nairobi', center: [36.8181, -1.2790], text: 'Technical University of Kenya' },
+  { id: 'catholic-university', place_name: 'Catholic University of Eastern Africa, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Catholic University' },
+  { id: 'kenya-institute-management', place_name: 'Kenya Institute of Management (KIM), Nairobi', center: [36.8181, -1.2873], text: 'Kenya Institute of Management' },
+  { id: 'kenya-polytechnic', place_name: 'Kenya Polytechnic University College, Nairobi', center: [36.8181, -1.2890], text: 'Kenya Polytechnic' },
+  { id: 'kimc', place_name: 'Kenya Institute of Mass Communication (KIMC), Nairobi', center: [36.8050, -1.2950], text: 'KIMC' },
+
+  // Professional Training Institutes
+  { id: 'kenya-school-law', place_name: 'Kenya School of Law, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Kenya School of Law' },
+  { id: 'kenya-medical-training', place_name: 'Kenya Medical Training College, Nairobi', center: [36.8050, -1.3000], text: 'Kenya Medical Training College' },
+  { id: 'kenya-institute-highways', place_name: 'Kenya Institute of Highways and Building Technology, Nairobi', center: [36.8500, -1.2500], text: 'Kenya Institute of Highways' },
 ];
 
 export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanceCalculated }: LocationPickerProps) {
