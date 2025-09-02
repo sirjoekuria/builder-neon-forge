@@ -116,42 +116,63 @@ export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanc
   const pickupTimeoutRef = useRef<NodeJS.Timeout>();
   const dropoffTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Geocoding search function
+  // Enhanced search function with local landmarks database
   const searchLocation = async (query: string): Promise<SearchResult[]> => {
-    if (!query.trim() || query.length < 3) return [];
+    if (!query.trim() || query.length < 2) return [];
 
-    if (!MAPBOX_ACCESS_TOKEN) {
-      console.error('Mapbox access token is not available');
-      return [];
+    const queryLower = query.toLowerCase().trim();
+    const results: SearchResult[] = [];
+
+    // Search local landmarks database first
+    const localMatches = KENYAN_LANDMARKS.filter(landmark =>
+      landmark.text.toLowerCase().includes(queryLower) ||
+      landmark.place_name.toLowerCase().includes(queryLower) ||
+      landmark.id.toLowerCase().includes(queryLower.replace(/\s+/g, '-'))
+    );
+
+    // Add local matches to results
+    results.push(...localMatches);
+
+    // If we have good local matches, prioritize them
+    if (localMatches.length >= 3) {
+      return results.slice(0, 8);
     }
 
-    try {
-      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
-        `access_token=${MAPBOX_ACCESS_TOKEN}&` +
-        `country=KE&` +
-        `proximity=36.8219,-1.2921&` + // Bias towards Nairobi
-        `types=place,locality,neighborhood,address,poi&` +
-        `limit=5`;
+    // Supplement with Mapbox API results if we need more
+    if (MAPBOX_ACCESS_TOKEN && query.length >= 3) {
+      try {
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
+          `access_token=${MAPBOX_ACCESS_TOKEN}&` +
+          `country=KE&` +
+          `proximity=36.8219,-1.2921&` + // Bias towards Nairobi
+          `types=place,locality,neighborhood,address,poi&` +
+          `limit=5`;
 
-      const response = await fetch(url);
+        const response = await fetch(url);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Geocoding request failed: ${response.status} ${response.statusText} - ${errorText}`);
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.features && !data.message) {
+            // Add Mapbox results that don't duplicate local results
+            const mapboxResults = data.features.filter((feature: any) =>
+              !results.some(existing =>
+                Math.abs(existing.center[0] - feature.center[0]) < 0.001 &&
+                Math.abs(existing.center[1] - feature.center[1]) < 0.001
+              )
+            );
+
+            results.push(...mapboxResults);
+          }
+        }
+      } catch (error) {
+        console.error('Mapbox search supplementation failed:', error);
+        // Continue with local results only
       }
-
-      const data = await response.json();
-
-      if (data.message) {
-        throw new Error(`Mapbox API Error: ${data.message}`);
-      }
-
-      return data.features || [];
-    } catch (error) {
-      console.error('Geocoding error:', error);
-      // Return empty array instead of throwing to prevent UI breaks
-      return [];
     }
+
+    // Return top 8 results
+    return results.slice(0, 8);
   };
 
   // Debounced search for pickup location
