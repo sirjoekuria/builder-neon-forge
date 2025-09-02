@@ -20,7 +20,7 @@ interface SearchResult {
   text: string;
 }
 
-const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+const MAPBOX_ACCESS_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
 
 export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanceCalculated }: LocationPickerProps) {
   const [pickupLocation, setPickupLocation] = useState<Location | null>(null);
