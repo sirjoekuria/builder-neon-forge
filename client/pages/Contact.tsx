@@ -153,7 +153,7 @@ export default function Contact() {
                       <h4 className="font-semibold text-gray-800 mb-1">
                         Email
                       </h4>
-                      <p className="text-gray-600">Kuriajoe85@gmail.com</p>
+                      <a href="mailto:Kuriajoe85@gmail.com" className="text-gray-600 hover:text-rocs-green transition-colors">Kuriajoe85@gmail.com</a>
                       <p className="text-sm text-gray-500">
                         We'll respond within 24 hours
                       </p>
