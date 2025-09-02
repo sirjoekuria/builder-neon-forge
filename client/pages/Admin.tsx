@@ -889,7 +889,13 @@ export default function Admin() {
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  Orders Management
+                  {stats.pendingOrders > 0 ? (
+                    <PendingBookingDot>
+                      Orders Management
+                    </PendingBookingDot>
+                  ) : (
+                    'Orders Management'
+                  )}
                 </button>
                 <button
                   onClick={() => {
