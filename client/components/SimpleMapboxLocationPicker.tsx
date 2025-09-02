@@ -97,6 +97,99 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   // Sports Venues
   { id: 'kasarani-stadium', place_name: 'Moi International Sports Centre Kasarani, Thika Road, Nairobi', center: [36.9000, -1.2167], text: 'Kasarani Stadium' },
   { id: 'nyayo-stadium', place_name: 'Nyayo National Stadium, Langata Road, Nairobi', center: [36.8000, -1.3200], text: 'Nyayo Stadium' },
+
+  // Major Apartment Complexes & Residential Buildings
+
+  // Westlands Area Apartments
+  { id: 'brookside-drive', place_name: 'Brookside Drive Apartments, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Brookside Drive' },
+  { id: 'mvuli-suites', place_name: 'Mvuli Suites, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Mvuli Suites' },
+  { id: 'westlands-square', place_name: 'Westlands Square Apartments, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Westlands Square' },
+  { id: 'woodvale-grove', place_name: 'Woodvale Grove Apartments, Westlands, Nairobi', center: [36.8150, -1.2650], text: 'Woodvale Grove' },
+  { id: 'crystal-rivers', place_name: 'Crystal Rivers Apartments, Westlands, Nairobi', center: [36.8103, -1.2676], text: 'Crystal Rivers' },
+
+  // Kilimani Area Apartments
+  { id: 'delta-towers', place_name: 'Delta Towers, Kilimani, Nairobi', center: [36.7833, -1.2900], text: 'Delta Towers' },
+  { id: 'chaka-place', place_name: 'Chaka Place Apartments, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Chaka Place' },
+  { id: 'yaya-towers', place_name: 'Yaya Towers, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Yaya Towers' },
+  { id: 'view-park-towers', place_name: 'View Park Towers, Kilimani, Nairobi', center: [36.7833, -1.2900], text: 'View Park Towers' },
+  { id: 'kilimani-square', place_name: 'Kilimani Square Apartments, Kilimani, Nairobi', center: [36.7833, -1.2900], text: 'Kilimani Square' },
+  { id: 'rose-avenue', place_name: 'Rose Avenue Apartments, Kilimani, Nairobi', center: [36.7850, -1.2950], text: 'Rose Avenue' },
+
+  // Kileleshwa Area Apartments
+  { id: 'wood-avenue', place_name: 'Wood Avenue Apartments, Kileleshwa, Nairobi', center: [36.7833, -1.2833], text: 'Wood Avenue' },
+  { id: 'kileleshwa-apartments', place_name: 'Kileleshwa Apartments, Kileleshwa, Nairobi', center: [36.7833, -1.2833], text: 'Kileleshwa Apartments' },
+  { id: 'muthaiga-north', place_name: 'Muthaiga North Apartments, Kileleshwa, Nairobi', center: [36.7900, -1.2800], text: 'Muthaiga North' },
+
+  // Upper Hill Area Apartments
+  { id: 'upperhill-towers', place_name: 'Upper Hill Towers, Upper Hill, Nairobi', center: [36.8050, -1.2950], text: 'Upper Hill Towers' },
+  { id: 'rahimtulla-tower', place_name: 'Rahimtulla Tower, Upper Hill, Nairobi', center: [36.8050, -1.2950], text: 'Rahimtulla Tower' },
+  { id: 'elgon-view', place_name: 'Elgon View Apartments, Upper Hill, Nairobi', center: [36.8050, -1.2950], text: 'Elgon View' },
+
+  // Lavington Area Apartments
+  { id: 'lavington-green', place_name: 'Lavington Green Apartments, Lavington, Nairobi', center: [36.7650, -1.2800], text: 'Lavington Green' },
+  { id: 'kyuna-close', place_name: 'Kyuna Close Apartments, Lavington, Nairobi', center: [36.7650, -1.2800], text: 'Kyuna Close' },
+  { id: 'kipande-gardens', place_name: 'Kipande Gardens, Lavington, Nairobi', center: [36.7650, -1.2800], text: 'Kipande Gardens' },
+
+  // Parklands Area Apartments
+  { id: 'parklands-towers', place_name: 'Parklands Towers, Parklands, Nairobi', center: [36.8200, -1.2600], text: 'Parklands Towers' },
+  { id: 'aga-khan-walk', place_name: 'Aga Khan Walk Apartments, Parklands, Nairobi', center: [36.8200, -1.2600], text: 'Aga Khan Walk' },
+  { id: 'parkview-estate', place_name: 'Parkview Estate, Parklands, Nairobi', center: [36.8200, -1.2600], text: 'Parkview Estate' },
+
+  // Riverside Area Apartments
+  { id: 'riverside-drive', place_name: 'Riverside Drive Apartments, Riverside, Nairobi', center: [36.8100, -1.2700], text: 'Riverside Drive' },
+  { id: 'cavendish-riverside', place_name: 'Cavendish University Apartments, Riverside, Nairobi', center: [36.8100, -1.2700], text: 'Cavendish Riverside' },
+  { id: 'riverside-towers', place_name: 'Riverside Towers, Riverside, Nairobi', center: [36.8100, -1.2700], text: 'Riverside Towers' },
+
+  // South B & South C Apartments
+  { id: 'south-b-estate', place_name: 'South B Estate, South B, Nairobi', center: [36.8300, -1.3100], text: 'South B Estate' },
+  { id: 'akila-springs', place_name: 'Akila Springs Apartments, South B, Nairobi', center: [36.8300, -1.3100], text: 'Akila Springs' },
+  { id: 'south-c-apartments', place_name: 'South C Apartments, South C, Nairobi', center: [36.8350, -1.3150], text: 'South C Apartments' },
+  { id: 'valley-arcade', place_name: 'Valley Arcade Apartments, Lavington, Nairobi', center: [36.7650, -1.2850], text: 'Valley Arcade' },
+
+  // Hurlingham Area Apartments
+  { id: 'hurlingham-shopping', place_name: 'Hurlingham Shopping Centre Apartments, Hurlingham, Nairobi', center: [36.7750, -1.2950], text: 'Hurlingham Shopping Centre' },
+  { id: 'argwings-kodhek', place_name: 'Argwings Kodhek Road Apartments, Hurlingham, Nairobi', center: [36.7800, -1.2950], text: 'Argwings Kodhek' },
+
+  // Karen Area Apartments
+  { id: 'karen-estate', place_name: 'Karen Estate, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen Estate' },
+  { id: 'karen-hardy', place_name: 'Karen Hardy Estate, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen Hardy' },
+  { id: 'karen-country-club', place_name: 'Karen Country Club Estate, Karen, Nairobi', center: [36.7026, -1.3318], text: 'Karen Country Club' },
+
+  // Langata Area Apartments
+  { id: 'langata-link', place_name: 'Langata Link Apartments, Langata, Nairobi', center: [36.7500, -1.3500], text: 'Langata Link' },
+  { id: 'ongata-rongai', place_name: 'Ongata Rongai Apartments, Ongata Rongai, Kajiado', center: [36.7400, -1.3900], text: 'Ongata Rongai' },
+
+  // Eastlands Area Apartments
+  { id: 'eastleigh-estate', place_name: 'Eastleigh Estate, Eastleigh, Nairobi', center: [36.8500, -1.2833], text: 'Eastleigh Estate' },
+  { id: 'california-estate', place_name: 'California Estate, Eastleigh, Nairobi', center: [36.8500, -1.2833], text: 'California Estate' },
+  { id: 'buruburu-estate', place_name: 'Buruburu Estate, Buruburu, Nairobi', center: [36.8700, -1.2900], text: 'Buruburu Estate' },
+  { id: 'donholm-estate', place_name: 'Donholm Estate, Donholm, Nairobi', center: [36.9000, -1.2700], text: 'Donholm Estate' },
+  { id: 'umoja-estate', place_name: 'Umoja Estate, Umoja, Nairobi', center: [36.8900, -1.2800], text: 'Umoja Estate' },
+  { id: 'fedha-estate', place_name: 'Fedha Estate, Embakasi, Nairobi', center: [36.8833, -1.3167], text: 'Fedha Estate' },
+
+  // Kasarani Area Apartments
+  { id: 'kasarani-estate', place_name: 'Kasarani Estate, Kasarani, Nairobi', center: [36.9000, -1.2167], text: 'Kasarani Estate' },
+  { id: 'mwiki-estate', place_name: 'Mwiki Estate, Kasarani, Nairobi', center: [36.9100, -1.2100], text: 'Mwiki Estate' },
+  { id: 'clay-city', place_name: 'Clay City Estate, Kasarani, Nairobi', center: [36.9000, -1.2167], text: 'Clay City' },
+  { id: 'roysambu-estate', place_name: 'Roysambu Estate, Roysambu, Nairobi', center: [36.8900, -1.2200], text: 'Roysambu Estate' },
+
+  // Gigiri & UN Area Apartments
+  { id: 'gigiri-estate', place_name: 'Gigiri Estate, Gigiri, Nairobi', center: [36.8150, -1.2430], text: 'Gigiri Estate' },
+  { id: 'un-gigiri', place_name: 'UN Gigiri Apartments, Gigiri, Nairobi', center: [36.8150, -1.2430], text: 'UN Gigiri' },
+  { id: 'runda-estate', place_name: 'Runda Estate, Runda, Nairobi', center: [36.8200, -1.2300], text: 'Runda Estate' },
+
+  // Thika Road Area Apartments
+  { id: 'thika-road-estates', place_name: 'Thika Road Estates, Thika Road, Nairobi', center: [36.8833, -1.2167], text: 'Thika Road Estates' },
+  { id: 'garden-estate', place_name: 'Garden Estate, Thika Road, Nairobi', center: [36.8900, -1.2200], text: 'Garden Estate' },
+  { id: 'pangani-estate', place_name: 'Pangani Estate, Pangani, Nairobi', center: [36.8400, -1.2600], text: 'Pangani Estate' },
+
+  // Ngong Road Area Apartments
+  { id: 'adams-arcade', place_name: 'Adams Arcade Apartments, Ngong Road, Nairobi', center: [36.7700, -1.3100], text: 'Adams Arcade' },
+  { id: 'kilimani-drive', place_name: 'Kilimani Drive Apartments, Ngong Road, Nairobi', center: [36.7700, -1.3000], text: 'Kilimani Drive' },
+
+  // Industrial Area Apartments
+  { id: 'industrial-area', place_name: 'Industrial Area Apartments, Industrial Area, Nairobi', center: [36.8400, -1.3200], text: 'Industrial Area' },
+  { id: 'enterprise-road', place_name: 'Enterprise Road Apartments, Industrial Area, Nairobi', center: [36.8400, -1.3200], text: 'Enterprise Road' },
 ];
 
 export default function SimpleMapboxLocationPicker({ onLocationSelect, onDistanceCalculated }: LocationPickerProps) {
