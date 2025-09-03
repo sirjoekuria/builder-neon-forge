@@ -110,7 +110,8 @@ export default function MapboxMap({
   useEffect(() => {
     if (!map.current || !window.mapboxgl) return;
 
-    const mapboxgl = window.mapboxgl;
+    try {
+      const mapboxgl = window.mapboxgl;
 
     // Clear existing markers
     if (pickupMarker.current) {
@@ -276,6 +277,21 @@ export default function MapboxMap({
         map.current.removeLayer("route");
         map.current.removeSource("route");
         routeLayer.current = null;
+      }
+    }
+    } catch (error) {
+      console.error('MapboxMap error:', error);
+      // Fallback to default view if something goes wrong
+      if (map.current) {
+        try {
+          map.current.flyTo({
+            center: [36.8219, -1.2921], // Nairobi center
+            zoom: 11,
+            duration: 1000
+          });
+        } catch (fallbackError) {
+          console.error('Even fallback failed:', fallbackError);
+        }
       }
     }
   }, [pickup, dropoff]);
