@@ -282,6 +282,7 @@ export default function MapboxMap({
     }
     } catch (error) {
       console.error('MapboxMap error:', error);
+      setMapError('Unable to load map. Please refresh the page.');
       // Fallback to default view if something goes wrong
       if (map.current) {
         try {
