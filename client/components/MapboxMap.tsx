@@ -333,7 +333,7 @@ export default function MapboxMap({
           }
         }
       } catch (error) {
-        console.error('Error fitting map bounds:', error);
+        console.error('Error positioning map:', error);
         setMapError('Map positioning failed');
         // Fallback to default Nairobi view
         try {
