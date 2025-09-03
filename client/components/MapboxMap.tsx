@@ -309,16 +309,26 @@ export default function MapboxMap({
               });
             }
           } else {
-            console.warn('Not enough valid coordinates for bounds fitting');
+            console.warn('Not enough valid coordinates for multi-marker positioning');
             // Fallback to centering on first valid location
-            const validLocation = (pickup && isValidCoordinate(pickup.lat, pickup.lng)) ? pickup :
-                                 (dropoff && isValidCoordinate(dropoff.lat, dropoff.lng)) ? dropoff : null;
-            if (validLocation) {
+            if (validCoordinates.length > 0) {
+              const firstCoord = validCoordinates[0];
               map.current.flyTo({
-                center: [validLocation.lng, validLocation.lat],
-                zoom: 12,
+                center: [firstCoord[0], firstCoord[1]],
+                zoom: 13,
                 duration: 1000,
               });
+            } else {
+              // Ultimate fallback - check original locations
+              const validLocation = (pickup && isValidCoordinate(pickup.lat, pickup.lng)) ? pickup :
+                                   (dropoff && isValidCoordinate(dropoff.lat, dropoff.lng)) ? dropoff : null;
+              if (validLocation) {
+                map.current.flyTo({
+                  center: [validLocation.lng, validLocation.lat],
+                  zoom: 12,
+                  duration: 1000,
+                });
+              }
             }
           }
         }
