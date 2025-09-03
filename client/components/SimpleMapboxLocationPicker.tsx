@@ -1327,6 +1327,312 @@ const KENYAN_LANDMARKS: SearchResult[] = [
     center: [36.8181, -1.2890],
     text: "Machakos Bus Station",
   },
+
+  // KIAMBU COUNTY LOCATIONS
+
+  // Major Towns in Kiambu County
+  {
+    id: "kiambu-town",
+    place_name: "Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Town",
+  },
+  {
+    id: "thika-town",
+    place_name: "Thika Town, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Town",
+  },
+  {
+    id: "limuru-town",
+    place_name: "Limuru Town, Kiambu County",
+    center: [36.6435, -1.1175],
+    text: "Limuru Town",
+  },
+  {
+    id: "kikuyu-town",
+    place_name: "Kikuyu Town, Kiambu County",
+    center: [36.6621, -1.2438],
+    text: "Kikuyu Town",
+  },
+  {
+    id: "ruiru-town",
+    place_name: "Ruiru Town, Kiambu County",
+    center: [36.9633, -1.1439],
+    text: "Ruiru Town",
+  },
+  {
+    id: "juja-town",
+    place_name: "Juja Town, Kiambu County",
+    center: [36.9936, -1.1055],
+    text: "Juja Town",
+  },
+  {
+    id: "gatundu-town",
+    place_name: "Gatundu Town, Kiambu County",
+    center: [36.9167, -0.9667],
+    text: "Gatundu Town",
+  },
+  {
+    id: "lari-town",
+    place_name: "Lari Town, Kiambu County",
+    center: [36.7000, -1.0500],
+    text: "Lari Town",
+  },
+
+  // Major Estates & Residential Areas in Kiambu County
+  {
+    id: "kahawa-wendani",
+    place_name: "Kahawa Wendani, Kiambu County",
+    center: [36.9200, -1.1600],
+    text: "Kahawa Wendani",
+  },
+  {
+    id: "kahawa-west-kiambu",
+    place_name: "Kahawa West, Kiambu County",
+    center: [36.9300, -1.1800],
+    text: "Kahawa West",
+  },
+  {
+    id: "kahawa-sukari-kiambu",
+    place_name: "Kahawa Sukari, Kiambu County",
+    center: [36.9400, -1.1700],
+    text: "Kahawa Sukari",
+  },
+  {
+    id: "githurai-44",
+    place_name: "Githurai 44, Kiambu County",
+    center: [36.9200, -1.1500],
+    text: "Githurai 44",
+  },
+  {
+    id: "githurai-45",
+    place_name: "Githurai 45, Kiambu County",
+    center: [36.9250, -1.1450],
+    text: "Githurai 45",
+  },
+  {
+    id: "kihunguro",
+    place_name: "Kihunguro, Ruiru, Kiambu County",
+    center: [36.9500, -1.1300],
+    text: "Kihunguro",
+  },
+  {
+    id: "membley-estate",
+    place_name: "Membley Estate, Ruiru, Kiambu County",
+    center: [36.9600, -1.1400],
+    text: "Membley Estate",
+  },
+  {
+    id: "kamiti",
+    place_name: "Kamiti, Kiambu County",
+    center: [36.9000, -1.1200],
+    text: "Kamiti",
+  },
+  {
+    id: "banana-hill",
+    place_name: "Banana Hill, Kiambu County",
+    center: [36.8500, -1.1800],
+    text: "Banana Hill",
+  },
+  {
+    id: "wangige",
+    place_name: "Wangige, Kiambu County",
+    center: [36.7200, -1.2200],
+    text: "Wangige",
+  },
+
+  // Shopping Centers in Kiambu County
+  {
+    id: "kiambu-mall",
+    place_name: "Kiambu Mall, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Mall",
+  },
+  {
+    id: "blue-post-hotel-thika",
+    place_name: "Blue Post Hotel, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Blue Post Hotel Thika",
+  },
+  {
+    id: "thika-shopping-center",
+    place_name: "Thika Shopping Center, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Shopping Center",
+  },
+  {
+    id: "ruiru-shopping-center",
+    place_name: "Ruiru Shopping Center, Ruiru, Kiambu County",
+    center: [36.9633, -1.1439],
+    text: "Ruiru Shopping Center",
+  },
+  {
+    id: "githunguri-shopping-center",
+    place_name: "Githunguri Shopping Center, Githunguri, Kiambu County",
+    center: [36.7500, -1.0500],
+    text: "Githunguri Shopping Center",
+  },
+
+  // Educational Institutions in Kiambu County
+  {
+    id: "kenyatta-university-kiambu",
+    place_name: "Kenyatta University, Kahawa, Kiambu County",
+    center: [36.9300, -1.1800],
+    text: "Kenyatta University",
+  },
+  {
+    id: "jkuat-juja",
+    place_name: "JKUAT University, Juja, Kiambu County",
+    center: [37.0100, -1.1000],
+    text: "JKUAT University",
+  },
+  {
+    id: "presbyterian-university",
+    place_name: "Presbyterian University of East Africa, Kikuyu, Kiambu County",
+    center: [36.6621, -1.2438],
+    text: "Presbyterian University",
+  },
+  {
+    id: "kiambu-institute-technology",
+    place_name: "Kiambu Institute of Science and Technology, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Institute of Technology",
+  },
+  {
+    id: "thika-technical-college",
+    place_name: "Thika Technical Training Institute, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Technical College",
+  },
+
+  // Health Facilities in Kiambu County
+  {
+    id: "kiambu-hospital",
+    place_name: "Kiambu Level 5 Hospital, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Hospital",
+  },
+  {
+    id: "thika-level-5-hospital",
+    place_name: "Thika Level 5 Hospital, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Level 5 Hospital",
+  },
+  {
+    id: "ruiru-sub-county-hospital",
+    place_name: "Ruiru Sub County Hospital, Ruiru, Kiambu County",
+    center: [36.9633, -1.1439],
+    text: "Ruiru Hospital",
+  },
+  {
+    id: "limuru-health-center",
+    place_name: "Limuru Health Center, Limuru, Kiambu County",
+    center: [36.6435, -1.1175],
+    text: "Limuru Health Center",
+  },
+
+  // Industrial Areas in Kiambu County
+  {
+    id: "thika-industrial-area",
+    place_name: "Thika Industrial Area, Thika, Kiambu County",
+    center: [37.0800, -1.0300],
+    text: "Thika Industrial Area",
+  },
+  {
+    id: "ruiru-industrial-area",
+    place_name: "Ruiru Industrial Area, Ruiru, Kiambu County",
+    center: [36.9700, -1.1400],
+    text: "Ruiru Industrial Area",
+  },
+
+  // Transport Hubs in Kiambu County
+  {
+    id: "thika-bus-station",
+    place_name: "Thika Bus Station, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Bus Station",
+  },
+  {
+    id: "kiambu-bus-station",
+    place_name: "Kiambu Bus Station, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Bus Station",
+  },
+  {
+    id: "ruiru-stage",
+    place_name: "Ruiru Matatu Stage, Ruiru, Kiambu County",
+    center: [36.9633, -1.1439],
+    text: "Ruiru Stage",
+  },
+
+  // Government Offices in Kiambu County
+  {
+    id: "kiambu-county-headquarters",
+    place_name: "Kiambu County Government Headquarters, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu County HQ",
+  },
+  {
+    id: "thika-sub-county-offices",
+    place_name: "Thika Sub County Offices, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Sub County Offices",
+  },
+
+  // Markets in Kiambu County
+  {
+    id: "kiambu-market",
+    place_name: "Kiambu Municipal Market, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Market",
+  },
+  {
+    id: "thika-market",
+    place_name: "Thika Municipal Market, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Market",
+  },
+  {
+    id: "ruiru-market",
+    place_name: "Ruiru Market, Ruiru, Kiambu County",
+    center: [36.9633, -1.1439],
+    text: "Ruiru Market",
+  },
+
+  // Religious Centers in Kiambu County
+  {
+    id: "kiambu-catholic-church",
+    place_name: "Kiambu Catholic Church, Kiambu Town, Kiambu County",
+    center: [36.8340, -1.1740],
+    text: "Kiambu Catholic Church",
+  },
+  {
+    id: "thika-cathedral",
+    place_name: "Thika Cathedral, Thika, Kiambu County",
+    center: [37.0691, -1.0332],
+    text: "Thika Cathedral",
+  },
+
+  // Entertainment & Recreation in Kiambu County
+  {
+    id: "fourteen-falls",
+    place_name: "Fourteen Falls, Thika, Kiambu County",
+    center: [37.0500, -1.0500],
+    text: "Fourteen Falls",
+  },
+  {
+    id: "chania-falls",
+    place_name: "Chania Falls, Thika, Kiambu County",
+    center: [37.0400, -1.0400],
+    text: "Chania Falls",
+  },
+  {
+    id: "kiambu-golf-club",
+    place_name: "Kiambu Golf Club, Kiambu County",
+    center: [36.8400, -1.1700],
+    text: "Kiambu Golf Club",
+  },
 ];
 
 export default function SimpleMapboxLocationPicker({
