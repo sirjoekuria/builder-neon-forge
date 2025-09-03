@@ -166,7 +166,9 @@ export default function MapboxMap({
           )
           .addTo(map.current);
 
-        validCoordinates.push([pickup.lng, pickup.lat]);
+        const pickupCoord: [number, number] = [pickup.lng, pickup.lat];
+        validCoordinates.push(pickupCoord);
+        console.log('Added pickup coordinate:', pickupCoord);
         markers.push(pickupMarker.current);
         hasValidBounds = true;
       } catch (error) {
