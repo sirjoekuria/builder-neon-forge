@@ -182,7 +182,6 @@ export default function MapboxMap({
         validCoordinates.push(pickupCoord);
         console.log('Added pickup coordinate:', pickupCoord);
         markers.push(pickupMarker.current);
-        hasValidBounds = true;
       } catch (error) {
         console.error('Error creating pickup marker:', error);
       }
