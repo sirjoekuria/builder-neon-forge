@@ -286,13 +286,18 @@ export default function MapboxMap({
               else if (maxDistance > 1) zoom = 14;    // 1-2km
               else zoom = 15;                         // < 1km
 
-              console.log('Manual positioning - Center:', [centerLng, centerLat], 'Zoom:', zoom);
+              // Validate calculated center coordinates
+              if (isValidCoordinate(centerLat, centerLng)) {
+                console.log('Manual positioning - Center:', [centerLng, centerLat], 'Zoom:', zoom);
 
-              map.current.flyTo({
-                center: [centerLng, centerLat],
-                zoom: zoom,
-                duration: 1000,
-              });
+                map.current.flyTo({
+                  center: [centerLng, centerLat],
+                  zoom: zoom,
+                  duration: 1000,
+                });
+              } else {
+                throw new Error('Calculated center coordinates are invalid');
+              }
             } catch (manualError) {
               console.error('Manual positioning failed:', manualError);
               // Ultimate fallback to centering on first valid location
@@ -453,7 +458,7 @@ export default function MapboxMap({
           textAlign: 'center',
           maxWidth: '80%'
         }}>
-          ⚠�� {mapError}
+          ⚠️ {mapError}
         </div>
       )}
 
