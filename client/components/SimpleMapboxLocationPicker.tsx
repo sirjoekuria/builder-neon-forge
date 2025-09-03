@@ -1179,6 +1179,154 @@ const KENYAN_LANDMARKS: SearchResult[] = [
     center: [36.85, -1.25],
     text: "Kenya Institute of Highways",
   },
+
+  // Additional Popular Locations & Drives (User Requested)
+
+  // TRM Drive & Mirema Drive
+  {
+    id: "trm-drive",
+    place_name: "TRM Drive, Thika Road, Nairobi",
+    center: [36.8833, -1.2167],
+    text: "TRM Drive",
+  },
+  {
+    id: "mirema-drive",
+    place_name: "Mirema Drive, Kasarani, Nairobi",
+    center: [36.9000, -1.2167],
+    text: "Mirema Drive",
+  },
+
+  // More Shopping Centers
+  {
+    id: "two-rivers-mall",
+    place_name: "Two Rivers Mall, Limuru Road, Nairobi",
+    center: [36.8100, -1.2300],
+    text: "Two Rivers Mall",
+  },
+  {
+    id: "greenspan-mall",
+    place_name: "Greenspan Mall, Donholm, Nairobi",
+    center: [36.9000, -1.2700],
+    text: "Greenspan Mall",
+  },
+  {
+    id: "pine-creek-mall",
+    place_name: "Pine Creek Mall, Kiambu Road, Nairobi",
+    center: [36.8500, -1.2300],
+    text: "Pine Creek Mall",
+  },
+  {
+    id: "quickmart-mall",
+    place_name: "Quickmart Mall, Ngong Road, Nairobi",
+    center: [36.7700, -1.3200],
+    text: "Quickmart Mall",
+  },
+  {
+    id: "crystal-plaza",
+    place_name: "Crystal Plaza, Mombasa Road, Nairobi",
+    center: [36.8400, -1.3400],
+    text: "Crystal Plaza",
+  },
+
+  // More Business Districts
+  {
+    id: "gigiri-business-center",
+    place_name: "Gigiri Business Center, Gigiri, Nairobi",
+    center: [36.8150, -1.2430],
+    text: "Gigiri Business Center",
+  },
+  {
+    id: "riverside-business-park",
+    place_name: "Riverside Business Park, Riverside, Nairobi",
+    center: [36.8100, -1.2700],
+    text: "Riverside Business Park",
+  },
+  {
+    id: "westgate-business-center",
+    place_name: "Westgate Business Center, Westlands, Nairobi",
+    center: [36.8065, -1.2676],
+    text: "Westgate Business Center",
+  },
+
+  // More Hotels & Lodges
+  {
+    id: "safari-park-hotel",
+    place_name: "Safari Park Hotel, Thika Road, Nairobi",
+    center: [36.8833, -1.2167],
+    text: "Safari Park Hotel",
+  },
+  {
+    id: "ole-sereni-hotel",
+    place_name: "Ole Sereni Hotel, Mombasa Road, Nairobi",
+    center: [36.9200, -1.3300],
+    text: "Ole Sereni Hotel",
+  },
+  {
+    id: "crowne-plaza",
+    place_name: "Crowne Plaza Nairobi, Upper Hill, Nairobi",
+    center: [36.8050, -1.2950],
+    text: "Crowne Plaza",
+  },
+  {
+    id: "fairmont-norfolk",
+    place_name: "Fairmont The Norfolk Hotel, CBD, Nairobi",
+    center: [36.8181, -1.2873],
+    text: "Fairmont Norfolk Hotel",
+  },
+
+  // More Medical Centers
+  {
+    id: "mp-shah-hospital",
+    place_name: "MP Shah Hospital, Nairobi",
+    center: [36.8050, -1.2900],
+    text: "MP Shah Hospital",
+  },
+  {
+    id: "gertrudes-hospital",
+    place_name: "Gertrude's Children's Hospital, Muthaiga, Nairobi",
+    center: [36.8200, -1.2600],
+    text: "Gertrude's Hospital",
+  },
+  {
+    id: "karen-hospital",
+    place_name: "Karen Hospital, Karen, Nairobi",
+    center: [36.7026, -1.3318],
+    text: "Karen Hospital",
+  },
+
+  // More Entertainment Venues
+  {
+    id: "carnivore-restaurant",
+    place_name: "Carnivore Restaurant, Langata, Nairobi",
+    center: [36.7500, -1.3500],
+    text: "Carnivore Restaurant",
+  },
+  {
+    id: "giraffe-centre",
+    place_name: "Giraffe Centre, Langata, Nairobi",
+    center: [36.7400, -1.3400],
+    text: "Giraffe Centre",
+  },
+  {
+    id: "kazuri-beads",
+    place_name: "Kazuri Beads Factory, Karen, Nairobi",
+    center: [36.7026, -1.3318],
+    text: "Kazuri Beads",
+  },
+
+  // More Transport Hubs
+  {
+    id: "green-park-terminus",
+    place_name: "Green Park Terminus, Ngara, Nairobi",
+    center: [36.8300, -1.2600],
+    text: "Green Park Terminus",
+  },
+  {
+    id: "machakos-bus-station",
+    place_name: "Machakos Country Bus Station, CBD, Nairobi",
+    center: [36.8181, -1.2890],
+    text: "Machakos Bus Station",
+  },
 ];
 
 export default function SimpleMapboxLocationPicker({
