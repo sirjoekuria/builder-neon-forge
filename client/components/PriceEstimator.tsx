@@ -165,6 +165,7 @@ export default function PriceEstimator() {
     setDelivery('');
     setDistance(null);
     setEstimatedPrice(null);
+    setError(null);
   };
 
   return (
