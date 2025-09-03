@@ -265,8 +265,10 @@ export default function MapboxMap({
       }
     }
 
-    // Draw route if both locations exist
-    if (pickup && dropoff) {
+    // Draw route if both locations exist and have valid coordinates
+    if (pickup && dropoff &&
+        isValidCoordinate(pickup.lat, pickup.lng) &&
+        isValidCoordinate(dropoff.lat, dropoff.lng)) {
       drawRoute(pickup, dropoff);
     } else {
       // Remove existing route
