@@ -172,41 +172,48 @@ export default function MapboxMap({
     }
 
     // Add dropoff marker
-    if (dropoff) {
-      const dropoffEl = document.createElement("div");
-      dropoffEl.className = "dropoff-marker";
-      dropoffEl.innerHTML = `
-        <div style="
-          background: #3b82f6;
-          color: white;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          font-size: 14px;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-          border: 3px solid white;
-        ">🎯</div>
-      `;
+    if (dropoff && isValidCoordinate(dropoff.lat, dropoff.lng)) {
+      try {
+        const dropoffEl = document.createElement("div");
+        dropoffEl.className = "dropoff-marker";
+        dropoffEl.innerHTML = `
+          <div style="
+            background: #3b82f6;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            border: 3px solid white;
+          ">🎯</div>
+        `;
 
-      dropoffMarker.current = new mapboxgl.Marker(dropoffEl)
-        .setLngLat([dropoff.lng, dropoff.lat])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }).setHTML(`
-            <div style="padding: 8px;">
-              <h3 style="margin: 0 0 4px 0; color: #3b82f6; font-weight: bold;">Dropoff Location</h3>
-              <p style="margin: 0; font-size: 14px;"><strong>${dropoff.name}</strong></p>
-              <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${dropoff.address}</p>
-            </div>
-          `),
-        )
-        .addTo(map.current);
+        dropoffMarker.current = new mapboxgl.Marker(dropoffEl)
+          .setLngLat([dropoff.lng, dropoff.lat])
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setHTML(`
+              <div style="padding: 8px;">
+                <h3 style="margin: 0 0 4px 0; color: #3b82f6; font-weight: bold;">Dropoff Location</h3>
+                <p style="margin: 0; font-size: 14px;"><strong>${dropoff.name}</strong></p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${dropoff.address}</p>
+              </div>
+            `),
+          )
+          .addTo(map.current);
 
-      bounds.extend([dropoff.lng, dropoff.lat]);
-      markers.push(dropoffMarker.current);
+        bounds.extend([dropoff.lng, dropoff.lat]);
+        markers.push(dropoffMarker.current);
+        hasValidBounds = true;
+      } catch (error) {
+        console.error('Error creating dropoff marker:', error);
+      }
+    } else if (dropoff) {
+      console.warn('Invalid dropoff coordinates:', dropoff.lat, dropoff.lng);
     }
 
     // Fit map to show both markers
