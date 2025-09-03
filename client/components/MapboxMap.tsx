@@ -283,6 +283,12 @@ export default function MapboxMap({
   const drawRoute = async (pickup: Location, dropoff: Location) => {
     if (!map.current) return;
 
+    // Validate coordinates before making API call
+    if (!isValidCoordinate(pickup.lat, pickup.lng) || !isValidCoordinate(dropoff.lat, dropoff.lng)) {
+      console.error('Invalid coordinates for route drawing:', pickup, dropoff);
+      return;
+    }
+
     try {
       const response = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup.lng},${pickup.lat};${dropoff.lng},${dropoff.lat}?` +
