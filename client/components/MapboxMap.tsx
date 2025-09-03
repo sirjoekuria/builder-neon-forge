@@ -224,16 +224,14 @@ export default function MapboxMap({
     // Fit map to show both markers
     if (markers.length > 0 && hasValidBounds) {
       try {
-        if (markers.length === 1) {
+        if (markers.length === 1 && validCoordinates.length === 1) {
           // If only one marker, center on it
-          const location = pickup || dropoff;
-          if (location && isValidCoordinate(location.lat, location.lng)) {
-            map.current.flyTo({
-              center: [location.lng, location.lat],
-              zoom: 14,
-              duration: 1000,
-            });
-          }
+          const coord = validCoordinates[0];
+          map.current.flyTo({
+            center: [coord[0], coord[1]],
+            zoom: 14,
+            duration: 1000,
+          });
         } else {
           // If both markers, fit bounds with padding
           // Create bounds safely from valid coordinates
