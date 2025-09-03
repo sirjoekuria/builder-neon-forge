@@ -279,19 +279,44 @@ export default function MapboxMap({
             duration: 1000,
           });
         } else {
-          // If both markers, fit bounds with padding
+          // If both markers, calculate center and appropriate zoom manually
           if (validCoordinates.length >= 2) {
-            const safeBounds = createSafeBounds(validCoordinates, mapboxgl);
+            try {
+              // Calculate center point manually
+              const lngs = validCoordinates.map(coord => coord[0]);
+              const lats = validCoordinates.map(coord => coord[1]);
 
-            if (safeBounds) {
-              console.log('Successfully created safe bounds, fitting map');
-              map.current.fitBounds(safeBounds, {
-                padding: 50,
+              const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+              const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+
+              // Calculate distance between points to determine zoom
+              const maxLng = Math.max(...lngs);
+              const minLng = Math.min(...lngs);
+              const maxLat = Math.max(...lats);
+              const minLat = Math.min(...lats);
+
+              const lngDiff = maxLng - minLng;
+              const latDiff = maxLat - minLat;
+              const maxDiff = Math.max(lngDiff, latDiff);
+
+              // Calculate appropriate zoom level based on coordinate span
+              let zoom = 12;
+              if (maxDiff > 0.1) zoom = 10;
+              else if (maxDiff > 0.05) zoom = 11;
+              else if (maxDiff > 0.02) zoom = 12;
+              else if (maxDiff > 0.01) zoom = 13;
+              else zoom = 14;
+
+              console.log('Manual positioning - Center:', [centerLng, centerLat], 'Zoom:', zoom);
+
+              map.current.flyTo({
+                center: [centerLng, centerLat],
+                zoom: zoom,
                 duration: 1000,
               });
-            } else {
-              console.warn('Failed to create safe bounds, falling back to center view');
-              // Fallback to centering on first valid location
+            } catch (manualError) {
+              console.error('Manual positioning failed:', manualError);
+              // Ultimate fallback to centering on first valid location
               const firstCoord = validCoordinates[0];
               map.current.flyTo({
                 center: [firstCoord[0], firstCoord[1]],
