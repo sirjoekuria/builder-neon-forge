@@ -114,7 +114,10 @@ export default function MapboxMap({
     try {
       const mapboxgl = window.mapboxgl;
 
-    // Clear existing markers
+      // Clear any previous errors
+      setMapError(null);
+
+      // Clear existing markers
     if (pickupMarker.current) {
       pickupMarker.current.remove();
       pickupMarker.current = null;
