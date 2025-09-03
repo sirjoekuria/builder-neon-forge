@@ -211,7 +211,7 @@ export default function MapboxMap({
           )
           .addTo(map.current);
 
-        bounds.extend([dropoff.lng, dropoff.lat]);
+        validCoordinates.push([dropoff.lng, dropoff.lat]);
         markers.push(dropoffMarker.current);
         hasValidBounds = true;
       } catch (error) {
