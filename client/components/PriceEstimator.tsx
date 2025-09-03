@@ -318,7 +318,7 @@ export default function PriceEstimator() {
                     <Input
                       id="pickup"
                       type="text"
-                      placeholder="Enter pickup address in Nairobi"
+                      placeholder="e.g. Westgate Mall, KICC, Karen, Thika Road..."
                       value={pickup}
                       onChange={(e) => setPickup(e.target.value)}
                       className="pl-10 border-gray-300 focus:border-rocs-green"
