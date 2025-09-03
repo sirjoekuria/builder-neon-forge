@@ -248,8 +248,12 @@ export default function PriceEstimator() {
       const pickupCoords = await geocodeLocation(pickup);
       const deliveryCoords = await geocodeLocation(delivery);
 
-      if (!pickupCoords || !deliveryCoords) {
-        throw new Error('Could not find one or both locations. Please try entering more specific addresses.');
+      if (!pickupCoords && !deliveryCoords) {
+        throw new Error(`Could not find either "${pickup}" or "${delivery}". Try searching for: Westgate Mall, KICC, Karen, Thika Road, JKIA Airport, etc.`);
+      } else if (!pickupCoords) {
+        throw new Error(`Could not find pickup location "${pickup}". Try: Westgate Mall, CBD, Kiambu Town, Thika Town, or enter a more specific address.`);
+      } else if (!deliveryCoords) {
+        throw new Error(`Could not find delivery location "${delivery}". Try: KICC, Karen, JKIA Airport, University of Nairobi, or enter a more specific address.`);
       }
 
       // Calculate route distance
