@@ -166,7 +166,7 @@ export default function MapboxMap({
           )
           .addTo(map.current);
 
-        bounds.extend([pickup.lng, pickup.lat]);
+        validCoordinates.push([pickup.lng, pickup.lat]);
         markers.push(pickupMarker.current);
         hasValidBounds = true;
       } catch (error) {
