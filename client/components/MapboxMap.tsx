@@ -280,35 +280,17 @@ export default function MapboxMap({
           });
         } else {
           // If both markers, fit bounds with padding
-          // Create bounds safely from valid coordinates
           if (validCoordinates.length >= 2) {
-            try {
-              // Create a new bounds object safely
-              const safeBounds = new mapboxgl.LngLatBounds();
+            const safeBounds = createSafeBounds(validCoordinates, mapboxgl);
 
-              // Add each valid coordinate
-              validCoordinates.forEach(coord => {
-                safeBounds.extend(coord);
+            if (safeBounds) {
+              console.log('Successfully created safe bounds, fitting map');
+              map.current.fitBounds(safeBounds, {
+                padding: 50,
+                duration: 1000,
               });
-
-              // Double-check the bounds are valid before fitting
-              const ne = safeBounds.getNorthEast();
-              const sw = safeBounds.getSouthWest();
-
-              if (ne && sw &&
-                  typeof ne.lat === 'number' && typeof ne.lng === 'number' &&
-                  typeof sw.lat === 'number' && typeof sw.lng === 'number' &&
-                  !isNaN(ne.lat) && !isNaN(ne.lng) && !isNaN(sw.lat) && !isNaN(sw.lng)) {
-
-                map.current.fitBounds(safeBounds, {
-                  padding: 50,
-                  duration: 1000,
-                });
-              } else {
-                throw new Error('Bounds coordinates are invalid');
-              }
-            } catch (boundsError) {
-              console.warn('Failed to create safe bounds:', boundsError);
+            } else {
+              console.warn('Failed to create safe bounds, falling back to center view');
               // Fallback to centering on first valid location
               const firstCoord = validCoordinates[0];
               map.current.flyTo({
