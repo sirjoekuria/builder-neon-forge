@@ -370,6 +370,26 @@ export default function MapboxMap({
         }}
       />
 
+      {/* Error Message */}
+      {mapError && (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          background: 'rgba(239, 68, 68, 0.9)',
+          color: 'white',
+          padding: '12px 16px',
+          borderRadius: '6px',
+          zIndex: 1000,
+          fontSize: '14px',
+          textAlign: 'center',
+          maxWidth: '80%'
+        }}>
+          ⚠️ {mapError}
+        </div>
+      )}
+
       {/* Legend */}
       {(pickup || dropoff) && (
         <div
