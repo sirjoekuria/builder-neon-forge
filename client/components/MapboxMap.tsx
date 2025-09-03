@@ -264,23 +264,27 @@ export default function MapboxMap({
               const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
               const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
 
-              // Calculate distance between points to determine zoom
-              const maxLng = Math.max(...lngs);
-              const minLng = Math.min(...lngs);
-              const maxLat = Math.max(...lats);
-              const minLat = Math.min(...lats);
+              // Calculate actual distance between furthest points
+              let maxDistance = 0;
+              for (let i = 0; i < validCoordinates.length; i++) {
+                for (let j = i + 1; j < validCoordinates.length; j++) {
+                  const dist = calculateDistance(
+                    validCoordinates[i][1], validCoordinates[i][0],
+                    validCoordinates[j][1], validCoordinates[j][0]
+                  );
+                  maxDistance = Math.max(maxDistance, dist);
+                }
+              }
 
-              const lngDiff = maxLng - minLng;
-              const latDiff = maxLat - minLat;
-              const maxDiff = Math.max(lngDiff, latDiff);
-
-              // Calculate appropriate zoom level based on coordinate span
+              // Calculate appropriate zoom level based on distance
               let zoom = 12;
-              if (maxDiff > 0.1) zoom = 10;
-              else if (maxDiff > 0.05) zoom = 11;
-              else if (maxDiff > 0.02) zoom = 12;
-              else if (maxDiff > 0.01) zoom = 13;
-              else zoom = 14;
+              if (maxDistance > 50) zoom = 9;        // > 50km
+              else if (maxDistance > 25) zoom = 10;   // 25-50km
+              else if (maxDistance > 10) zoom = 11;   // 10-25km
+              else if (maxDistance > 5) zoom = 12;    // 5-10km
+              else if (maxDistance > 2) zoom = 13;    // 2-5km
+              else if (maxDistance > 1) zoom = 14;    // 1-2km
+              else zoom = 15;                         // < 1km
 
               console.log('Manual positioning - Center:', [centerLng, centerLat], 'Zoom:', zoom);
 
@@ -449,7 +453,7 @@ export default function MapboxMap({
           textAlign: 'center',
           maxWidth: '80%'
         }}>
-          ⚠️ {mapError}
+          ⚠�� {mapError}
         </div>
       )}
 
@@ -489,7 +493,7 @@ export default function MapboxMap({
                   fontSize: "10px",
                 }}
               >
-                ����
+                📍
               </div>
               <span>Pickup</span>
             </div>
