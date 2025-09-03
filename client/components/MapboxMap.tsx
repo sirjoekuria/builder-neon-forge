@@ -142,7 +142,6 @@ export default function MapboxMap({
 
     const markers: any[] = [];
     const validCoordinates: [number, number][] = [];
-    let hasValidBounds = false;
 
     // Add pickup marker
     if (pickup && isValidCoordinate(pickup.lat, pickup.lng)) {
