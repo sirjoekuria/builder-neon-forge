@@ -239,6 +239,15 @@ export default function MapboxMap({
     console.log('MapboxMap: Valid coordinates collected:', validCoordinates);
     console.log('MapboxMap: Markers created:', markers.length);
 
+    // Validate all collected coordinates
+    const allCoordsValid = validCoordinates.every(coord =>
+      coord && coord.length === 2 &&
+      typeof coord[0] === 'number' && typeof coord[1] === 'number' &&
+      !isNaN(coord[0]) && !isNaN(coord[1]) &&
+      isValidCoordinate(coord[1], coord[0])
+    );
+    console.log('All coordinates valid:', allCoordsValid);
+
     // Fit map to show both markers
     if (markers.length > 0 && validCoordinates.length > 0) {
       try {
