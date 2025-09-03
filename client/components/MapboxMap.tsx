@@ -213,7 +213,9 @@ export default function MapboxMap({
           )
           .addTo(map.current);
 
-        validCoordinates.push([dropoff.lng, dropoff.lat]);
+        const dropoffCoord: [number, number] = [dropoff.lng, dropoff.lat];
+        validCoordinates.push(dropoffCoord);
+        console.log('Added dropoff coordinate:', dropoffCoord);
         markers.push(dropoffMarker.current);
         hasValidBounds = true;
       } catch (error) {
