@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MapPin, Navigation, Search, X } from "lucide-react";
-import MapboxMap from './MapboxMap';
+import MapboxMap from "./MapboxMap";
 
 interface Location {
   name: string;
@@ -449,8 +449,12 @@ export default function LocationPicker({
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
             <div className="text-center text-white bg-black bg-opacity-75 p-4 rounded-lg">
               <MapPin className="w-8 h-8 mx-auto mb-2" />
-              <div className="font-medium">Select pickup and dropoff locations</div>
-              <div className="text-sm opacity-90">to see them on the interactive map</div>
+              <div className="font-medium">
+                Select pickup and dropoff locations
+              </div>
+              <div className="text-sm opacity-90">
+                to see them on the interactive map
+              </div>
             </div>
           </div>
         )}

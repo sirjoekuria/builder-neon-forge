@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 interface Location {
   name: string;
@@ -15,9 +15,16 @@ interface MapboxMapProps {
   className?: string;
 }
 
-const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
+const MAPBOX_ACCESS_TOKEN =
+  "pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw";
 
-export default function MapboxMap({ pickup, dropoff, width = '100%', height = '300px', className = '' }: MapboxMapProps) {
+export default function MapboxMap({
+  pickup,
+  dropoff,
+  width = "100%",
+  height = "300px",
+  className = "",
+}: MapboxMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<any>(null);
   const pickupMarker = useRef<any>(null);
@@ -27,8 +34,8 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
   useEffect(() => {
     // Load Mapbox GL JS dynamically
     const loadMapbox = async () => {
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       // Check if mapboxgl is already loaded
       if (window.mapboxgl) {
         initializeMap(window.mapboxgl);
@@ -36,8 +43,8 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
       }
 
       // Load Mapbox GL JS and CSS
-      const script = document.createElement('script');
-      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
+      const script = document.createElement("script");
+      script.src = "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js";
       script.onload = () => {
         if (window.mapboxgl) {
           initializeMap(window.mapboxgl);
@@ -45,9 +52,9 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
       };
       document.head.appendChild(script);
 
-      const link = document.createElement('link');
-      link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
-      link.rel = 'stylesheet';
+      const link = document.createElement("link");
+      link.href = "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css";
+      link.rel = "stylesheet";
       document.head.appendChild(link);
     };
 
@@ -58,19 +65,22 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: "mapbox://styles/mapbox/streets-v11",
         center: [36.8219, -1.2921], // Nairobi center
         zoom: 12,
-        attributionControl: false
+        attributionControl: false,
       });
 
       // Add navigation controls
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
       // Add attribution control at bottom-left
-      map.current.addControl(new mapboxgl.AttributionControl({
-        compact: true
-      }), 'bottom-left');
+      map.current.addControl(
+        new mapboxgl.AttributionControl({
+          compact: true,
+        }),
+        "bottom-left",
+      );
     };
 
     loadMapbox();
@@ -103,8 +113,8 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
 
     // Add pickup marker
     if (pickup) {
-      const pickupEl = document.createElement('div');
-      pickupEl.className = 'pickup-marker';
+      const pickupEl = document.createElement("div");
+      pickupEl.className = "pickup-marker";
       pickupEl.innerHTML = `
         <div style="
           background: #10b981;
@@ -124,14 +134,15 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
 
       pickupMarker.current = new mapboxgl.Marker(pickupEl)
         .setLngLat([pickup.lng, pickup.lat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(`
             <div style="padding: 8px;">
               <h3 style="margin: 0 0 4px 0; color: #10b981; font-weight: bold;">Pickup Location</h3>
               <p style="margin: 0; font-size: 14px;"><strong>${pickup.name}</strong></p>
               <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${pickup.address}</p>
             </div>
-          `))
+          `),
+        )
         .addTo(map.current);
 
       bounds.extend([pickup.lng, pickup.lat]);
@@ -140,8 +151,8 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
 
     // Add dropoff marker
     if (dropoff) {
-      const dropoffEl = document.createElement('div');
-      dropoffEl.className = 'dropoff-marker';
+      const dropoffEl = document.createElement("div");
+      dropoffEl.className = "dropoff-marker";
       dropoffEl.innerHTML = `
         <div style="
           background: #3b82f6;
@@ -161,14 +172,15 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
 
       dropoffMarker.current = new mapboxgl.Marker(dropoffEl)
         .setLngLat([dropoff.lng, dropoff.lat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(`
             <div style="padding: 8px;">
               <h3 style="margin: 0 0 4px 0; color: #3b82f6; font-weight: bold;">Dropoff Location</h3>
               <p style="margin: 0; font-size: 14px;"><strong>${dropoff.name}</strong></p>
               <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${dropoff.address}</p>
             </div>
-          `))
+          `),
+        )
         .addTo(map.current);
 
       bounds.extend([dropoff.lng, dropoff.lat]);
@@ -184,14 +196,14 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
           map.current.flyTo({
             center: [location.lng, location.lat],
             zoom: 14,
-            duration: 1000
+            duration: 1000,
           });
         }
       } else {
         // If both markers, fit bounds with padding
         map.current.fitBounds(bounds, {
           padding: 50,
-          duration: 1000
+          duration: 1000,
         });
       }
     }
@@ -201,9 +213,9 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
       drawRoute(pickup, dropoff);
     } else {
       // Remove existing route
-      if (routeLayer.current && map.current.getLayer('route')) {
-        map.current.removeLayer('route');
-        map.current.removeSource('route');
+      if (routeLayer.current && map.current.getLayer("route")) {
+        map.current.removeLayer("route");
+        map.current.removeSource("route");
         routeLayer.current = null;
       }
     }
@@ -215,9 +227,9 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
     try {
       const response = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup.lng},${pickup.lat};${dropoff.lng},${dropoff.lat}?` +
-        `access_token=${MAPBOX_ACCESS_TOKEN}&` +
-        `geometries=geojson&` +
-        `overview=full`
+          `access_token=${MAPBOX_ACCESS_TOKEN}&` +
+          `geometries=geojson&` +
+          `overview=full`,
       );
 
       const data = await response.json();
@@ -226,97 +238,113 @@ export default function MapboxMap({ pickup, dropoff, width = '100%', height = '3
         const route = data.routes[0];
 
         // Remove existing route layer
-        if (map.current.getLayer('route')) {
-          map.current.removeLayer('route');
-          map.current.removeSource('route');
+        if (map.current.getLayer("route")) {
+          map.current.removeLayer("route");
+          map.current.removeSource("route");
         }
 
         // Add route source and layer
-        map.current.addSource('route', {
-          type: 'geojson',
+        map.current.addSource("route", {
+          type: "geojson",
           data: {
-            type: 'Feature',
+            type: "Feature",
             properties: {},
-            geometry: route.geometry
-          }
+            geometry: route.geometry,
+          },
         });
 
         map.current.addLayer({
-          id: 'route',
-          type: 'line',
-          source: 'route',
+          id: "route",
+          type: "line",
+          source: "route",
           layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
+            "line-join": "round",
+            "line-cap": "round",
           },
           paint: {
-            'line-color': '#f59e0b',
-            'line-width': 4,
-            'line-opacity': 0.8
-          }
+            "line-color": "#f59e0b",
+            "line-width": 4,
+            "line-opacity": 0.8,
+          },
         });
 
         routeLayer.current = true;
       }
     } catch (error) {
-      console.error('Error drawing route:', error);
+      console.error("Error drawing route:", error);
     }
   };
 
   return (
     <div className={`mapbox-map ${className}`} style={{ width, height }}>
-      <div 
-        ref={mapContainer} 
-        style={{ 
-          width: '100%', 
-          height: '100%',
-          borderRadius: '8px',
-          overflow: 'hidden'
-        }} 
+      <div
+        ref={mapContainer}
+        style={{
+          width: "100%",
+          height: "100%",
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}
       />
-      
+
       {/* Legend */}
       {(pickup || dropoff) && (
-        <div style={{
-          position: 'absolute',
-          top: '10px',
-          left: '10px',
-          background: 'white',
-          padding: '8px 12px',
-          borderRadius: '6px',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          fontSize: '12px',
-          zIndex: 1000
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            background: "white",
+            padding: "8px 12px",
+            borderRadius: "6px",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+            fontSize: "12px",
+            zIndex: 1000,
+          }}
+        >
           {pickup && (
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: dropoff ? '4px' : '0' }}>
-              <div style={{
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                background: '#10b981',
-                marginRight: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '10px'
-              }}>📍</div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: dropoff ? "4px" : "0",
+              }}
+            >
+              <div
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: "50%",
+                  background: "#10b981",
+                  marginRight: "6px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                }}
+              >
+                📍
+              </div>
               <span>Pickup</span>
             </div>
           )}
           {dropoff && (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                background: '#3b82f6',
-                marginRight: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '10px'
-              }}>🎯</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: "50%",
+                  background: "#3b82f6",
+                  marginRight: "6px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                }}
+              >
+                🎯
+              </div>
               <span>Dropoff</span>
             </div>
           )}

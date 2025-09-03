@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MapPin, Navigation, Search, X, ArrowDown } from "lucide-react";
-import MapboxMap from './MapboxMap';
+import MapboxMap from "./MapboxMap";
 
 interface Location {
   name: string;
@@ -1193,7 +1193,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "mirema-drive",
     place_name: "Mirema Drive, Kasarani, Nairobi",
-    center: [36.9000, -1.2167],
+    center: [36.9, -1.2167],
     text: "Mirema Drive",
   },
 
@@ -1201,31 +1201,31 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "two-rivers-mall",
     place_name: "Two Rivers Mall, Limuru Road, Nairobi",
-    center: [36.8100, -1.2300],
+    center: [36.81, -1.23],
     text: "Two Rivers Mall",
   },
   {
     id: "greenspan-mall",
     place_name: "Greenspan Mall, Donholm, Nairobi",
-    center: [36.9000, -1.2700],
+    center: [36.9, -1.27],
     text: "Greenspan Mall",
   },
   {
     id: "pine-creek-mall",
     place_name: "Pine Creek Mall, Kiambu Road, Nairobi",
-    center: [36.8500, -1.2300],
+    center: [36.85, -1.23],
     text: "Pine Creek Mall",
   },
   {
     id: "quickmart-mall",
     place_name: "Quickmart Mall, Ngong Road, Nairobi",
-    center: [36.7700, -1.3200],
+    center: [36.77, -1.32],
     text: "Quickmart Mall",
   },
   {
     id: "crystal-plaza",
     place_name: "Crystal Plaza, Mombasa Road, Nairobi",
-    center: [36.8400, -1.3400],
+    center: [36.84, -1.34],
     text: "Crystal Plaza",
   },
 
@@ -1233,13 +1233,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "gigiri-business-center",
     place_name: "Gigiri Business Center, Gigiri, Nairobi",
-    center: [36.8150, -1.2430],
+    center: [36.815, -1.243],
     text: "Gigiri Business Center",
   },
   {
     id: "riverside-business-park",
     place_name: "Riverside Business Park, Riverside, Nairobi",
-    center: [36.8100, -1.2700],
+    center: [36.81, -1.27],
     text: "Riverside Business Park",
   },
   {
@@ -1259,13 +1259,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "ole-sereni-hotel",
     place_name: "Ole Sereni Hotel, Mombasa Road, Nairobi",
-    center: [36.9200, -1.3300],
+    center: [36.92, -1.33],
     text: "Ole Sereni Hotel",
   },
   {
     id: "crowne-plaza",
     place_name: "Crowne Plaza Nairobi, Upper Hill, Nairobi",
-    center: [36.8050, -1.2950],
+    center: [36.805, -1.295],
     text: "Crowne Plaza",
   },
   {
@@ -1279,13 +1279,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "mp-shah-hospital",
     place_name: "MP Shah Hospital, Nairobi",
-    center: [36.8050, -1.2900],
+    center: [36.805, -1.29],
     text: "MP Shah Hospital",
   },
   {
     id: "gertrudes-hospital",
     place_name: "Gertrude's Children's Hospital, Muthaiga, Nairobi",
-    center: [36.8200, -1.2600],
+    center: [36.82, -1.26],
     text: "Gertrude's Hospital",
   },
   {
@@ -1299,13 +1299,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "carnivore-restaurant",
     place_name: "Carnivore Restaurant, Langata, Nairobi",
-    center: [36.7500, -1.3500],
+    center: [36.75, -1.35],
     text: "Carnivore Restaurant",
   },
   {
     id: "giraffe-centre",
     place_name: "Giraffe Centre, Langata, Nairobi",
-    center: [36.7400, -1.3400],
+    center: [36.74, -1.34],
     text: "Giraffe Centre",
   },
   {
@@ -1319,13 +1319,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "green-park-terminus",
     place_name: "Green Park Terminus, Ngara, Nairobi",
-    center: [36.8300, -1.2600],
+    center: [36.83, -1.26],
     text: "Green Park Terminus",
   },
   {
     id: "machakos-bus-station",
     place_name: "Machakos Country Bus Station, CBD, Nairobi",
-    center: [36.8181, -1.2890],
+    center: [36.8181, -1.289],
     text: "Machakos Bus Station",
   },
 
@@ -1335,7 +1335,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-town",
     place_name: "Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Town",
   },
   {
@@ -1377,7 +1377,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "lari-town",
     place_name: "Lari Town, Kiambu County",
-    center: [36.7000, -1.0500],
+    center: [36.7, -1.05],
     text: "Lari Town",
   },
 
@@ -1385,61 +1385,61 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kahawa-wendani",
     place_name: "Kahawa Wendani, Kiambu County",
-    center: [36.9200, -1.1600],
+    center: [36.92, -1.16],
     text: "Kahawa Wendani",
   },
   {
     id: "kahawa-west-kiambu",
     place_name: "Kahawa West, Kiambu County",
-    center: [36.9300, -1.1800],
+    center: [36.93, -1.18],
     text: "Kahawa West",
   },
   {
     id: "kahawa-sukari-kiambu",
     place_name: "Kahawa Sukari, Kiambu County",
-    center: [36.9400, -1.1700],
+    center: [36.94, -1.17],
     text: "Kahawa Sukari",
   },
   {
     id: "githurai-44",
     place_name: "Githurai 44, Kiambu County",
-    center: [36.9200, -1.1500],
+    center: [36.92, -1.15],
     text: "Githurai 44",
   },
   {
     id: "githurai-45",
     place_name: "Githurai 45, Kiambu County",
-    center: [36.9250, -1.1450],
+    center: [36.925, -1.145],
     text: "Githurai 45",
   },
   {
     id: "kihunguro",
     place_name: "Kihunguro, Ruiru, Kiambu County",
-    center: [36.9500, -1.1300],
+    center: [36.95, -1.13],
     text: "Kihunguro",
   },
   {
     id: "membley-estate",
     place_name: "Membley Estate, Ruiru, Kiambu County",
-    center: [36.9600, -1.1400],
+    center: [36.96, -1.14],
     text: "Membley Estate",
   },
   {
     id: "kamiti",
     place_name: "Kamiti, Kiambu County",
-    center: [36.9000, -1.1200],
+    center: [36.9, -1.12],
     text: "Kamiti",
   },
   {
     id: "banana-hill",
     place_name: "Banana Hill, Kiambu County",
-    center: [36.8500, -1.1800],
+    center: [36.85, -1.18],
     text: "Banana Hill",
   },
   {
     id: "wangige",
     place_name: "Wangige, Kiambu County",
-    center: [36.7200, -1.2200],
+    center: [36.72, -1.22],
     text: "Wangige",
   },
 
@@ -1447,7 +1447,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-mall",
     place_name: "Kiambu Mall, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Mall",
   },
   {
@@ -1471,7 +1471,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "githunguri-shopping-center",
     place_name: "Githunguri Shopping Center, Githunguri, Kiambu County",
-    center: [36.7500, -1.0500],
+    center: [36.75, -1.05],
     text: "Githunguri Shopping Center",
   },
 
@@ -1479,13 +1479,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kenyatta-university-kiambu",
     place_name: "Kenyatta University, Kahawa, Kiambu County",
-    center: [36.9300, -1.1800],
+    center: [36.93, -1.18],
     text: "Kenyatta University",
   },
   {
     id: "jkuat-juja",
     place_name: "JKUAT University, Juja, Kiambu County",
-    center: [37.0100, -1.1000],
+    center: [37.01, -1.1],
     text: "JKUAT University",
   },
   {
@@ -1497,7 +1497,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-institute-technology",
     place_name: "Kiambu Institute of Science and Technology, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Institute of Technology",
   },
   {
@@ -1511,7 +1511,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-hospital",
     place_name: "Kiambu Level 5 Hospital, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Hospital",
   },
   {
@@ -1537,13 +1537,13 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "thika-industrial-area",
     place_name: "Thika Industrial Area, Thika, Kiambu County",
-    center: [37.0800, -1.0300],
+    center: [37.08, -1.03],
     text: "Thika Industrial Area",
   },
   {
     id: "ruiru-industrial-area",
     place_name: "Ruiru Industrial Area, Ruiru, Kiambu County",
-    center: [36.9700, -1.1400],
+    center: [36.97, -1.14],
     text: "Ruiru Industrial Area",
   },
 
@@ -1557,7 +1557,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-bus-station",
     place_name: "Kiambu Bus Station, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Bus Station",
   },
   {
@@ -1570,8 +1570,9 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   // Government Offices in Kiambu County
   {
     id: "kiambu-county-headquarters",
-    place_name: "Kiambu County Government Headquarters, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    place_name:
+      "Kiambu County Government Headquarters, Kiambu Town, Kiambu County",
+    center: [36.834, -1.174],
     text: "Kiambu County HQ",
   },
   {
@@ -1585,7 +1586,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-market",
     place_name: "Kiambu Municipal Market, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Market",
   },
   {
@@ -1605,7 +1606,7 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "kiambu-catholic-church",
     place_name: "Kiambu Catholic Church, Kiambu Town, Kiambu County",
-    center: [36.8340, -1.1740],
+    center: [36.834, -1.174],
     text: "Kiambu Catholic Church",
   },
   {
@@ -1619,19 +1620,19 @@ const KENYAN_LANDMARKS: SearchResult[] = [
   {
     id: "fourteen-falls",
     place_name: "Fourteen Falls, Thika, Kiambu County",
-    center: [37.0500, -1.0500],
+    center: [37.05, -1.05],
     text: "Fourteen Falls",
   },
   {
     id: "chania-falls",
     place_name: "Chania Falls, Thika, Kiambu County",
-    center: [37.0400, -1.0400],
+    center: [37.04, -1.04],
     text: "Chania Falls",
   },
   {
     id: "kiambu-golf-club",
     place_name: "Kiambu Golf Club, Kiambu County",
-    center: [36.8400, -1.1700],
+    center: [36.84, -1.17],
     text: "Kiambu Golf Club",
   },
 ];
@@ -2238,8 +2239,12 @@ export default function SimpleMapboxLocationPicker({
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
             <div className="text-center text-white bg-black bg-opacity-75 p-4 rounded-lg">
               <MapPin className="w-8 h-8 mx-auto mb-2" />
-              <div className="font-medium">Select pickup and dropoff locations</div>
-              <div className="text-sm opacity-90">to see them on the map with route</div>
+              <div className="font-medium">
+                Select pickup and dropoff locations
+              </div>
+              <div className="text-sm opacity-90">
+                to see them on the map with route
+              </div>
             </div>
           </div>
         )}
@@ -2251,7 +2256,8 @@ export default function SimpleMapboxLocationPicker({
             </div>
             {distance && (
               <div className="text-gray-600">
-                Distance: {distance.toFixed(1)} km • Time: ~{Math.round(duration || 0)} min
+                Distance: {distance.toFixed(1)} km • Time: ~
+                {Math.round(duration || 0)} min
               </div>
             )}
           </div>
