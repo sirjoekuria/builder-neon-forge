@@ -93,6 +93,20 @@ export default function MapboxMap({
     };
   }, []);
 
+  // Validate coordinates
+  const isValidCoordinate = (lat: number, lng: number): boolean => {
+    return (
+      typeof lat === 'number' &&
+      typeof lng === 'number' &&
+      !isNaN(lat) &&
+      !isNaN(lng) &&
+      lat >= -90 &&
+      lat <= 90 &&
+      lng >= -180 &&
+      lng <= 180
+    );
+  };
+
   useEffect(() => {
     if (!map.current || !window.mapboxgl) return;
 
@@ -110,6 +124,7 @@ export default function MapboxMap({
 
     const markers: any[] = [];
     const bounds = new mapboxgl.LngLatBounds();
+    let hasValidBounds = false;
 
     // Add pickup marker
     if (pickup) {
