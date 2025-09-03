@@ -168,58 +168,99 @@ export default function Tracking() {
               {/* Status Progress */}
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h3 className="text-xl font-semibold text-rocs-green mb-6">Delivery Progress</h3>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-rocs-green rounded-full flex items-center justify-center text-white font-bold">
-                      ✓
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-semibold text-gray-800">Order Received</h4>
-                      <p className="text-sm text-gray-600">Your order has been received and confirmed</p>
-                    </div>
-                  </div>
 
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-rocs-green rounded-full flex items-center justify-center text-white font-bold">
-                      ✓
+                {/* Current Status Banner */}
+                <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-rocs-green to-rocs-green-dark text-white">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-semibold">Current Status</h4>
+                      <p className="text-sm opacity-90">
+                        {orderData.currentStatus === 'pending' && 'Order received and being processed'}
+                        {orderData.currentStatus === 'confirmed' && 'Order confirmed and rider assigned'}
+                        {orderData.currentStatus === 'picked_up' && 'Package picked up and on the way'}
+                        {orderData.currentStatus === 'in_transit' && 'Package is in transit to destination'}
+                        {orderData.currentStatus === 'delivered' && 'Package delivered successfully'}
+                      </p>
                     </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-semibold text-gray-800">Order Confirmed</h4>
-                      <p className="text-sm text-gray-600">Rider assigned: {orderData.riderName}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-rocs-green rounded-full flex items-center justify-center text-white font-bold">
-                      ✓
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-semibold text-gray-800">Package Picked Up</h4>
-                      <p className="text-sm text-gray-600">Package collected from {orderData.pickup}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-rocs-yellow rounded-full flex items-center justify-center text-gray-800 font-bold">
-                      🚚
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-semibold text-gray-800">In Transit</h4>
-                      <p className="text-sm text-rocs-yellow font-medium">Your package is on the way!</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center opacity-50">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600">
-                      📍
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-semibold text-gray-600">Delivered</h4>
-                      <p className="text-sm text-gray-500">Package will be delivered soon</p>
+                    <div className="text-2xl">
+                      {orderData.currentStatus === 'pending' && '📋'}
+                      {orderData.currentStatus === 'confirmed' && '✅'}
+                      {orderData.currentStatus === 'picked_up' && '📦'}
+                      {orderData.currentStatus === 'in_transit' && '🚚'}
+                      {orderData.currentStatus === 'delivered' && '🎉'}
                     </div>
                   </div>
                 </div>
+
+                {/* Status Timeline */}
+                <div className="space-y-4">
+                  {[
+                    { key: 'pending', label: 'Order Received', description: 'Your order has been received and confirmed', icon: '📋' },
+                    { key: 'confirmed', label: 'Order Confirmed', description: `Rider assigned${orderData.riderName ? ': ' + orderData.riderName : ''}`, icon: '✅' },
+                    { key: 'picked_up', label: 'Package Picked Up', description: `Package collected from ${orderData.pickup}`, icon: '📦' },
+                    { key: 'in_transit', label: 'In Transit', description: 'Your package is on the way to destination', icon: '🚚' },
+                    { key: 'delivered', label: 'Delivered', description: `Package delivered to ${orderData.delivery}`, icon: '🎉' }
+                  ].map((step, index) => {
+                    const isCompleted = getStepStatus(step.key, orderData.currentStatus);
+                    const isCurrent = step.key === orderData.currentStatus;
+
+                    return (
+                      <div key={step.key} className="flex items-start">
+                        {/* Connector Line */}
+                        {index > 0 && (
+                          <div className="absolute left-4 w-0.5 h-6 bg-gray-200 -mt-6"></div>
+                        )}
+
+                        {/* Status Icon */}
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                          isCompleted
+                            ? 'bg-rocs-green text-white'
+                            : isCurrent
+                              ? 'bg-rocs-yellow text-gray-800'
+                              : 'bg-gray-300 text-gray-600'
+                        }`}>
+                          {isCompleted ? '✓' : step.icon}
+                        </div>
+
+                        {/* Status Content */}
+                        <div className="ml-4 flex-1">
+                          <h4 className={`font-semibold ${
+                            isCompleted ? 'text-gray-800' : isCurrent ? 'text-rocs-green' : 'text-gray-500'
+                          }`}>
+                            {step.label}
+                          </h4>
+                          <p className={`text-sm ${
+                            isCompleted ? 'text-gray-600' : isCurrent ? 'text-rocs-green' : 'text-gray-400'
+                          }`}>
+                            {step.description}
+                          </p>
+
+                          {/* Show timestamp for completed steps */}
+                          {orderData.statusHistory && orderData.statusHistory.find((h: any) => h.status === step.key) && (
+                            <p className="text-xs text-gray-400 mt-1">
+                              {formatDate(orderData.statusHistory.find((h: any) => h.status === step.key).timestamp)}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Estimated Delivery Time */}
+                {orderData.estimatedDelivery && orderData.currentStatus !== 'delivered' && (
+                  <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-center">
+                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs">
+                        ⏰
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold text-blue-800">Estimated Delivery</h4>
+                        <p className="text-sm text-blue-600">{formatDate(orderData.estimatedDelivery)}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
