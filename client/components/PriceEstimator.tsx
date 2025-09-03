@@ -410,6 +410,37 @@ export default function PriceEstimator() {
               </div>
             </div>
 
+            {/* Popular Locations Examples */}
+            <div className="mt-6 bg-blue-50 rounded-lg p-4">
+              <h4 className="font-semibold text-blue-800 mb-3">💡 Popular Locations You Can Try:</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                <div className="text-blue-700">
+                  <div className="font-medium">Shopping:</div>
+                  <div>Westgate Mall</div>
+                  <div>Junction Mall</div>
+                  <div>Sarit Centre</div>
+                </div>
+                <div className="text-blue-700">
+                  <div className="font-medium">Areas:</div>
+                  <div>CBD, Karen</div>
+                  <div>Kilimani, Westlands</div>
+                  <div>Kiambu Town</div>
+                </div>
+                <div className="text-blue-700">
+                  <div className="font-medium">Transport:</div>
+                  <div>JKIA Airport</div>
+                  <div>Railway Station</div>
+                  <div>Thika Road</div>
+                </div>
+                <div className="text-blue-700">
+                  <div className="font-medium">Universities:</div>
+                  <div>University of Nairobi</div>
+                  <div>Strathmore University</div>
+                  <div>JKUAT</div>
+                </div>
+              </div>
+            </div>
+
             {/* Pricing Info */}
             <div className="mt-8 bg-rocs-yellow-light rounded-lg p-6">
               <h3 className="text-lg font-semibold text-rocs-green mb-4">Service Information</h3>
