@@ -105,20 +105,62 @@ export default function PriceEstimator() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Geocode location names to coordinates
+  // Enhanced geocoding function with better matching
   const geocodeLocation = async (locationName: string): Promise<[number, number] | null> => {
-    // First check if it's a known landmark
-    const landmark = KENYAN_LANDMARKS.find(l =>
-      l.name.toLowerCase().includes(locationName.toLowerCase()) ||
-      locationName.toLowerCase().includes(l.name.toLowerCase())
-    );
+    const queryLower = locationName.toLowerCase().trim();
+
+    // Enhanced local landmark matching with multiple strategies
+    let landmark = KENYAN_LANDMARKS.find(l => {
+      const nameLower = l.name.toLowerCase();
+      // Exact match
+      if (nameLower === queryLower) return true;
+      // Contains match (both directions)
+      if (nameLower.includes(queryLower) || queryLower.includes(nameLower)) return true;
+      // Word matching for compound names
+      const queryWords = queryLower.split(/\s+/);
+      const nameWords = nameLower.split(/\s+/);
+      return queryWords.some(qWord => nameWords.some(nWord =>
+        qWord.includes(nWord) || nWord.includes(qWord)
+      ));
+    });
 
     if (landmark) {
+      console.log('Found local landmark:', landmark.name);
       return landmark.coordinates as [number, number];
     }
 
-    // Use Mapbox Geocoding API
+    // Try fuzzy matching for common abbreviations and variations
+    const fuzzyMatches: { [key: string]: string } = {
+      'jkia': 'JKIA Airport',
+      'knh': 'Kenyatta National Hospital',
+      'uon': 'University of Nairobi',
+      'usiu': 'USIU',
+      'kicc': 'KICC',
+      'cbd': 'CBD',
+      'tmall': 'Thika Road Mall',
+      'trm': 'TRM Drive',
+      'village market': 'Village Market',
+      'sarit': 'Sarit Centre',
+      'westgate': 'Westgate Mall',
+      'junction': 'Junction Mall',
+      'yaya': 'Yaya Centre',
+      'galleria': 'Galleria Mall',
+      'kahawa west': 'Kahawa West',
+      'kahawa sukari': 'Kahawa Sukari',
+    };
+
+    const fuzzyMatch = fuzzyMatches[queryLower];
+    if (fuzzyMatch) {
+      landmark = KENYAN_LANDMARKS.find(l => l.name === fuzzyMatch);
+      if (landmark) {
+        console.log('Found fuzzy match:', landmark.name);
+        return landmark.coordinates as [number, number];
+      }
+    }
+
+    // Use Mapbox Geocoding API as fallback
     try {
+      console.log('Trying Mapbox geocoding for:', locationName);
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(locationName)}.json?` +
         `access_token=${MAPBOX_ACCESS_TOKEN}&` +
@@ -129,18 +171,23 @@ export default function PriceEstimator() {
       );
 
       if (!response.ok) {
-        throw new Error('Geocoding failed');
+        console.error('Mapbox geocoding failed with status:', response.status);
+        return null;
       }
 
       const data = await response.json();
 
       if (data.features && data.features.length > 0) {
+        console.log('Found via Mapbox:', data.features[0].place_name);
         return data.features[0].center as [number, number];
+      } else {
+        console.log('No results from Mapbox for:', locationName);
       }
     } catch (error) {
-      console.error('Geocoding error:', error);
+      console.error('Mapbox geocoding error:', error);
     }
 
+    console.log('Could not geocode location:', locationName);
     return null;
   };
 
