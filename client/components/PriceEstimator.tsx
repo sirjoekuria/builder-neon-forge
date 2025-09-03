@@ -335,7 +335,7 @@ export default function PriceEstimator() {
                     <Input
                       id="delivery"
                       type="text"
-                      placeholder="Enter delivery address in Nairobi"
+                      placeholder="e.g. JKIA Airport, CBD, Kiambu Town, University..."
                       value={delivery}
                       onChange={(e) => setDelivery(e.target.value)}
                       className="pl-10 border-gray-300 focus:border-rocs-green"
