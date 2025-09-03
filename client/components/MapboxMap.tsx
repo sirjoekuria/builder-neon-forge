@@ -221,6 +221,10 @@ export default function MapboxMap({
       console.warn('Invalid dropoff coordinates:', dropoff.lat, dropoff.lng);
     }
 
+    // Debug logging
+    console.log('MapboxMap: Valid coordinates collected:', validCoordinates);
+    console.log('MapboxMap: Markers created:', markers.length);
+
     // Fit map to show both markers
     if (markers.length > 0 && validCoordinates.length > 0) {
       try {
