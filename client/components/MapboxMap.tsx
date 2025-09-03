@@ -128,7 +128,7 @@ export default function MapboxMap({
     }
 
     const markers: any[] = [];
-    const bounds = new mapboxgl.LngLatBounds();
+    const validCoordinates: [number, number][] = [];
     let hasValidBounds = false;
 
     // Add pickup marker
