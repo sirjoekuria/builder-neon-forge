@@ -108,42 +108,17 @@ export default function MapboxMap({
     );
   };
 
-  // Safely create bounds from coordinates
-  const createSafeBounds = (coordinates: [number, number][], mapboxgl: any): any | null => {
-    if (!coordinates || coordinates.length === 0) {
-      return null;
-    }
-
-    try {
-      const bounds = new mapboxgl.LngLatBounds();
-
-      for (const coord of coordinates) {
-        if (coord && coord.length === 2 &&
-            typeof coord[0] === 'number' && typeof coord[1] === 'number' &&
-            !isNaN(coord[0]) && !isNaN(coord[1])) {
-          bounds.extend(coord);
-        } else {
-          console.warn('Skipping invalid coordinate:', coord);
-        }
-      }
-
-      // Verify the bounds object is valid
-      const ne = bounds.getNorthEast();
-      const sw = bounds.getSouthWest();
-
-      if (ne && sw &&
-          typeof ne.lat === 'number' && typeof ne.lng === 'number' &&
-          typeof sw.lat === 'number' && typeof sw.lng === 'number' &&
-          !isNaN(ne.lat) && !isNaN(ne.lng) && !isNaN(sw.lat) && !isNaN(sw.lng)) {
-        return bounds;
-      } else {
-        console.warn('Created bounds has invalid corners:', { ne, sw });
-        return null;
-      }
-    } catch (error) {
-      console.error('Error creating bounds:', error);
-      return null;
-    }
+  // Calculate distance between two coordinates (for zoom calculation)
+  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
   };
 
   useEffect(() => {
@@ -514,7 +489,7 @@ export default function MapboxMap({
                   fontSize: "10px",
                 }}
               >
-                📍
+                ����
               </div>
               <span>Pickup</span>
             </div>
