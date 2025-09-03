@@ -44,6 +44,13 @@ export default function Tracking() {
     });
   };
 
+  const getStepStatus = (stepKey: string, currentStatus: string) => {
+    const statusOrder = ['pending', 'confirmed', 'picked_up', 'in_transit', 'delivered'];
+    const stepIndex = statusOrder.indexOf(stepKey);
+    const currentIndex = statusOrder.indexOf(currentStatus);
+    return stepIndex <= currentIndex;
+  };
+
   return (
     <section className="py-16 bg-gray-50 min-h-screen">
       <div className="container mx-auto px-4">
