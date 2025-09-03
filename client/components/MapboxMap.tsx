@@ -217,21 +217,49 @@ export default function MapboxMap({
     }
 
     // Fit map to show both markers
-    if (markers.length > 0) {
-      if (markers.length === 1) {
-        // If only one marker, center on it
-        const location = pickup || dropoff;
-        if (location) {
-          map.current.flyTo({
-            center: [location.lng, location.lat],
-            zoom: 14,
-            duration: 1000,
-          });
+    if (markers.length > 0 && hasValidBounds) {
+      try {
+        if (markers.length === 1) {
+          // If only one marker, center on it
+          const location = pickup || dropoff;
+          if (location && isValidCoordinate(location.lat, location.lng)) {
+            map.current.flyTo({
+              center: [location.lng, location.lat],
+              zoom: 14,
+              duration: 1000,
+            });
+          }
+        } else {
+          // If both markers, fit bounds with padding
+          // Check if bounds is valid before fitting
+          const ne = bounds.getNorthEast();
+          const sw = bounds.getSouthWest();
+
+          if (ne && sw && isValidCoordinate(ne.lat, ne.lng) && isValidCoordinate(sw.lat, sw.lng)) {
+            map.current.fitBounds(bounds, {
+              padding: 50,
+              duration: 1000,
+            });
+          } else {
+            console.warn('Invalid bounds, falling back to center view');
+            // Fallback to centering on first valid location
+            const validLocation = (pickup && isValidCoordinate(pickup.lat, pickup.lng)) ? pickup :
+                                 (dropoff && isValidCoordinate(dropoff.lat, dropoff.lng)) ? dropoff : null;
+            if (validLocation) {
+              map.current.flyTo({
+                center: [validLocation.lng, validLocation.lat],
+                zoom: 12,
+                duration: 1000,
+              });
+            }
+          }
         }
-      } else {
-        // If both markers, fit bounds with padding
-        map.current.fitBounds(bounds, {
-          padding: 50,
+      } catch (error) {
+        console.error('Error fitting map bounds:', error);
+        // Fallback to default Nairobi view
+        map.current.flyTo({
+          center: [36.8219, -1.2921],
+          zoom: 11,
           duration: 1000,
         });
       }
