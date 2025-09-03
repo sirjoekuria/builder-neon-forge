@@ -14,28 +14,24 @@ export default function Tracking() {
     setError('');
     setOrderData(null);
 
-    // Simulate API call
-    setTimeout(() => {
-      if (trackingId === 'RC-2024-001') {
-        setOrderData({
-          id: 'RC-2024-001',
-          customerName: 'John Doe',
-          customerPhone: '+254 712 345 678',
-          pickup: 'Westlands Shopping Mall, Nairobi',
-          delivery: 'KICC, Nairobi CBD',
-          distance: 5.2,
-          cost: 156,
-          currentStatus: 'in_transit',
-          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-          estimatedDelivery: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
-          riderName: 'Peter Kimani',
-          riderPhone: '+254 700 123 456'
-        });
-      } else {
+    try {
+      const response = await fetch(`/api/orders/track/${trackingId.trim()}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        setOrderData(data.order);
+      } else if (response.status === 404) {
         setError('Order not found. Please check your tracking ID and try again.');
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.error || 'Failed to track order. Please try again.');
       }
+    } catch (error) {
+      console.error('Tracking error:', error);
+      setError('Network error. Please check your connection and try again.');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const formatDate = (dateString: string) => {
