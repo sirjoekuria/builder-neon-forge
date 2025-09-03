@@ -9,19 +9,92 @@ const PRICE_PER_KM = 30;
 const MINIMUM_PRICE = 200;
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
 
-// Same landmarks database as in SimpleMapboxLocationPicker
+// Comprehensive landmarks database matching SimpleMapboxLocationPicker
 const KENYAN_LANDMARKS = [
   // Major Malls
   { name: 'Westgate Mall', coordinates: [36.8065, -1.2676] },
   { name: 'Junction Mall', coordinates: [36.7819, -1.3019] },
   { name: 'Sarit Centre', coordinates: [36.8103, -1.2676] },
   { name: 'Village Market', coordinates: [36.8150, -1.2430] },
+  { name: 'Galleria Mall', coordinates: [36.7650, -1.3350] },
+  { name: 'Thika Road Mall', coordinates: [36.8833, -1.2167] },
+  { name: 'Garden City Mall', coordinates: [36.8950, -1.2100] },
+  { name: 'Yaya Centre', coordinates: [36.7850, -1.2950] },
+  { name: 'Two Rivers Mall', coordinates: [36.8100, -1.2300] },
+  { name: 'TRM Drive', coordinates: [36.8833, -1.2167] },
+  { name: 'Greenspan Mall', coordinates: [36.9000, -1.2700] },
+
+  // Government Buildings & Landmarks
   { name: 'KICC', coordinates: [36.8172, -1.2873] },
+  { name: 'Parliament Buildings', coordinates: [36.8181, -1.2884] },
+  { name: 'State House', coordinates: [36.8050, -1.2700] },
+  { name: 'City Hall', coordinates: [36.8172, -1.2864] },
+
+  // Major Areas
   { name: 'CBD', coordinates: [36.8172, -1.2864] },
   { name: 'Westlands', coordinates: [36.8103, -1.2676] },
   { name: 'Karen', coordinates: [36.7026, -1.3318] },
   { name: 'Kilimani', coordinates: [36.7833, -1.2833] },
+  { name: 'Kileleshwa', coordinates: [36.7833, -1.2833] },
+  { name: 'Eastleigh', coordinates: [36.8500, -1.2833] },
+  { name: 'Kasarani', coordinates: [36.9000, -1.2167] },
+  { name: 'Embakasi', coordinates: [36.8833, -1.3167] },
+  { name: 'Upper Hill', coordinates: [36.8050, -1.2950] },
+  { name: 'Lavington', coordinates: [36.7650, -1.2800] },
+  { name: 'Parklands', coordinates: [36.8200, -1.2600] },
+  { name: 'Riverside', coordinates: [36.8100, -1.2700] },
+  { name: 'Mirema Drive', coordinates: [36.9000, -1.2167] },
+
+  // Transport Hubs
   { name: 'JKIA Airport', coordinates: [36.9275, -1.3192] },
+  { name: 'Wilson Airport', coordinates: [36.8150, -1.3220] },
+  { name: 'Railway Station', coordinates: [36.8181, -1.2890] },
+  { name: 'Bus Station', coordinates: [36.8181, -1.2890] },
+
+  // Hotels
+  { name: 'Hilton Hotel', coordinates: [36.8181, -1.2864] },
+  { name: 'Serena Hotel', coordinates: [36.8181, -1.2873] },
+  { name: 'Safari Park Hotel', coordinates: [36.8833, -1.2167] },
+  { name: 'Ole Sereni Hotel', coordinates: [36.9200, -1.3300] },
+
+  // Hospitals
+  { name: 'Kenyatta National Hospital', coordinates: [36.8050, -1.3000] },
+  { name: 'Nairobi Hospital', coordinates: [36.7850, -1.2950] },
+  { name: 'Aga Khan Hospital', coordinates: [36.8200, -1.2600] },
+  { name: 'MP Shah Hospital', coordinates: [36.8050, -1.2900] },
+
+  // Universities
+  { name: 'University of Nairobi', coordinates: [36.8181, -1.2790] },
+  { name: 'Strathmore University', coordinates: [36.7950, -1.3050] },
+  { name: 'USIU', coordinates: [36.8900, -1.2200] },
+  { name: 'Kenyatta University', coordinates: [36.9300, -1.1800] },
+  { name: 'JKUAT', coordinates: [37.0100, -1.1000] },
+
+  // Popular Apartments
+  { name: 'Delta Towers', coordinates: [36.7833, -1.2900] },
+  { name: 'Brookside Drive', coordinates: [36.8103, -1.2676] },
+  { name: 'Yaya Towers', coordinates: [36.7850, -1.2950] },
+  { name: 'Kileleshwa Apartments', coordinates: [36.7833, -1.2833] },
+
+  // Kiambu County Major Towns
+  { name: 'Kiambu Town', coordinates: [36.8340, -1.1740] },
+  { name: 'Thika Town', coordinates: [37.0691, -1.0332] },
+  { name: 'Limuru Town', coordinates: [36.6435, -1.1175] },
+  { name: 'Kikuyu Town', coordinates: [36.6621, -1.2438] },
+  { name: 'Ruiru Town', coordinates: [36.9633, -1.1439] },
+  { name: 'Juja Town', coordinates: [36.9936, -1.1055] },
+  { name: 'Kahawa West', coordinates: [36.9300, -1.1800] },
+  { name: 'Kahawa Sukari', coordinates: [36.9400, -1.1700] },
+  { name: 'Githurai', coordinates: [36.9200, -1.1500] },
+
+  // Major Roads & Streets
+  { name: 'Thika Road', coordinates: [36.8833, -1.2167] },
+  { name: 'Ngong Road', coordinates: [36.7700, -1.3000] },
+  { name: 'Mombasa Road', coordinates: [36.8400, -1.3400] },
+  { name: 'Waiyaki Way', coordinates: [36.8000, -1.2600] },
+  { name: 'Kiambu Road', coordinates: [36.8500, -1.2300] },
+  { name: 'Kenyatta Avenue', coordinates: [36.8181, -1.2873] },
+  { name: 'Uhuru Highway', coordinates: [36.8181, -1.2890] },
 ];
 
 export default function PriceEstimator() {
