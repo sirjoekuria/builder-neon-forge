@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Calculator, ArrowRight } from 'lucide-react';
+import { MapPin, Calculator, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -7,22 +7,142 @@ import { Label } from './ui/label';
 
 const PRICE_PER_KM = 30;
 const MINIMUM_PRICE = 200;
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoic2lyam9la3VyaWEiLCJhIjoiY21laGxzZnI0MDBjZzJqcXczc2NtdHZqZCJ9.FhRc9jUcHnkTPuauJrP-Qw';
+
+// Same landmarks database as in SimpleMapboxLocationPicker
+const KENYAN_LANDMARKS = [
+  // Major Malls
+  { name: 'Westgate Mall', coordinates: [36.8065, -1.2676] },
+  { name: 'Junction Mall', coordinates: [36.7819, -1.3019] },
+  { name: 'Sarit Centre', coordinates: [36.8103, -1.2676] },
+  { name: 'Village Market', coordinates: [36.8150, -1.2430] },
+  { name: 'KICC', coordinates: [36.8172, -1.2873] },
+  { name: 'CBD', coordinates: [36.8172, -1.2864] },
+  { name: 'Westlands', coordinates: [36.8103, -1.2676] },
+  { name: 'Karen', coordinates: [36.7026, -1.3318] },
+  { name: 'Kilimani', coordinates: [36.7833, -1.2833] },
+  { name: 'JKIA Airport', coordinates: [36.9275, -1.3192] },
+];
 
 export default function PriceEstimator() {
   const [pickup, setPickup] = useState('');
   const [delivery, setDelivery] = useState('');
   const [distance, setDistance] = useState<number | null>(null);
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const calculatePrice = () => {
-    // In a real app, you'd use Mapbox API to calculate actual distance
-    // For now, we'll use a simplified calculation
-    if (pickup && delivery) {
-      // Simulate distance calculation (in real app, use Mapbox API)
-      const estimatedDistance = Math.floor(Math.random() * 20) + 5; // Random 5-25 km
+  // Geocode location names to coordinates
+  const geocodeLocation = async (locationName: string): Promise<[number, number] | null> => {
+    // First check if it's a known landmark
+    const landmark = KENYAN_LANDMARKS.find(l =>
+      l.name.toLowerCase().includes(locationName.toLowerCase()) ||
+      locationName.toLowerCase().includes(l.name.toLowerCase())
+    );
+
+    if (landmark) {
+      return landmark.coordinates as [number, number];
+    }
+
+    // Use Mapbox Geocoding API
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(locationName)}.json?` +
+        `access_token=${MAPBOX_ACCESS_TOKEN}&` +
+        `country=KE&` +
+        `proximity=36.8219,-1.2921&` + // Bias towards Nairobi
+        `types=place,locality,neighborhood,address,poi&` +
+        `limit=1`
+      );
+
+      if (!response.ok) {
+        throw new Error('Geocoding failed');
+      }
+
+      const data = await response.json();
+
+      if (data.features && data.features.length > 0) {
+        return data.features[0].center as [number, number];
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+    }
+
+    return null;
+  };
+
+  // Calculate route using Mapbox Directions API
+  const calculateRouteDistance = async (pickup: [number, number], delivery: [number, number]): Promise<number | null> => {
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup[0]},${pickup[1]};${delivery[0]},${delivery[1]}?` +
+        `access_token=${MAPBOX_ACCESS_TOKEN}&` +
+        `geometries=geojson&` +
+        `overview=simplified`
+      );
+
+      if (!response.ok) {
+        throw new Error('Directions request failed');
+      }
+
+      const data = await response.json();
+
+      if (data.routes && data.routes.length > 0) {
+        const route = data.routes[0];
+        return route.distance / 1000; // Convert meters to kilometers
+      }
+    } catch (error) {
+      console.error('Route calculation error:', error);
+    }
+
+    return null;
+  };
+
+  // Fallback: straight-line distance calculation
+  const calculateStraightLineDistance = (pickup: [number, number], delivery: [number, number]): number => {
+    const R = 6371; // Earth's radius in kilometers
+    const [lng1, lat1] = pickup;
+    const [lng2, lat2] = delivery;
+
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
+  const calculatePrice = async () => {
+    if (!pickup || !delivery) {
+      setError('Please enter both pickup and delivery locations');
+      return;
+    }
+
+    setIsCalculating(true);
+    setError(null);
+
+    try {
+      // Geocode both locations
+      const pickupCoords = await geocodeLocation(pickup);
+      const deliveryCoords = await geocodeLocation(delivery);
+
+      if (!pickupCoords || !deliveryCoords) {
+        throw new Error('Could not find one or both locations. Please try entering more specific addresses.');
+      }
+
+      // Calculate route distance
+      let calculatedDistance = await calculateRouteDistance(pickupCoords, deliveryCoords);
+
+      // Fallback to straight-line distance if route calculation fails
+      if (!calculatedDistance) {
+        calculatedDistance = calculateStraightLineDistance(pickupCoords, deliveryCoords);
+        calculatedDistance *= 1.3; // Add 30% to account for actual roads vs straight line
+      }
 
       // Calculate base price
-      const basePrice = estimatedDistance * PRICE_PER_KM;
+      const basePrice = calculatedDistance * PRICE_PER_KM;
 
       // Apply minimum price
       const priceWithMinimum = Math.max(basePrice, MINIMUM_PRICE);
@@ -30,8 +150,13 @@ export default function PriceEstimator() {
       // Round to nearest 10
       const finalPrice = Math.round(priceWithMinimum / 10) * 10;
 
-      setDistance(estimatedDistance);
+      setDistance(Math.round(calculatedDistance * 10) / 10); // Round to 1 decimal place
       setEstimatedPrice(finalPrice);
+    } catch (error) {
+      console.error('Price calculation error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to calculate price. Please try again.');
+    } finally {
+      setIsCalculating(false);
     }
   };
 
