@@ -236,17 +236,45 @@ export default function MapboxMap({
           }
         } else {
           // If both markers, fit bounds with padding
-          // Check if bounds is valid before fitting
-          const ne = bounds.getNorthEast();
-          const sw = bounds.getSouthWest();
+          // Create bounds safely from valid coordinates
+          if (validCoordinates.length >= 2) {
+            try {
+              // Create a new bounds object safely
+              const safeBounds = new mapboxgl.LngLatBounds();
 
-          if (ne && sw && isValidCoordinate(ne.lat, ne.lng) && isValidCoordinate(sw.lat, sw.lng)) {
-            map.current.fitBounds(bounds, {
-              padding: 50,
-              duration: 1000,
-            });
+              // Add each valid coordinate
+              validCoordinates.forEach(coord => {
+                safeBounds.extend(coord);
+              });
+
+              // Double-check the bounds are valid before fitting
+              const ne = safeBounds.getNorthEast();
+              const sw = safeBounds.getSouthWest();
+
+              if (ne && sw &&
+                  typeof ne.lat === 'number' && typeof ne.lng === 'number' &&
+                  typeof sw.lat === 'number' && typeof sw.lng === 'number' &&
+                  !isNaN(ne.lat) && !isNaN(ne.lng) && !isNaN(sw.lat) && !isNaN(sw.lng)) {
+
+                map.current.fitBounds(safeBounds, {
+                  padding: 50,
+                  duration: 1000,
+                });
+              } else {
+                throw new Error('Bounds coordinates are invalid');
+              }
+            } catch (boundsError) {
+              console.warn('Failed to create safe bounds:', boundsError);
+              // Fallback to centering on first valid location
+              const firstCoord = validCoordinates[0];
+              map.current.flyTo({
+                center: [firstCoord[0], firstCoord[1]],
+                zoom: 12,
+                duration: 1000,
+              });
+            }
           } else {
-            console.warn('Invalid bounds, falling back to center view');
+            console.warn('Not enough valid coordinates for bounds fitting');
             // Fallback to centering on first valid location
             const validLocation = (pickup && isValidCoordinate(pickup.lat, pickup.lng)) ? pickup :
                                  (dropoff && isValidCoordinate(dropoff.lat, dropoff.lng)) ? dropoff : null;
