@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MapPin, Navigation, Search, X } from "lucide-react";
+import MapboxMap from './MapboxMap';
 
 interface Location {
   name: string;
