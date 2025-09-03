@@ -2224,24 +2224,38 @@ export default function SimpleMapboxLocationPicker({
         </div>
       )}
 
-      {/* Map Placeholder */}
-      <div className="h-64 rounded-lg overflow-hidden border border-gray-200 bg-gray-100 flex items-center justify-center">
-        <div className="text-center text-gray-500">
-          <MapPin className="w-12 h-12 mx-auto mb-2" />
-          <div className="font-medium">Map will appear here</div>
-          <div className="text-sm">
-            Showing{" "}
-            {pickupLocation && dropoffLocation
-              ? "pickup and delivery"
-              : "selected"}{" "}
-            locations
+      {/* Interactive Mapbox Map */}
+      <div className="relative">
+        <MapboxMap
+          pickup={pickupLocation}
+          dropoff={dropoffLocation}
+          height="400px"
+          className="border border-gray-200 rounded-lg overflow-hidden"
+        />
+
+        {/* Map Status Overlay */}
+        {!pickupLocation && !dropoffLocation && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+            <div className="text-center text-white bg-black bg-opacity-75 p-4 rounded-lg">
+              <MapPin className="w-8 h-8 mx-auto mb-2" />
+              <div className="font-medium">Select pickup and dropoff locations</div>
+              <div className="text-sm opacity-90">to see them on the map with route</div>
+            </div>
           </div>
-          {pickupLocation && dropoffLocation && (
-            <div className="text-xs mt-2 text-rocs-green">
+        )}
+
+        {pickupLocation && dropoffLocation && (
+          <div className="absolute bottom-4 right-4 bg-white px-3 py-2 rounded-lg shadow-lg text-sm">
+            <div className="font-medium text-rocs-green">
               Route: {pickupLocation.name} → {dropoffLocation.name}
             </div>
-          )}
-        </div>
+            {distance && (
+              <div className="text-gray-600">
+                Distance: {distance.toFixed(1)} km • Time: ~{Math.round(duration || 0)} min
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
