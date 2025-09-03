@@ -127,41 +127,48 @@ export default function MapboxMap({
     let hasValidBounds = false;
 
     // Add pickup marker
-    if (pickup) {
-      const pickupEl = document.createElement("div");
-      pickupEl.className = "pickup-marker";
-      pickupEl.innerHTML = `
-        <div style="
-          background: #10b981;
-          color: white;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          font-size: 14px;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-          border: 3px solid white;
-        ">📍</div>
-      `;
+    if (pickup && isValidCoordinate(pickup.lat, pickup.lng)) {
+      try {
+        const pickupEl = document.createElement("div");
+        pickupEl.className = "pickup-marker";
+        pickupEl.innerHTML = `
+          <div style="
+            background: #10b981;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            border: 3px solid white;
+          ">📍</div>
+        `;
 
-      pickupMarker.current = new mapboxgl.Marker(pickupEl)
-        .setLngLat([pickup.lng, pickup.lat])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }).setHTML(`
-            <div style="padding: 8px;">
-              <h3 style="margin: 0 0 4px 0; color: #10b981; font-weight: bold;">Pickup Location</h3>
-              <p style="margin: 0; font-size: 14px;"><strong>${pickup.name}</strong></p>
-              <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${pickup.address}</p>
-            </div>
-          `),
-        )
-        .addTo(map.current);
+        pickupMarker.current = new mapboxgl.Marker(pickupEl)
+          .setLngLat([pickup.lng, pickup.lat])
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setHTML(`
+              <div style="padding: 8px;">
+                <h3 style="margin: 0 0 4px 0; color: #10b981; font-weight: bold;">Pickup Location</h3>
+                <p style="margin: 0; font-size: 14px;"><strong>${pickup.name}</strong></p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #666;">${pickup.address}</p>
+              </div>
+            `),
+          )
+          .addTo(map.current);
 
-      bounds.extend([pickup.lng, pickup.lat]);
-      markers.push(pickupMarker.current);
+        bounds.extend([pickup.lng, pickup.lat]);
+        markers.push(pickupMarker.current);
+        hasValidBounds = true;
+      } catch (error) {
+        console.error('Error creating pickup marker:', error);
+      }
+    } else if (pickup) {
+      console.warn('Invalid pickup coordinates:', pickup.lat, pickup.lng);
     }
 
     // Add dropoff marker
