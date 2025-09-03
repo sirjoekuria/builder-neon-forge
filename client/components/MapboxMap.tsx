@@ -30,6 +30,7 @@ export default function MapboxMap({
   const pickupMarker = useRef<any>(null);
   const dropoffMarker = useRef<any>(null);
   const routeLayer = useRef<any>(null);
+  const [mapError, setMapError] = useState<string | null>(null);
 
   useEffect(() => {
     // Load Mapbox GL JS dynamically
