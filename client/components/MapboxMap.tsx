@@ -287,12 +287,18 @@ export default function MapboxMap({
         }
       } catch (error) {
         console.error('Error fitting map bounds:', error);
+        setMapError('Map positioning failed');
         // Fallback to default Nairobi view
-        map.current.flyTo({
-          center: [36.8219, -1.2921],
-          zoom: 11,
-          duration: 1000,
-        });
+        try {
+          map.current.flyTo({
+            center: [36.8219, -1.2921],
+            zoom: 11,
+            duration: 1000,
+          });
+        } catch (fallbackError) {
+          console.error('Even fallback positioning failed:', fallbackError);
+          setMapError('Map completely failed to load');
+        }
       }
     }
 
