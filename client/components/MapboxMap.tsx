@@ -228,7 +228,6 @@ export default function MapboxMap({
         validCoordinates.push(dropoffCoord);
         console.log('Added dropoff coordinate:', dropoffCoord);
         markers.push(dropoffMarker.current);
-        hasValidBounds = true;
       } catch (error) {
         console.error('Error creating dropoff marker:', error);
       }
