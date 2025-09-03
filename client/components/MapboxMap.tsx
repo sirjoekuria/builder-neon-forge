@@ -222,7 +222,7 @@ export default function MapboxMap({
     }
 
     // Fit map to show both markers
-    if (markers.length > 0 && hasValidBounds) {
+    if (markers.length > 0 && validCoordinates.length > 0) {
       try {
         if (markers.length === 1 && validCoordinates.length === 1) {
           // If only one marker, center on it
