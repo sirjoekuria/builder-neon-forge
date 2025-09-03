@@ -218,18 +218,34 @@ export default function PriceEstimator() {
                   </div>
                 </div>
 
+                {error && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
+
                 <div className="flex space-x-4">
                   <Button
                     onClick={calculatePrice}
-                    disabled={!pickup || !delivery}
+                    disabled={!pickup || !delivery || isCalculating}
                     className="bg-rocs-yellow hover:bg-rocs-yellow-dark text-gray-800 flex-1"
                   >
-                    <Calculator className="w-4 h-4 mr-2" />
-                    Calculate Price
+                    {isCalculating ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Calculating...
+                      </>
+                    ) : (
+                      <>
+                        <Calculator className="w-4 h-4 mr-2" />
+                        Calculate Price
+                      </>
+                    )}
                   </Button>
                   <Button
                     onClick={resetCalculator}
                     variant="outline"
+                    disabled={isCalculating}
                     className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white"
                   >
                     Reset
