@@ -100,7 +100,8 @@ export default function Tracking() {
             )}
 
             <div className="mt-6 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-md">
-              <strong>Try this sample tracking ID:</strong> RC-2024-001
+              <strong>Try these sample tracking IDs:</strong> RC-2024-001, RC-2024-002
+              <p className="text-sm mt-1">These are demo orders with real tracking data.</p>
             </div>
           </div>
 
