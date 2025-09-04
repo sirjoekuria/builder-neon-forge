@@ -121,9 +121,6 @@ export default function OrderForm() {
         console.log('Order created successfully:', result.order);
         setOrderCreated(result.order.id);
         setCurrentStep('completed');
-        if (isCustomerSoundEnabled) {
-          playNotificationSoundForDuration(20000);
-        }
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
         console.error('Order creation failed:', errorData);
