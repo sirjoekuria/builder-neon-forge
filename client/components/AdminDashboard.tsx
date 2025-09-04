@@ -190,7 +190,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
         // If we have a previous timestamp and there's a newer one, play sound
         if (newestOrderTimestampRef.current && newestTimestamp && new Date(newestTimestamp) > new Date(newestOrderTimestampRef.current)) {
-          if (isSoundEnabled) playNotificationSound();
+          if (isSoundEnabled) playNotificationRingtone(20000);
         }
 
         // Update the ref to the latest known timestamp
