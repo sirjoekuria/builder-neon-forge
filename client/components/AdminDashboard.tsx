@@ -142,17 +142,34 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       const response = await fetch('/api/admin/orders');
       if (response.ok) {
         const data = await response.json();
-        setOrders(data.orders || []);
+        const fetchedOrders = data.orders || [];
+
+        // Detect newest order timestamp
+        const newestTimestamp = fetchedOrders.reduce((latest: string | null, o: Order) => {
+          if (!o.timestamp) return latest;
+          if (!latest) return o.timestamp;
+          return new Date(o.timestamp) > new Date(latest) ? o.timestamp : latest;
+        }, newestOrderTimestampRef.current);
+
+        // If we have a previous timestamp and there's a newer one, play sound
+        if (newestOrderTimestampRef.current && newestTimestamp && new Date(newestTimestamp) > new Date(newestOrderTimestampRef.current)) {
+          if (isSoundEnabled) playNotificationSound();
+        }
+
+        // Update the ref to the latest known timestamp
+        if (newestTimestamp) newestOrderTimestampRef.current = newestTimestamp;
+
+        setOrders(fetchedOrders);
         const today = new Date().toDateString();
-        const todayOrders = data.orders?.filter((o: Order) => 
+        const todayOrders = fetchedOrders.filter((o: Order) =>
           new Date(o.timestamp).toDateString() === today
         ).length || 0;
-        const revenue = data.orders?.reduce((sum: number, o: Order) => sum + o.cost, 0) || 0;
-        const pending = data.orders?.filter((o: Order) => o.status === 'pending').length || 0;
-        
+        const revenue = fetchedOrders.reduce((sum: number, o: Order) => sum + o.cost, 0) || 0;
+        const pending = fetchedOrders.filter((o: Order) => o.status === 'pending').length || 0;
+
         setStats(prev => ({
           ...prev,
-          totalOrders: data.orders?.length || 0,
+          totalOrders: fetchedOrders.length || 0,
           todayOrders,
           totalRevenue: revenue,
           pendingOrders: pending
