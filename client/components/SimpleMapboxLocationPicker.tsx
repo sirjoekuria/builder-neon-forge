@@ -2144,6 +2144,7 @@ export default function SimpleMapboxLocationPicker({
                     <button
                       key={result.id}
                       type="button"
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => selectDropoffLocation(result)}
                       className="w-full text-left p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
                     >
@@ -2259,7 +2260,7 @@ export default function SimpleMapboxLocationPicker({
             </div>
             {distance && (
               <div className="text-gray-600">
-                Distance: {distance.toFixed(1)} km ��� Time: ~
+                Distance: {distance.toFixed(1)} km • Time: ~
                 {Math.round(duration || 0)} min
               </div>
             )}
