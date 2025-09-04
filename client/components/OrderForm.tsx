@@ -283,17 +283,6 @@ export default function OrderForm() {
           Fill in the details below to create your delivery order
         </p>
 
-        <div className="flex items-center justify-center mt-4">
-          <label className="flex items-center space-x-2 text-sm">
-            <span className="text-gray-600">Order Sound</span>
-            <input
-              type="checkbox"
-              checked={isCustomerSoundEnabled}
-              onChange={(e) => setIsCustomerSoundEnabled(e.target.checked)}
-              className="ml-2 h-4 w-4 cursor-pointer"
-            />
-          </label>
-        </div>
 
         {/* Progress indicator */}
         <div className="flex items-center justify-center mt-6 space-x-4">
