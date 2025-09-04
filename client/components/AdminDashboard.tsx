@@ -236,14 +236,27 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               </div>
               <h1 className="text-2xl font-bold text-rocs-green">Admin Dashboard</h1>
             </div>
-            <Button
-              onClick={onLogout}
-              variant="outline"
-              className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+
+            <div className="flex items-center space-x-3">
+              <label className="flex items-center space-x-2 text-sm">
+                <span className="text-gray-600">Sound</span>
+                <input
+                  type="checkbox"
+                  checked={isSoundEnabled}
+                  onChange={(e) => setIsSoundEnabled(e.target.checked)}
+                  className="toggle-checkbox w-10 h-6 appearance-none bg-gray-200 rounded-full relative cursor-pointer transition-colors before:content-[''] before:absolute before:w-4 before:h-4 before:bg-white before:rounded-full before:top-1 before:left-1 checked:bg-rocs-green"
+                />
+              </label>
+
+              <Button
+                onClick={onLogout}
+                variant="outline"
+                className="border-rocs-green text-rocs-green hover:bg-rocs-green hover:text-white"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
