@@ -2236,8 +2236,8 @@ export default function SimpleMapboxLocationPicker({
 
         {/* Map Status Overlay */}
         {!pickupLocation && !dropoffLocation && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-            <div className="text-center text-white bg-black bg-opacity-75 p-4 rounded-lg">
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg pointer-events-none">
+            <div className="text-center text-white bg-black bg-opacity-75 p-4 rounded-lg pointer-events-none">
               <MapPin className="w-8 h-8 mx-auto mb-2" />
               <div className="font-medium">
                 Select pickup and dropoff locations
