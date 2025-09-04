@@ -2133,7 +2133,7 @@ export default function SimpleMapboxLocationPicker({
           {/* Dropoff Search Results */}
           {showDropoffResults &&
             (dropoffResults.length > 0 || isSearchingDropoff) && (
-              <div className="absolute top-full left-0 right-0 z-20 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                 {isSearchingDropoff ? (
                   <div className="p-3 text-center text-gray-500">
                     Searching...
@@ -2142,6 +2142,7 @@ export default function SimpleMapboxLocationPicker({
                   dropoffResults.map((result) => (
                     <button
                       key={result.id}
+                      type="button"
                       onClick={() => selectDropoffLocation(result)}
                       className="w-full text-left p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
                     >
