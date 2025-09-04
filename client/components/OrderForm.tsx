@@ -67,20 +67,45 @@ export default function OrderForm() {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = 'sine';
-      o.frequency.value = 880;
-      g.gain.value = 0.05;
-      o.connect(g);
-      g.connect(ctx.destination);
-      o.start();
-      customerAudioRef.current = { ctx, osc: o, gain: g };
-      setTimeout(() => {
-        try { customerAudioRef.current.osc?.stop(); } catch (e) {}
-        try { customerAudioRef.current.ctx?.close(); } catch (e) {}
-        customerAudioRef.current = {};
-      }, durationMs);
+
+      const pattern: [number, number][] = [
+        [880, 300],
+        [740, 300],
+        [660, 300],
+        [740, 300],
+        [880, 600],
+        [0, 200],
+      ];
+
+      const startTime = Date.now();
+
+      const scheduleNextLoop = () => {
+        let loopTime = 0;
+        for (const [freq, len] of pattern) {
+          if (freq > 0) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            gain.gain.value = 0.08;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            const t0 = ctx.currentTime + loopTime / 1000;
+            osc.start(t0);
+            osc.stop(t0 + len / 1000);
+          }
+          loopTime += len;
+        }
+
+        if (Date.now() - startTime + loopTime < durationMs) {
+          setTimeout(scheduleNextLoop, loopTime);
+        } else {
+          setTimeout(() => { try { ctx.close(); } catch (e) {} }, Math.max(0, durationMs - (Date.now() - startTime)));
+        }
+      };
+
+      scheduleNextLoop();
     } catch (e) {
       try {
         const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA=');
