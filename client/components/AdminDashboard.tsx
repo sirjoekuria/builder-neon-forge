@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { 
-  LogOut, 
-  MessageSquare, 
-  Package, 
-  Users, 
+import { useState, useEffect, useRef } from 'react';
+import {
+  LogOut,
+  MessageSquare,
+  Package,
+  Users,
   TrendingUp,
   Clock,
   CheckCircle,
