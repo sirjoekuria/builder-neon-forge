@@ -93,29 +93,66 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     }
   }, [isSoundEnabled]);
 
-  // Play a short beep using Web Audio API
-  const playNotificationSound = () => {
+  // Play a phone-like ringtone for the specified duration (ms)
+  const playNotificationRingtone = (durationMs = 20000) => {
     try {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = 'sine';
-      o.frequency.value = 880;
-      g.gain.value = 0.05;
-      o.connect(g);
-      g.connect(ctx.destination);
-      o.start();
-      setTimeout(() => {
-        o.stop();
-        ctx.close();
-      }, 300);
+
+      // Simple ringtone melody pattern (freq in Hz, length in ms)
+      const pattern: [number, number][] = [
+        [880, 300],
+        [740, 300],
+        [660, 300],
+        [740, 300],
+        [880, 600],
+        [0, 200],
+      ];
+
+      let timePassed = 0;
+      const startTime = Date.now();
+
+      const scheduleNextLoop = () => {
+        let loopTime = 0;
+        for (const [freq, len] of pattern) {
+          if (freq > 0) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            gain.gain.value = 0.08;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            const t0 = ctx.currentTime + loopTime / 1000;
+            osc.start(t0);
+            osc.stop(t0 + len / 1000);
+          }
+          loopTime += len;
+        }
+
+        timePassed += loopTime;
+
+        if (Date.now() - startTime + loopTime < durationMs) {
+          // schedule another loop slightly after current loopTime
+          setTimeout(scheduleNextLoop, loopTime);
+        } else {
+          // stop and close after remaining time
+          setTimeout(() => {
+            try { ctx.close(); } catch (e) {}
+          }, Math.max(0, durationMs - (Date.now() - startTime)));
+        }
+      };
+
+      scheduleNextLoop();
     } catch (e) {
-      // fallback: try to play an HTML5 beep via data URI
+      // Fallback: try playing a short embedded silent wav (best-effort)
       try {
         const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA=');
+        audio.loop = true;
         audio.play().catch(() => {});
+        setTimeout(() => { audio.pause(); }, durationMs);
       } catch (e2) {}
     }
   };
