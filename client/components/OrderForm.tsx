@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { MapPin, Calculator, Package, User, Phone, Mail, CreditCard } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -46,6 +46,50 @@ export default function OrderForm() {
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderCreated, setOrderCreated] = useState<string | null>(null);
+
+  // Sound toggle for customer order confirmation
+  const [isCustomerSoundEnabled, setIsCustomerSoundEnabled] = useState<boolean>(() => {
+    try {
+      const val = localStorage.getItem('customer_notify_sound');
+      return val === null ? true : val === 'true';
+    } catch (e) {
+      return true;
+    }
+  });
+  const customerAudioRef = useRef<{ ctx?: AudioContext | null; osc?: OscillatorNode | null; gain?: GainNode | null }>({});
+
+  useEffect(() => {
+    try { localStorage.setItem('customer_notify_sound', String(isCustomerSoundEnabled)); } catch (e) {}
+  }, [isCustomerSoundEnabled]);
+
+  const playNotificationSoundForDuration = (durationMs = 20000) => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 880;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      customerAudioRef.current = { ctx, osc: o, gain: g };
+      setTimeout(() => {
+        try { customerAudioRef.current.osc?.stop(); } catch (e) {}
+        try { customerAudioRef.current.ctx?.close(); } catch (e) {}
+        customerAudioRef.current = {};
+      }, durationMs);
+    } catch (e) {
+      try {
+        const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA=');
+        audio.loop = true;
+        audio.play().catch(() => {});
+        setTimeout(() => { audio.pause(); }, durationMs);
+      } catch (e2) {}
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -120,6 +164,9 @@ export default function OrderForm() {
         console.log('Order created successfully:', result.order);
         setOrderCreated(result.order.id);
         setCurrentStep('completed');
+        if (isCustomerSoundEnabled) {
+          playNotificationSoundForDuration(20000);
+        }
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
         console.error('Order creation failed:', errorData);
@@ -281,6 +328,18 @@ export default function OrderForm() {
         <p className="text-gray-600">
           Fill in the details below to create your delivery order
         </p>
+
+        <div className="flex items-center justify-center mt-4">
+          <label className="flex items-center space-x-2 text-sm">
+            <span className="text-gray-600">Order Sound</span>
+            <input
+              type="checkbox"
+              checked={isCustomerSoundEnabled}
+              onChange={(e) => setIsCustomerSoundEnabled(e.target.checked)}
+              className="ml-2 h-4 w-4 cursor-pointer"
+            />
+          </label>
+        </div>
 
         {/* Progress indicator */}
         <div className="flex items-center justify-center mt-6 space-x-4">
