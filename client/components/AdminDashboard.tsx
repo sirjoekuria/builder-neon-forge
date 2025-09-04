@@ -57,10 +57,68 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     pendingOrders: 0
   });
 
+  // Sound notification toggle and ref to track newest order timestamp
+  const [isSoundEnabled, setIsSoundEnabled] = useState<boolean>(() => {
+    try {
+      const val = localStorage.getItem('admin_notify_sound');
+      return val === null ? true : val === 'true';
+    } catch (e) {
+      return true;
+    }
+  });
+  const newestOrderTimestampRef = useRef<string | null>(null);
+  const pollRef = useRef<number | null>(null);
+
   useEffect(() => {
     fetchMessages();
     fetchOrders();
+
+    // Poll for new orders every 10 seconds
+    pollRef.current = window.setInterval(() => {
+      fetchOrders();
+    }, 10000) as unknown as number;
+
+    return () => {
+      if (pollRef.current) {
+        clearInterval(pollRef.current);
+      }
+    };
   }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('admin_notify_sound', String(isSoundEnabled));
+    } catch (e) {
+      // ignore
+    }
+  }, [isSoundEnabled]);
+
+  // Play a short beep using Web Audio API
+  const playNotificationSound = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = 880;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(() => {
+        o.stop();
+        ctx.close();
+      }, 300);
+    } catch (e) {
+      // fallback: try to play an HTML5 beep via data URI
+      try {
+        const audio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA=');
+        audio.play().catch(() => {});
+      } catch (e2) {}
+    }
+  };
 
   const fetchMessages = async () => {
     try {
